@@ -1,0 +1,32 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "clone cording",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strombreeding/wetube-clone.git"
+  },
+  "author": "JinyTree",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/strombreeding/wetube-clone/issues"
+  },
+  "homepage": "https://github.com/strombreeding/wetube-clone#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.6.3",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
