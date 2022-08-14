@@ -1,14 +1,15 @@
 {
     "include": ["src"], 
     "compilerOptions": {
-        "outDir": "build",
         "target": "ES6" ,
         "module": "CommonJS",
-        "lib":["ES6"], 
+        "lib":["ES6","DOM"],
         "allowJs":true,
         "esModuleInterop": true, 
         "strict":true,
         "moduleResolution": "node",
-
+        "resolveJsonModule" : true, //use JSON
+        "noImplicitAny":true,
+        
     }
 }

@@ -1,0 +1,15 @@
+extends base
+block content 
+    h1 Lojin and go to haven
+    if errorMsg 
+        span=errorMsg
+    form(action="/login",method="POST",autocomplete="off") 
+        input(type="email",require ,name="email", placeholder="email@jiny.com",maxlength='25')
+        input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
+        input(value="login",type="submit")
+    span 아직 회원이 아니신가요?  
+    a(href="/join")  회원가입
+    hr
+
+    br
+    a(href="/user/github/start") Github로 로그인 &rarr;

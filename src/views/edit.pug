@@ -1,0 +1,16 @@
+extends base.pug
+   
+block content
+    h2 #{thisVideo.title} edit
+    h3 change title
+    form(method="POST",autocomplete="off") 
+        input(require name="title", placeholder="New Title",value=thisVideo.title, maxlength="35")
+        input(require name="description", placeholder="New Description",value=thisVideo.description, minlength="10")
+        input(require name="hashtags", placeholder="New Hashtags",value=thisVideo.hashtags.join())
+        input(value="save",type="submit")
+
+    h3 You want Delete this video?
+        form(action=`/videos/${thisVideo.id}/remove`, method="POST",autocomplete="off") 
+            input(require name="deleteTitle", placeholder="write here 'accept'", minlength="6", maxlength="6")
+            input(type="submit" value="Yeah!")
+//- (placeholder=`${thisVideo.title}`)

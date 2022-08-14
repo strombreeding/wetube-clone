@@ -1,0 +1,14 @@
+extends base.pug
+include mixins/video
+
+
+block content
+    if loggedIn    
+        span Hey #{username}!    
+            a(href=`/videos/upload`) Upload your video!
+            hr
+        
+    each video in videos
+        +video(video)
+    else 
+            li Nothing found

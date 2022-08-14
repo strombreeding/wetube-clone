@@ -1,0 +1,15 @@
+extends base
+block content   
+    script 
+        include script/join.ts
+    
+    form(method="POST")
+        small(name="smallEmail") 인증번호가 이메일로 전송됩니다.
+        input(style={margin:'5px'},,type="email",onchange="emailCheck()",require ,name="email", placeholder="email@jiny.com",maxlength='25')
+        small(name="smallName") 로그인에 사용되거나, 불리우게 될 이름입니다.
+        input(style={margin:'5px'},type="text",require, onchange="nameCheck()", name="username", placeholder="Nickname")
+        small 비밀번호는 공백을 제외한 특수문자를 조합하여 8~15자로 입력해주세요.
+        input(style={margin:'5px'},type="password", require, onchange="comparePw()",name="password1", placeholder="Password" ,minlength="8",maxlength="15")
+        input(style={margin:'5px 0 3px 5px'},type="password",require, onchange="comparePw()", name="password2", placeholder="Check password", minlength="8",maxlength="15")
+        small(name="check")
+        input.hidden(name="join",value="Join!",type="submit")

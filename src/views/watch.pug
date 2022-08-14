@@ -1,0 +1,22 @@
+extends base.pug
+include mixins/video
+
+block content
+    h1 Show video here 
+    br
+    small(style={color:'#3ea6ff'}) #{video.hashtags.join().replace(/\,/g, " ")}
+    h1(style={margin:0}) #{video.title}
+    if video.views >1
+        small #{video.meta.views} views ﹒ #{video.createdAt}
+    else 
+        small #{video.meta.views} view ﹒ #{video.createdAt}
+    hr(style={margin:'9px'})
+    div 
+        div 
+            span  img 
+            span 
+            span 구독
+        div 
+            h3=video.description
+            
+    a(href=`${video._id}/edit`) Edit This video

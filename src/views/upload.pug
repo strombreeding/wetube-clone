@@ -1,0 +1,14 @@
+extends base.pug
+   
+block content
+    h2 hey~ #{username}! 
+        br
+        span Let's upload video shell we?🔥
+    h3 Check video's title
+    form(method="POST",autocomplete="off") 
+        input(require ,name="title", placeholder="New title",maxlength=35)
+        input(require, name="description", placeholder="Description",minlength=10)
+        input(require, name="hashtags", placeholder="',' is a distinction." maxlength="35")
+        input(value="Upload",type="submit")
+
+//- (placeholder=`${thisVideo.title}`)

@@ -1,0 +1,36 @@
+doctype html
+html(lang="ko")
+    head
+        title #{pageTitle} | Wetube
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+    style 
+        include css/style.css
+
+    body
+        nav(style={margin:"5px"})
+            div
+                li
+                    a(href="/") Home
+            div
+                li 
+                    form(action='/serch',method="GET")
+                        input(name="searchWord",placeholder="serch")
+                        input(value="Go",type="submit")
+            div
+                if loggedIn
+                    li 
+                        a(href=`/mypage/${uniqueId}`) #{username}
+                    li 
+                        a(href="/logout") Log out
+                else 
+                    li 
+                        a(href="/join") Join
+                    li 
+                        a(href="/login") Login
+        hr(style={margin:"0px"})
+
+
+        main 
+            block content
+    include partials/footer.pug
