@@ -1,10 +1,7 @@
 import { RequestHandler } from "express";
 import axios from "axios";
-import { data } from "jquery";
 import User from "../models/User"
 import bcrypt from "bcrypt"
-import { resolveSoa } from "dns";
-import session from "express-session";
 
 export const myPage:RequestHandler = (req,res) => {
     return res.send(`${req.params.id}'s page`)
