@@ -1,0 +1,12 @@
+extends base
+block content 
+    script 
+        include script/sosial.ts
+    if error 
+        h1=error 
+    br
+    form(action="/user/sosial", method="POST")
+        input(readonly, type="text" name="userEmail",value=`${userEmail}`)
+        small wetube에서 사용될 비밀번호를 입력해 주세요. 
+        input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
+        input(value="Go",type="submit")

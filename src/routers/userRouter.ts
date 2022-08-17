@@ -1,14 +1,17 @@
 import express,{RequestHandler} from "express";
-import {edit,logOut,Delete,myPage,startGithubLogin,finishGithubLogin} from "../controllers/userController"
+import {logOut,Delete,startGithubLogin,finishGithubLogin,sosialDelete,sosialCreatePw,getEdit,postEdit} from "../controllers/userController"
+
 
 const userRouter = express.Router();
 
+userRouter.post("/sosial/exit",sosialDelete)
+userRouter.post("/sosial",sosialCreatePw)
 userRouter.get("/github/start", startGithubLogin)
 userRouter.get("/github/finish", finishGithubLogin)
-userRouter.get("/:id/logout",logOut)
-userRouter.get("/:id",myPage)
+userRouter.get("/logout",logOut)
 userRouter.get("/:id/delete",Delete)
-userRouter.get("/:id/edit",edit)
+userRouter.route("/:id/edit-profile").get(getEdit).post(postEdit)
+
 
 
 export default userRouter

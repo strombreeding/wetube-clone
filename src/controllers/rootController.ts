@@ -8,9 +8,7 @@ export const Home:RequestHandler = async (req,res) => {
     const videos = await Video.find({})
     return res.render("home",{pageTitle:"Home",videos:videos,})
 }
-export const Mypage:RequestHandler = (req,res) =>{
-    return res.render("mypage",{pageTitle:req.session.username+"'s page"})
-}
+
 export const checkEmail:RequestHandler = async(req,res) =>{
     const email = req.body.email
     const user = await User.exists({email:email})
@@ -49,25 +47,35 @@ export const getJoin:RequestHandler = async(req,res) => {
 }
 export const postJoin:RequestHandler = async (req,res) => {
     console.log(req.body)
-    const {email,username,password1,password2,locatrion,} = req.body
+    const {email,nickname,username,password1,password2,} = req.body
     const existsEmail = await User.exists({email})
-    const existsName = await User.exists({username})
+    const existsName = await User.exists({nickname})
+    const nameSpace = email.includes(" ");
+    const emailSpace = nickname.includes(" ");
+    console.log(password1)
+    if(nameSpace){
+        return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  닉네임에 공백을 사용할 수 없습니다.",})
+    }
+    if(emailSpace){
+        return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  닉네임에 공백을 사용할 수 없습니다.",})
+    }
     if(password1!==password2){
         return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  비밀번호가 동일하지 않습니다.",})
     }
     if(existsEmail){
-        return res.status(400).render("join",{pageTitle:"Join",errorMsgEmail:"❌  유효하지 않은 이메일입니다."})
+        return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  이미 가입된 이메일입니다. 소셜로그인을 해보세요!"})
     }
     if(existsName){
-        return res.status(400).render("join",{pageTitle:"Join",errorMsgName:"❌  유효하지 않은 닉네임입니다."})
+        return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  중복된 닉네임입니다."})
     }
     try{
         await User.create({
             email,
+            nickname,
             username,
-            password1,
-            locatrion,
+            password1:password1,
         })
+        console.log("pw를 사용한 회원가입 완료")
         return res.render("login",{pageTitle:"Login",})
     }catch(error:any) {
         console.log(error)
@@ -79,20 +87,24 @@ export const postJoin:RequestHandler = async (req,res) => {
 export const getLogin:RequestHandler = (req,res) => {
     res.render("login",{pageTitle:"Login",})
 }
+
 export const postLogin:RequestHandler = async(req,res) => {
     const {email,password1} = req.body;
+    console.log(req.body)
     const pageTitle = "Login"
     const user = await User.findOne({email})
     if(!user){
         return res.status(400).render('login', {pageTitle,errorMsg:"이메일이 유효하지 않습니다."})
     }
-    const ok = bcrypt.compare(password1, user.password1) // bcrypt의 라이브러리, compare(해시할것, 이미 해시화된것)
+    const ok = await bcrypt.compare(password1, user.password1) // bcrypt의 라이브러리, compare(해시할것, 이미 해시화된것)
     if(!ok){
+        console.log("비번 잘못 입력")
         return res.status(400).render('login', {pageTitle,errorMsg:"비밀번호를 확인해주세요."})
     }
     req.session.email = email;
     req.session.loggedIn = true;
     req.session.username =user.username
+    req.session.nickname = user.nickname
     req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
     console.log(`✅ login seccess! welcome ${user.username}`)
     console.log(req.session)
@@ -106,7 +118,5 @@ export const serch:RequestHandler = async(req,res) =>  {
         videos = await Video.find( { $or: [ { title: {$regex: new RegExp(`${searchWord}` , "i")} }, { description:{$regex: new RegExp(`${searchWord}` , "i")} } , {hashtags:{$regex: new RegExp(`${searchWord}` , "i")}} ] } )
     } 
     // find( { tags: { $all: [ "#serchWord" ] } } ) 해쉬태그 만들때 쓸거
-
-
     return res.render("serch",{pageTitle:searchWord,searchWord,videos})
 }

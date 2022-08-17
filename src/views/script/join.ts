@@ -4,6 +4,8 @@ let successName = false;
 function showBtn () {
     if(successEmail&&successName&&successPw){
         return $("input[name=join]").removeClass("hidden")
+    }else{
+        return $("input[name=join]").addClass("hidden")
     }
 
 }
@@ -50,21 +52,30 @@ function comparePw () {
 function emailCheck(){
     if(String($(`input[name=email]`).val())===""){
         $(`small[name=smallEmail]`).text("인증번호가 이메일로 전송됩니다.")
-  
     }else{
         let email = String($(`input[name=email]`).val());
+        console.log(email);
+        email = email.replace(/(\s*)/g , "");
+        console.log(typeof(email));
         $.ajax({
             type:"POST",
             url:"/check/email",
             data:{email},
             dataType:"JSON",
             success:function(response){
-                console.log(response.user)
-                console.log(response.msg)
-                console.log(response.boolean)
-                $(`small[name=smallEmail]`).text(`${response.msg}`)
-                successEmail = true
-                showBtn()
+                console.log(response.user);
+                console.log(response.msg);
+                console.log(response.boolean);
+                if (response.msg === "✅ 이 이메일은 사용 가능합니다."){
+                    $(`small[name=smallEmail]`).text(`${response.msg}`)
+                    successEmail = true
+                    return showBtn()
+                }else{
+                    $(`small[name=smallEmail]`).text(`${response.msg}`)
+                    successEmail = false
+                    showBtn()
+                }
+                
             }
         })
     }
@@ -72,21 +83,28 @@ function emailCheck(){
 
 }
 function nameCheck(){
-    const empty = /[\s]/g;
-    if(String($(`input[name=username]`).val())===""){
+    const empty = /[\s*]/g;
+    if(String($(`input[name=nickname]`).val())===""){
         $(`small[name=smallName]`).text("로그인에 사용되거나, 불리우게 될 이름입니다.")
     }else{
         let name = String($(`input[name=username]`).val());
         if( empty.test(name) === true){
             console.log("공백 오류")
-            return $("small[name=smallName]").text("❌ 닉네임에 공백이 들어가면 안돼요!")  
-    }
+            successName = false
+            $("small[name=smallName]").text("❌ 닉네임에 공백이 들어가면 안돼요!")  
+            return showBtn()
+        }
         $.ajax({
             type:"POST",
             url:"/check/name",
             data:{name},
             dataType:"JSON",
             success:function(response){
+                if(response.msg ==="❌ 이미 존재하는 닉네임입니다."){
+                    successName = false
+                    $(`small[name=smallName`).text(`${response.msg}`)
+                    return showBtn()
+                }
                 console.log(response.user)
                 console.log(response.msg)
                 console.log(response.boolean)
