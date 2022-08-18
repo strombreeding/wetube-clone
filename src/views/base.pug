@@ -20,7 +20,7 @@ html(lang="ko")
             div
                 if loggedIn
                     li 
-                        a(href=`/user/${uniqueId}/edit-profile`) #{username}
+                        a(href=`/user/${nickname}/userPlace`) #{nickname}
                     li 
                         a(href="/user/logout") Log out
                 else 

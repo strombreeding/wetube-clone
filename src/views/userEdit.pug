@@ -1,0 +1,20 @@
+extends base
+block content 
+    script 
+      include script/userEdit.ts
+    h2=certification
+    h2 #{nickname}  #{email}'s Edit
+    if !certification
+        form(method="POST")
+            small 개인정보 변경을 위하여 비밀번호를 입력해 주세요.
+            br
+            small=errorMsg
+            input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
+            input(value="Go",type="submit")
+    if certification 
+        form(method="POST",autocomplete="off") 
+            small=errorMsg
+            br
+            small(name="smallName") 바꾸고 싶은 닉네임을 입력해보세요. (공백 불가) 
+            input(style={margin:'5px'},type="text",require, onchange="nicknameCheck()", name="nickname", placeholder="Nickname")
+            input.hidden(name="join",value="Edit!",type="submit")

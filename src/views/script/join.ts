@@ -87,8 +87,8 @@ function nameCheck(){
     if(String($(`input[name=nickname]`).val())===""){
         $(`small[name=smallName]`).text("로그인에 사용되거나, 불리우게 될 이름입니다.")
     }else{
-        let name = String($(`input[name=username]`).val());
-        if( empty.test(name) === true){
+        let nickname = String($(`input[name=nickname]`).val());
+        if( empty.test(nickname) === true){
             console.log("공백 오류")
             successName = false
             $("small[name=smallName]").text("❌ 닉네임에 공백이 들어가면 안돼요!")  
@@ -97,7 +97,7 @@ function nameCheck(){
         $.ajax({
             type:"POST",
             url:"/check/name",
-            data:{name},
+            data:{nickname},
             dataType:"JSON",
             success:function(response){
                 if(response.msg ==="❌ 이미 존재하는 닉네임입니다."){
@@ -117,7 +117,6 @@ function nameCheck(){
 
 
 }
-
 // $.ajax({
 //     url: "/join",
 //     type: "POST",

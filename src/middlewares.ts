@@ -5,11 +5,19 @@ export const localMiddleware:RequestHandler = (req,res,next)=>{
     res.locals.username = req.session.username
     res.locals.nickname = req.session.nickname
     res.locals.uniqueId = req.session.uniqueId
+    res.locals.certification = Boolean(req.session.certification)
     next()
 }
 
 export const publicOnlyMiddleware:RequestHandler = (req, res, next) => {
   if (!req.session.loggedIn) {
+    return next();
+  } else {
+    return res.redirect("/");
+  }
+};
+export const protectOnlyMiddleware:RequestHandler = (req, res, next) => {
+  if (req.session.loggedIn) {
     return next();
   } else {
     return res.redirect("/");

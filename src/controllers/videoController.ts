@@ -25,7 +25,7 @@ export const getEdit:RequestHandler = async(req,res) => {
     // console.log(JSON.stringify(videos[0]._id).replace(/\"/g, ""),typeof(JSON.stringify(videos[0]._id)),Id,typeof(Id),JSON.stringify(videos[0]._id).replace(/\"/g, "")===Id)
     // const videoIndex = videos.findIndex(object => {return JSON.stringify(object._id).replace(/\"/g, "")===Id;})
     // const thisVideo = videos[videoIndex]; 
-    return res.render("edit",{thisVideo:thisVideo,pageTitle:thisVideo.title})
+    return res.render("mediaEdit",{thisVideo:thisVideo,pageTitle:thisVideo.title})
 }
 export const postEdit:RequestHandler =async(req,res)=>{
     const Id = req.params.id 

@@ -28,16 +28,16 @@ export const checkEmail:RequestHandler = async(req,res) =>{
 
 }
 export const checkName:RequestHandler = async(req,res) =>{
-    const {name} = req.body
-    const username= await User.exists({username:name})
+    const {nickname} = req.body
+    const username= await User.exists({nickname})
       if(username){
         console.log("username = true")
         const msg = "❌ 이미 존재하는 닉네임입니다."
-        return res.json({boolean:username,user:name,msg})
+        return res.json({boolean:username,user:nickname,msg})
     }else if(!username){
         console.log("username = false")
         const msg = "✅ 사용이 가능한 닉네임입니다."
-        return res.json({boolean:username,user:name,msg})
+        return res.json({boolean:username,user:nickname,msg})
     }
 
 }
@@ -90,7 +90,6 @@ export const getLogin:RequestHandler = (req,res) => {
 
 export const postLogin:RequestHandler = async(req,res) => {
     const {email,password1} = req.body;
-    console.log(req.body)
     const pageTitle = "Login"
     const user = await User.findOne({email})
     if(!user){

@@ -67,7 +67,7 @@ export const finishGithubLogin:RequestHandler = async(req,res) => {
                 email:emailObj.email,
                 avatarUrl:userdata.avatar_url,
                 username:userdata.name,
-                nickname:`${userdata.login}#${overlapNickLength}`,
+                nickname:`${userdata.login}_${overlapNickLength}`,
                 password1: "123456789",
                 sosialOnly : true
             })
@@ -83,7 +83,6 @@ export const finishGithubLogin:RequestHandler = async(req,res) => {
 export const sosialCreatePw:RequestHandler = async(req,res) => {
     const {password1,userEmail} = req.body
     console.log(req.body)
-
     const realPw = await bcrypt.hash(password1,10)
     if(password1){
         await User.updateOne(
@@ -114,21 +113,68 @@ export const sosialDelete:RequestHandler = async(req,res) => {
     return res.status(404);
 }
 export const getEdit:RequestHandler = (req,res) => {
-        if(req.params.id === req.session.uniqueId){
-        return res.render("mypage",{pageTitle:req.session.username+"'s page"})
+        if(req.params.id === req.session.nickname){
+        return res.render("userEdit",{pageTitle:req.session.username+"'s page"})
     }else{
         return res.status(400).send("수상한 녀석이군..  처단하라!!")
     }
 }
-export const postEdit:RequestHandler = (req,res) => {
-    if(req.params.id === req.session.uniqueId){
-        return res.render("mypage",{pageTitle:req.session.username+"'s page"})
-    }else{
-        return res.status(400).send("수상한 녀석이군..  처단하라!!")
+export const postEdit:RequestHandler = async(req,res) => {
+    const {password1,nickname} = req.body
+    console.log(req.body)
+    const pageTitle = "Edit"
+    const user = await User.findOne({nickname:req.params.id})
+    if(!user){
+        console.log("입구컷")
+        return res.status(400).render("userEdit",{pageTitle})
+    }
+    //위 이프문을 실행하면 user는 자동적으로 있다는 것!
+    try{
+        console.log("try")
+        const compare = await bcrypt.compare(password1, user.password1)
+        if(!compare){
+            console.log("비번 잘못 입력")
+            return res.status(400).render('userEdit', {pageTitle,errorMsg:"❌ 비밀번호를 확인해주세요."})
+        }else if(compare){
+            req.session.certification = true
+            return res.redirect(`/user/${user.nickname}/edit-profile`)
+        }
+    }
+    catch{    
+        const newNickname = await User.exists({nickname:nickname});
+        console.log("✅"+newNickname)
+        if(!newNickname&&nickname!==""){
+            await User.updateOne(
+            { email: user.email },
+                {
+                    $set: { nickname: nickname },
+                    $currentDate: { lastModified: true }
+                })
+            req.session.nickname = nickname
+            return res.redirect(`/user/${nickname}/userPlace`)
+        }else{
+            return res.status(400).render(`userEdit`,{pageTitle,errorMsg:`❌ "${nickname}"은 유효하지 않은 닉네임입니다.`})
+        } 
     }
 }
+
 export const Delete:RequestHandler = (req,res) => res.send("회원 탈퇴")
 export const logOut:RequestHandler = (req,res) => {
     req.session.destroy(()=>req.session);
     return res.redirect("/")
+}
+export const getIndividualPage:RequestHandler= async(req,res)=>{
+    const who = req.params.id
+    console.log("들어옴",who)
+    const zz =await User.findOne({nickname:who})
+    if (zz){
+        return res.render("userPlace",{pageTitle:zz?.nickname+"'s page"})
+    }else{
+        return res.send("연결 실패")
+    }
+}
+export const postIndividualPage:RequestHandler= async(req,res)=>{
+    const who = req.params.id
+    const zz =await User.find({nickname:who})
+    return res.render("userPlace",{pageTitle:req.session.username+"'s page"})
 }
