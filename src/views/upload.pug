@@ -1,14 +1,48 @@
 extends base.pug
    
 block content
-    h2 hey~ #{username}! 
-        br
-        span Let's upload video shell we?🔥
-    h3 Check video's title
-    form(method="POST",autocomplete="off") 
-        input(require ,name="title", placeholder="New title",maxlength=35)
-        input(require, name="description", placeholder="Description",minlength=10)
-        input(require, name="hashtags", placeholder="',' is a distinction." maxlength="35")
-        input(value="Upload",type="submit")
 
+    div.container
+        div#videoContatiner.hidden
+            div.video__frame
+                video#videoz(preload="metadata",src=``,autoplay,muted,playsinline).watch__video
+                div.videoControls
+                    input(type="range",value="0",min="0",step="1")#timeline.videoControls__timeline
+                    div.video_colum
+                        div.videoControls__play
+                            div.videoControls__time
+                                span#currentTime 0:00
+                                span  / 
+                                span#totalTime 00:00
+            div#img 
+        br
+        video#preview.hidden
+        ul.pc__uploadTogle
+            li
+                label#lavel(for="video") 동영상
+                    i.fa-solid.fa-square-plus
+            li 
+                label#startBtn 녹화하기 
+                    i.fa-solid.fa-record-vinyl
+        form#zz(method="POST",autocomplete="off",enctype="multipart/form-data") 
+            br
+            div.form__descriptions 
+                input(style={display:"none"},type="file", id="video",name="video",accept="video/*",required)
+                h3(style={margin_bottom:"10px"}) 세부정보
+                div 
+                    small 제목
+                    textarea(require,name="title", maxlength=35,cols="30", rows="2") 
+                        //- input(require,type="text" ,name="title", placeholder="입력",maxlength=35)
+                div
+                    small 설명
+                    textarea( cols="30", rows="15",require, name="description", placeholder="영상 설명",minlength=10)
+                    br
+                    small 해쉬태그
+                    input(require, name="hashtags", placeholder=" 쉼표 ',' 로 분할" maxlength="35")
+                input(value="Upload",type="submit")
+
+block script
+    script(src="/assets/js/upload.js") 
+    script(src="/assets/js/recorder.js") 
+    script(src="/assets/js/videoPlayer.js") 
 //- (placeholder=`${thisVideo.title}`)

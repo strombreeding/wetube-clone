@@ -1,0 +1,158 @@
+.search__container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .search__div{
+            padding: 15px 30px;
+            display: flex;
+            flex-direction: row;
+        }
+        .search_video{
+            background-color: black;
+            width: 360px;
+            height: 202.5px;
+        }
+        .search_video_info{
+            width: 100%;
+            flex-direction: column;
+            margin-left: 15px;
+            text-align: start;
+            .info{
+                position: relative;
+                height: 0;
+                padding-top: 202.5px;
+                width: 100%;
+                .divfuck{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width: 100%;
+                    height: 100%;
+                }
+                .afuck{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width: 100%;
+                    height: 100%;
+                }
+                
+            }
+            .mobile__search{
+                display: none;
+            }
+            .metaA{
+                display: none;
+            }
+            .search__title{
+                font-size: 20px;
+                display: inline-block;
+                width: 100%;
+                margin-bottom: 4px;
+                //이 아래는 width가 넘어가면 줄바꿈+ 2줄 초과시, 나머지는 ...으로 표기해주는 코드
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                text-align: left;
+                word-wrap: break-word;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .search__meta{
+                color: gray;
+            }
+        }
+    }
+    .search_avatar{
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+    }
+
+@media (max-width:662px) {
+    .search__container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .search__div{
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .search_video{
+            background-color: black;
+            width: 100%;
+            height: 202.5px;
+        }
+        .search_video_info{
+            .info{
+                position: relative;
+                height: 0;
+                padding-top: 105.5px;
+                width: 100%;
+                .divfuck{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width: 100%;
+                    height: 100%;
+                }
+                .afuck{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width: 100%;
+                    height: 100%;
+                }
+                
+            }
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-left: 3px;
+            .search__title{
+                font-size: 20px;
+                display: inline-block;
+                width: 100%;
+                margin-bottom: 4px;
+                //이 아래는 width가 넘어가면 줄바꿈+ 2줄 초과시, 나머지는 ...으로 표기해주는 코드
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                text-align: left;
+                word-wrap: break-word;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .search__meta{
+                color: gray;
+                .metaA{
+                    display:inline;
+                }
+            }
+            .mobile__search{
+                display: flex;
+            }
+            
+            .search__description{
+                display: none;
+            }
+            .search__hashs{
+                display: none;
+            }
+            .search__host{
+                display: none;
+            }
+        }
+    }
+    .search_avatar{
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+    }
+}
+
+
+

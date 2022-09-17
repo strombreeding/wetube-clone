@@ -59,7 +59,7 @@ function emailCheck(){
         console.log(typeof(email));
         $.ajax({
             type:"POST",
-            url:"/check/email",
+            url:"/api/check/email",
             data:{email},
             dataType:"JSON",
             success:function(response){
@@ -67,11 +67,11 @@ function emailCheck(){
                 console.log(response.msg);
                 console.log(response.boolean);
                 if (response.msg === "✅ 이 이메일은 사용 가능합니다."){
-                    $(`small[name=smallEmail]`).text(`${response.msg}`)
+                    $(`small[name=smallEmail]`).text(`${response.errorMsg}`)
                     successEmail = true
                     return showBtn()
                 }else{
-                    $(`small[name=smallEmail]`).text(`${response.msg}`)
+                    $(`small[name=smallEmail]`).text(`${response.errorMsg}`)
                     successEmail = false
                     showBtn()
                 }
@@ -80,7 +80,7 @@ function emailCheck(){
         })
     }
 
-
+ 
 }
 function nameCheck(){
     const empty = /[\s*]/g;
@@ -96,19 +96,19 @@ function nameCheck(){
         }
         $.ajax({
             type:"POST",
-            url:"/check/name",
+            url:"/api/check/name",
             data:{nickname},
             dataType:"JSON",
             success:function(response){
                 if(response.msg ==="❌ 이미 존재하는 닉네임입니다."){
                     successName = false
-                    $(`small[name=smallName`).text(`${response.msg}`)
+                    $(`small[name=smallName`).text(`${response.errorMsg}`)
                     return showBtn()
                 }
                 console.log(response.user)
                 console.log(response.msg)
                 console.log(response.boolean)
-                $(`small[name=smallName`).text(`${response.msg}`)
+                $(`small[name=smallName`).text(`${response.errorMsg}`)
                 successName = true
                 showBtn()
             }

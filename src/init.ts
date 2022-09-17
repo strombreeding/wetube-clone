@@ -1,8 +1,10 @@
 import "dotenv/config"
 import "./db"
+import apiRouter from "./routers/apiRouter"
 import app from "./server"
 
 
+app.use("/", apiRouter)
 
 const PORT = 4000;
-app.listen(4000 , () => console.log(`✅ Server listening on port ${PORT} 🛸`))
+app.listen(PORT , () => console.log(`✅ Server listening on port ${PORT} 🛸`))

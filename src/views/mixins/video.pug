@@ -1,26 +1,32 @@
 mixin video(info)
-    div
-       div 
-            h2 video
-            h4
-                a(href=`/videos/${info._id}`) #{info.title}
-            - let nowDate = Date.now()
-            - let uploadDate = info.createdAt.getTime()
-            - let disc = (Number(nowDate) - Number(uploadDate))
-            - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
-              if bornDate <60
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000))}초 전
-              else if bornDate <3600
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60))}분 전
-              else if bornDate <86400
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60))}시간 전
-              else if bornDate <2592000
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24))}일 전
-              else if bornDate <31536000
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*30))}달 전
-              else if bornDate >=31536000   
-                  small #{info.meta.views} view ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*365))}년 전
-            hr  
+    - let nowDate = Date.now()
+    - let uploadDate = info.createdAt.getTime()
+    - let disc = (Number(nowDate) - Number(uploadDate))
+    - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
+    div.video__div
+            a(href=`/videos/${info._id}`) 
+                video#homeVideo.video__box(href=`/videos/${info._id}`,src="/"+info.fileUrl)
+            div.video__descriptions
+                a(href=`/user/${info.owner.nickname}/userPlace`)
+                    img(src=info.owner.avatarUrl).video__avatar
+                div.fuck
+                    div
+                        a.video__title(href=`/videos/${info._id}`) #{info.title}
+                    div.video__owner
+                        a(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}
+                    div.video__meta
+                        if bornDate <60
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000))}초 전
+                        else if bornDate <3600
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60))}분 전
+                        else if bornDate <86400
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60))}시간 전
+                        else if bornDate <2592000
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24))}일 전
+                        else if bornDate <31536000
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*30))}달 전
+                        else if bornDate >=31536000   
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*365))}년 전
 
 
 

@@ -1,0 +1,356 @@
+.video__container{
+    width:95%;
+    gap: 90px 15px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(5,1fr);
+    flex-direction: row;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 10px;
+    .video__div{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        text-align: center;
+        .video__box{
+            border-radius: 0;
+            background-color: black;
+            width: 100%;
+            height: 210px;
+        }
+        .video__descriptions{
+            margin-top: 3px;
+            display: flex;
+            .video__avatar {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+            }
+            .fuck{
+                margin-top: 3px;
+                margin-left: 3px;
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+            }
+            .video__title{
+                font-size: 18px;
+                display: inline-block;
+                width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                line-height: 1.2;
+                height: 2.4em;
+                text-align: left;
+                word-wrap: break-word;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                margin-bottom: 4px;
+            }
+            .video__owner{
+                font-size: 15px;
+                margin-bottom: 3px;
+                color: gray;
+
+            }
+            .video__meta{
+                color: gray;
+                font-size: 12px;
+                margin-bottom: 2px;
+            }
+        }
+        
+    }
+
+}
+@media (min-width:1351px) and (max-width:1650px){
+    .video__container{
+        width:95%;
+        gap: 90px 15px;
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(4,1fr);
+        flex-direction: row;
+        margin-left: 60px;
+        margin-right: 60px;
+        margin-top: 10px;
+        .video__div{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            text-align: center;
+            .video__box{
+                border-radius: 0;
+                background-color: black;
+                width: 100%;
+                height: 210px;
+            }
+            .video__descriptions{
+                margin-top: 3px;
+                display: flex;
+                .video__avatar {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                }
+                .fuck{
+                    margin-top: 3px;
+                    margin-left: 3px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                }
+                .video__title{
+                    font-size: 18px;
+                    display: inline-block;
+                    width: 90%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    line-height: 1.2;
+                    height: 2.4em;
+                    text-align: left;
+                    word-wrap: break-word;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    margin-bottom: 4px;
+                }
+                .video__owner{
+                    font-size: 13px;
+                    margin-bottom: 3px;
+                    color: gray;
+    
+                }
+                .video__meta{
+                    color: gray;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+                }
+            }
+            
+        }
+    
+    }
+}
+
+
+@media (min-width:1171px) and (max-width:1350px) {
+    .video__container{
+        width:95%;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        flex-direction: row;
+        margin-left: 60px;
+        margin-right: 60px;
+        margin-top: 10px;
+        .video__div{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            text-align: center;
+            .video__box{
+                border-radius: 0;
+                background-color: black;
+                width: 100%;
+                height: 210px;
+            }
+            .video__descriptions{
+                margin-top: 3px;
+                display: flex;
+                .video__avatar {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                }
+                .fuck{
+                    margin-top: 3px;
+                    margin-left: 3px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                }
+                .video__title{
+                    font-size: 18px;
+                    display: inline-block;
+                    width: 320px;
+                    margin-bottom: 4px;
+                    //이 아래는 width가 넘어가면 줄바꿈+ 2줄 초과시, 나머지는 ...으로 표기해주는 코드
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    text-align: left;
+                    word-wrap: break-word;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+                .video__owner{
+                    font-size: 13px;
+                    margin-bottom: 3px;
+                    color: gray;
+    
+                }
+                .video__meta{
+                    color: gray;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+                }
+            }
+            
+        }
+    
+    }
+}
+@media (min-width:712px) and (max-width:1170px) {
+    .video__container{
+        width:95%;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        flex-direction: row;
+        margin-left: 60px;
+        margin-right: 60px;
+        margin-top: 10px;
+        .video__div{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            text-align: center;
+            .video__box{
+                border-radius: 0;
+                background-color: black;
+                width: 100%;
+                height: 210px;
+            }
+            .video__descriptions{
+                margin-top: 3px;
+                display: flex;
+                .video__avatar {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                }
+                .fuck{
+                    margin-top: 3px;
+                    margin-left: 13px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                }
+                .video__title{
+                    font-size: 18px;
+                    display: inline-block;
+                    width: 320px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    line-height: 1.2;
+                    height: 2.4em;
+                    text-align: left;
+                    word-wrap: break-word;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    margin-bottom: 4px;
+                }
+                .video__owner{
+                    font-size: 13px;
+                    margin-bottom: 6px;
+                    color: gray;
+    
+                }
+                .video__meta{
+                    color: gray;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+                    align-items: baseline;
+                }
+            }
+            
+        }
+    
+    }
+}
+@media screen and (max-width:711px)  {
+    .video__container{
+        gap: 90px 15px;
+        display: flex;
+        flex-wrap: wrap;
+        grid-template-columns: repeat(1,1fr);
+        flex-direction: row;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+        .video__div{
+            width: 100%;
+            height: 260px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            text-align: center;
+            .video__box{
+                border-radius: 0;
+                background-color: black;
+                width: 100%;
+                height: 210px;
+            }
+            .video__descriptions{
+                margin-top: 3px;
+                display: flex;
+                .video__avatar {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                }
+                .fuck{
+                    margin-top: 3px;
+                    margin-left: 3px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                }
+                .video__title{
+                    font-size: 18px;
+                    display: inline-block;
+                    width: 320px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    line-height: 1.2;
+                    height: 2.4em;
+                    text-align: left;
+                    word-wrap: break-word;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    margin-bottom: 4px;
+                }
+                .video__owner{
+                    font-size: 13px;
+                    margin-bottom: 3px;
+                    color: gray;
+    
+                }
+                .video__meta{
+                    color: gray;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+                }
+            }
+            
+        }
+    
+        width:95%;
+    }
+}

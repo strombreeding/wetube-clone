@@ -1,22 +1,81 @@
 extends base.pug
-include mixins/video
 
 block content
-    h1 Show video here 
-    br
-    small(style={color:'#3ea6ff'}) #{video.hashtags.join().replace(/\,/g, " ")}
-    h1(style={margin:0}) #{video.title}
-    if video.views >1
-        small #{video.meta.views} views ﹒ #{video.createdAt}
-    else 
-        small #{video.meta.views} view ﹒ #{video.createdAt}
-    hr(style={margin:'9px'})
-    div 
-        div 
-            span  img 
-            span 
-            span 구독
-        div 
-            h3=video.description
-            
-    a(href=`${video._id}/edit`) Edit This video
+    - let nowDate = Date.now()
+    - let uploadDate = video.createdAt.getTime()
+    - let disc = (Number(nowDate) - Number(uploadDate))
+    - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
+    div.watch__hash_title_views
+        div.video__frame
+            //- div#videoContainer
+            div#bgClick__play 
+            div#videoContainer(data-id=video._id)
+                video(src="/"+video.fileUrl,controls,playsinline).watch__video
+                //- 비디오 컨트롤러 - mobile 구현문제로 잠시 삭제
+                //- div.mobile__controls
+                //-     div.mobile__play 
+                //-         a(href="#")#back.videoControls_backBtn 
+                //-             i.fa-sharp.fa-solid.fa-backward-step
+                //-         a(href="#")#mobilePlay.videoControls_playBtn 
+                //-             i.fas.fa-play
+                //-         a(href="#")#front.videoControls_frontBtn 
+                //-             i.fa-sharp.fa-solid.fa-forward-step
+                //- div.videoControls
+                //-     input(type="range",value="0",min="0",step="1")#timeline.videoControls__timeline
+                //-     div.video_colum
+                //-         div.videoControls__play
+                //-             a(href="#")#play.videoControls__playBtn  
+                //-                 i.fas.fa-play 
+                //-             div.videoControls__time
+                //-                 span#currentTime 0:00
+                //-                 span  / 
+                //-                 span#totalTime 00:00
+                //-             div.videoControls__volume
+                //-                 span#mute 
+                //-                     i.fas.fa-volume-up
+                //-                 input(type="range",value="0.5",min="0",max="1",step="0.1")#volum
+                //-         div 
+                //-             a(href="#")#fullScreen 
+                //-                 i.fas.fa-expand
+
+        div
+            div.watch__title
+                small.watch__hashs(style={color:'#3ea6ff'}) #{video.hashtags.join().replace(/\,/g, " ")}
+                h1.title__h1(style={margin:0}) #{video.title} 
+                if bornDate <60
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000))}초 전
+                else if bornDate <3600
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000*60))}분 전
+                else if bornDate <86400
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000*60*60))}시간 전
+                else if bornDate <2592000
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000*60*60*24))}일 전
+                else if bornDate <31536000
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000*60*60*24*30))}달 전
+                else if bornDate >=31536000   
+                    small(href=`/user/${video.owner.nickname}/userPlace`) 조회수 #{video.views}회 ﹒ #{Math.round((Date.now()-video.createdAt.getTime())/(1000*60*60*24*365))}년 전
+        div
+            div.watch__owner 
+                div.watch__ownerBox
+                    a(href=`/user/${video.owner.nickname}/userPlace`)
+                        img(src=`${video.owner.avatarUrl}`).watch__avatar
+                    div.owner__box    
+                        a.owner_item1(href=`/user/${video.owner.nickname}/userPlace`) #{video.owner.nickname}
+                        a.owner_item2(href=`/user/${video.owner.nickname}/userPlace`) 구독자  #{video.owner.subscriber}명
+                div 
+                    if loggedIn&&String(uniqueId)===String(video.owner._id) 
+                        a.watch__Btn(href=`${video._id}/edit`) 비디오 수정
+                    else if loggedIn&&subscribeing===false
+                        a.watch__Btn(href="#",onclick=`subscribe()`) 구독
+                    else if loggedIn&& subscribeing
+                        a.watch__Btn(href="#",onclick=`subscribe()`) 구독취소
+            div.watch__description 
+                h3 #{video.createdAt.getFullYear()+"년 "+video.createdAt.getMonth()+"월 "+video.createdAt.getDate()+"일"}
+                h4=video.description
+            div.comments__div 댓글 n개 #{[0,0,0,0,0,0]}
+                h3.bestComment 댓글 우수수1
+block script
+    script(src="/assets/js/videoPlayer.js") 
+                //- if uniqueId===`${String(video.owner._id)}`
+                //-     div
+                        a(href=`${video._id}/edit`) Edit This video

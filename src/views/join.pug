@@ -2,22 +2,31 @@ extends base
 block content   
     script 
         include script/join.ts
-    if errorMsg 
-        h4=errorMsg
-        form
-            a(href="/user/github/start") Github로 로그인 &rarr;
-            
-    form(method="POST")
-        small(name="smallEmail") 인증번호가 이메일로 전송됩니다.
-        input(style={margin:'5px'},,type="email",onchange="emailCheck()",require ,name="email", placeholder="Email@jiny.com",maxlength='25')
-        small(name="smallName") 불리우게 될 이름입니다. (공백 불가) 
-        input(style={margin:'5px'},type="text",require, onchange="nameCheck()", name="nickname", placeholder="Nickname")
-        small 이름
-        input(style={margin:'5px'},type="text",require,name="username", placeholder="Name")
-        small 비밀번호는 공백을 제외한 특수문자를 조합하여 8~15자로 입력해주세요.
-        input(style={margin:'5px'},type="password", require, onchange="comparePw()",name="password1", placeholder="Password" ,minlength="8",maxlength="15")
-        input(style={margin:'5px 0 3px 5px'},type="password",require, onchange="comparePw()", name="password2", placeholder="Check password", minlength="8",maxlength="15")
-        small(name="check")
-        input.hidden(name="join",value="Join!",type="submit")
-    hr
-    hr
+    div.form__container
+        if errorMsg 
+            small.err=errorMsg
+               
+        form(method="POST")
+            div.form__box
+                small(name="smallEmail") 이메일
+                input(style={margin:'5px'},,type="email",onchange="emailCheck()",require ,name="email", placeholder="Email@jiny.com",maxlength='25')
+            div.form__box
+                small(name="smallName") 닉네임 (공백 불가) 
+                input(style={margin:'5px'},type="text",require, onchange="nameCheck()", name="nickname", placeholder="Nickname")
+            div.form__box
+                small 이름
+                input(style={margin:'5px'},type="text",require,name="username", placeholder="Name")
+            div.form__box
+                small 특수문자+문자+숫자
+                small(style={margin:"0"}) (공백제외 8~15자)
+                input(style={margin:'5px'},type="password", require, onchange="comparePw()",name="password1", placeholder="Password" ,minlength="8",maxlength="15")
+                input(style={margin:'5px'},type="password",require, onchange="comparePw()", name="password2", placeholder="Check password", minlength="8",maxlength="15")
+                small(name="check")
+            input(name="join",value="submit",type="submit")
+        br
+        small 소셜 로그인
+        form.sosial__form
+            a.sosial__btn(href="/user/github/start") 깃허브
+                i.fab.fa-github
+            a.sosial__btn(href="/user/kakao/login") kakao
+                img.kakao-img(src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7a7edf55-3336-470c-858d-69e14253cb8b%2FUntitled.png?table=block&id=24064121-a0fd-4c70-8d41-7a83b5cc890c&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2")

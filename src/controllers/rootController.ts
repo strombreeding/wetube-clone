@@ -1,58 +1,23 @@
 import bcrypt from "bcrypt"
 import { RequestHandler } from "express"
-import Video from "../models/video"
+import Video from "../models/Video"
 import User from "../models/User"
 
 
 export const Home:RequestHandler = async (req,res) => {
-    const videos = await Video.find({})
+    const videos = await Video.find({}).sort({createdAt:-1}).populate("owner")
     return res.render("home",{pageTitle:"Home",videos:videos,})
-}
-
-export const checkEmail:RequestHandler = async(req,res) =>{
-    const email = req.body.email
-    const user = await User.exists({email:email})
-    if(user){
-        console.log("user = true")
-        const msg = "❌ 이미 존재하는 이메일입니다."
-        return res.json({boolean:user,user:email,msg})
-    }else if(!user&&!email.includes("@")){
-        console.log("user = fasle")
-        const msg = "❌ 유효하지 않은 이메일 형식입니다."
-        return res.json({boolean:user,user:email,msg})
-    }else {
-        console.log("user = fasle")
-        const msg = "✅ 이 이메일은 사용 가능합니다."
-        return res.json({boolean:user,user:email,msg})
-    }
-
-}
-export const checkName:RequestHandler = async(req,res) =>{
-    const {nickname} = req.body
-    const username= await User.exists({nickname})
-      if(username){
-        console.log("username = true")
-        const msg = "❌ 이미 존재하는 닉네임입니다."
-        return res.json({boolean:username,user:nickname,msg})
-    }else if(!username){
-        console.log("username = false")
-        const msg = "✅ 사용이 가능한 닉네임입니다."
-        return res.json({boolean:username,user:nickname,msg})
-    }
-
 }
 
 export const getJoin:RequestHandler = async(req,res) => {
     return res.render("join",{pageTitle:"Join"})
 }
 export const postJoin:RequestHandler = async (req,res) => {
-    console.log(req.body)
     const {email,nickname,username,password1,password2,} = req.body
     const existsEmail = await User.exists({email})
     const existsName = await User.exists({nickname})
     const nameSpace = email.includes(" ");
     const emailSpace = nickname.includes(" ");
-    console.log(password1)
     if(nameSpace){
         return res.status(400).render("join",{pageTitle:"Join",errorMsg:"❌  닉네임에 공백을 사용할 수 없습니다.",})
     }
@@ -71,11 +36,15 @@ export const postJoin:RequestHandler = async (req,res) => {
     try{
         await User.create({
             email,
+            avatarUrl:"https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ffa3feb67-0971-4269-aaaa-c65f02f58bed%2FUntitled.png?table=block&id=cb62347a-1d99-45e9-a5ac-55109896ae3d&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
             nickname,
             username,
             password1:password1,
+            subscriber : 0,
+            subscribe:[],
         })
         console.log("pw를 사용한 회원가입 완료")
+        console.log(await User.find({email}))
         return res.render("login",{pageTitle:"Login",})
     }catch(error:any) {
         console.log(error)
@@ -105,17 +74,48 @@ export const postLogin:RequestHandler = async(req,res) => {
     req.session.username =user.username
     req.session.nickname = user.nickname
     req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
+    req.session.avatarUrl = user.avatarUrl
+    // req.session.subscribe = user.subscribe
+    req.session.subscriber = user.subscriber
     console.log(`✅ login seccess! welcome ${user.username}`)
-    console.log(req.session)
-    return res.redirect('/')
+
+    return res.redirect("back")
 }
 export const serch:RequestHandler = async(req,res) =>  {
     const {searchWord} =  req.query
-    let videos:{} = []
+    console.log(searchWord)
     if(searchWord){
-        console.log(searchWord)
-        videos = await Video.find( { $or: [ { title: {$regex: new RegExp(`${searchWord}` , "i")} }, { description:{$regex: new RegExp(`${searchWord}` , "i")} } , {hashtags:{$regex: new RegExp(`${searchWord}` , "i")}} ] } )
-    } 
-    // find( { tags: { $all: [ "#serchWord" ] } } ) 해쉬태그 만들때 쓸거
-    return res.render("serch",{pageTitle:searchWord,searchWord,videos})
+        const users = await User.find({nickname:{$regex: new RegExp(`${searchWord}`, "i")}})
+        const videos = await Video.find({ $or: [{
+            title: {$regex: new RegExp(`${searchWord}` , "i")} 
+        },
+        {
+            description:{$regex: new RegExp(`${searchWord}` , "i")} 
+        },
+        {
+            hashtags:{$regex: new RegExp(`${searchWord}` , "i")}
+        },]
+        }).populate("owner")
+        console.log(users)
+        if(videos){
+            console.log("해당비디오 찾음")
+            
+        }
+        if(users){
+            const user = await User.find({nickname:{$regex: new RegExp(`${searchWord}`, "i")}})
+            console.log("채널찾기")
+            let videos = []
+            for (let i = 0; i < user.length; i++) {
+                for (let r = 0; r < user[i].own.length; r++) {
+                    videos.push(await Video.findOne({_id:user[i].own[r]}).populate("owner")) 
+                }
+            }
+            return res.render("serch",{pageTitle:searchWord,searchWord,videos,users})
+        }
+        console.log('찾을수가없네')
+        return res.render("serch",{pageTitle:searchWord,searchWord,videos})
+        
+    }else{
+        return res.render("serch",{pageTitle:searchWord,searchWord,videos:[]})
+    }
 }

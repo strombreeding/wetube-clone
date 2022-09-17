@@ -1,9 +1,33 @@
 extends base
+include mixins/video
 block content 
-    span Hey #{nickname}!    
-    br
-    a(href=`/videos/upload`) Upload your video!
-    br
-    a(href=`/user/${nickname}/edit-profile`) Edit Profile
-    hr
-    
+    script 
+        include script/userPage.ts
+    div.host__chanel
+        img(src=`${hostinfo.avatarUrl}`).host__img
+        br
+        div.owner_item1  #{hostinfo.nickname}
+        br
+        span 구독자  #{hostinfo.subscriber}명﹒미디어 #{hostinfo.own.length}개
+        br
+        if host
+            a(href=`/user/${nickname}/edit-profile`) 프로필 수정
+                i.fa-solid.fa-user
+            br
+        else if loggedIn&&subscribeing===false
+            a.watch__Btn(href="#",onclick=`subscribe()`) 구독
+        else if loggedIn&& subscribeing
+            a.watch__Btn(href="#",onclick=`subscribe()`) 구독취소
+        br
+        hr(style={margin:"5px"})
+        nav.host__nav(style={margin:"5px"})
+            div.host__ul
+                span 홈 
+                span 동영상
+                span 정보
+        hr
+    div.video__container 
+        each video in videos
+            +video(video)
+        else 
+            li Nothing found

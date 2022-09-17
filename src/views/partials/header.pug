@@ -1,0 +1,54 @@
+header
+    a(href="/").header__logo
+        i.fab.fa-youtube
+        span wetube
+    div.header__div(id="header__serchdiv")
+        a(href="#",onclick="miniSerch()").header_back
+            i.fa-solid.fa-angle-left
+        form(size="30",action='/serch',method="GET",onsubmit="searchWord()").header__form
+            if !searchWord
+                input.header__serch(name="searchWord",placeholder="검색")
+            else 
+                input.header__serch(name="searchWord",,placeholder="검색",value=`${searchWord}`)
+            input.hidden(type="submit",value="검색") 
+            button.header__serchBtn(href="/serch",onclick="searchWord()")
+                i.fas.fa-search
+    span.header__icon
+        a(href="#",onclick="miniSerch()").header__serchBtn1
+            i.fas.fa-search
+        ul.header__togle_Item   
+            if loggedIn
+                li
+                    a(href=`/videos/upload`).header__btn 
+                        i.fa-solid.fa-square-plus
+                li    
+                    a(href=`#`).header__btn
+                        i.fa-solid.fa-bell
+                        
+                li
+                    a(href="#",onclick="logout()").header__btn Logout
+        ul.mobile__togle_Item   
+            if loggedIn
+                li 
+                    a(href=`/user/${nickname}/userPlace`).header__btn  
+                        i.fa-solid.fa-user
+                li 
+                    a(href=`/videos/upload`).header__btn 
+                        i.fa-solid.fa-square-plus
+                li    
+                    a(href=`#`).header__btn
+                        i.fa-solid.fa-bell
+                li
+                    a(href="#",onclick="logout()") 로그아웃
+                        i.fa-solid.fa-person-to-door
+        if !loggedIn
+            li
+                a(href="/login").header__btn Login
+        if loggedIn
+            a.header__profile(href=`/user/${nickname}/userPlace`)
+                img(src=`${avatarUrl}`,data-id=nickname )#header__avatar.header__avatar
+        if loggedIn
+            a.mobile__profile
+                img(src=`${avatarUrl}`,data-id=nickname )#header__avatar.header__avatar
+block script 
+

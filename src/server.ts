@@ -5,13 +5,21 @@ import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter"
 import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
+import apiRouter from "./routers/apiRouter";
 import { localMiddleware } from "./middlewares";
+
+
+// express 서버와 로그생성을 도와주는 패키지 만들기
 const app = express();
 const logger = morgan("dev");
+app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
+
+
 //view engine setting
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
-app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
+
+// 미들웨어
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
@@ -23,14 +31,17 @@ app.use(
     },
     store:MongoStore.create({mongoUrl:process.env.DB_URL})
   })
-);
+  ); 
+  app.use(localMiddleware)
 
-app.use(localMiddleware)
 
 
-//routers
+// 라우터
+app.use("/uploads",express.static("uploads"))
+app.use("/assets",express.static("assets"))
 app.use("/" , rootRouter)
 app.use("/user",userRouter)
 app.use("/videos", videoRouter)
+app.use("/api", apiRouter)
 
 export default app

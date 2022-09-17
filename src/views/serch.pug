@@ -1,13 +1,15 @@
 extends base
-include mixins/video
-
+include mixins/search
+//- 비디오  타이틀
+//-         조회수 . 지난시간
+//-         아바타 닉네임 구독여부
+//-         데스크립션
+//-         헤쉬태그
 block content
-    if loggedIn    
-        span Hey #{username}!    
-            a(href=`/videos/upload`) Upload your video!
-            hr
-        
-    each video in videos
-        +video(video)
-    else 
-            li Nothing found
+    script 
+        include script/search.ts
+    div.search__container
+        each video in videos
+            +search(video)
+        else 
+                li Nothing found

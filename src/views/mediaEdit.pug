@@ -1,16 +1,26 @@
 extends base.pug
-   
 block content
-    h2 #{thisVideo.title} edit
-    h3 change title
-    form(method="POST",autocomplete="off") 
-        input(require name="title", placeholder="New Title",value=thisVideo.title, maxlength="35")
-        input(require name="description", placeholder="New Description",value=thisVideo.description, minlength="10")
-        input(require name="hashtags", placeholder="New Hashtags",value=thisVideo.hashtags.join())
-        input(value="save",type="submit")
-
-    h3 You want Delete this video?
+    div.container
+        h1 '#{thisVideo.title}' 를 수정합니다.
+        br
+        form(method="POST",autocomplete="off") 
+            div.form__descriptions
+                h3(style={margin_bottom:"10px"}) 수정내용
+                div 
+                    small 기존 제목 : #{thisVideo.title}
+                    textarea(require,name="title", placeholder="New Title",value=thisVideo.title,maxlength=35,cols="30", rows="2") 
+                div
+                    small 설명
+                    textarea( cols="30", rows="15",require, name="description", placeholder="영상 설명",minlength=10)
+                    br
+                    small 해쉬태그
+                    input(require,value=thisVideo.hashtags.join(), name="hashtags", placeholder=" 쉼표 ',' 로 분할" maxlength="35")
+                input(value="save",type="submit")
+    div.container
         form(action=`/videos/${thisVideo.id}/remove`, method="POST",autocomplete="off") 
-            input(require name="deleteTitle", placeholder="write here 'accept'", minlength="6", maxlength="6")
-            input(type="submit" value="Yeah!")
-//- (placeholder=`${thisVideo.title}`)
+            div.form__descriptions(style={padding:"15px"})
+                h3 게시글 삭제
+                br
+                input(require name="deleteTitle", placeholder="여기에 쓰세요 '삭제'", minlength="2", maxlength="2")
+                input(type="submit" value="삭제!")
+    //- (placeholder=`${thisVideo.title}`)

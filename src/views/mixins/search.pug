@@ -1,0 +1,52 @@
+mixin search(info)
+    - let nowDate = Date.now()
+    - let uploadDate = info.createdAt.getTime()
+    - let disc = (Number(nowDate) - Number(uploadDate))
+    - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
+    div
+        div.search__div
+            a(href=`/videos/${info._id}`)
+            div.search_video_frame
+                a(href=`/videos/${info._id}`) 
+                    video.search_video(href=`/videos/${info._id}`,src="/"+info.fileUrl)
+            div.search_video_info
+                a.mobile__search(href=`/user/${info.owner.nickname}/userPlace`)
+                    img.search_avatar(src=info.owner.avatarUrl)
+                div
+                    div.search__title
+                        a(href=`/videos/${info._id}`) #{info.title}
+                    div.search__meta
+                        if bornDate <60
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname} ﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000))}초 전
+                        else if bornDate <3600
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60))}분 전
+                        else if bornDate <86400
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60))}시간 전
+                        else if bornDate <2592000
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24))}일 전
+                        else if bornDate <31536000
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*30))}달 전
+                        else if bornDate >=31536000   
+                            a.metaA(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}﹒ 
+                            a(href=`/user/${info.owner.nickname}/userPlace`) 조회수 #{info.views}회 ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*365))}년 전
+                    br
+                    div
+                        div.search__host
+                            a(href=`/user/${info.owner.nickname}/userPlace`)
+                                img.search_avatar(src=info.owner.avatarUrl)
+                            a(href=`/user/${info.owner.nickname}/userPlace`) #{info.owner.nickname}
+                    br
+                    div.search__description
+                        a(href=`/videos/${info._id}`)
+                            h3=info.description
+                        
+                    div.search__hashs
+                        a(href=`/videos/${info._id}`)
+                            small.watch__hashs(style={color:'#3ea6ff'}) #{info.hashtags.join().replace(/\,/g, " ")}
+
+

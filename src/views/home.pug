@@ -3,12 +3,8 @@ include mixins/video
 
 
 block content
-    if loggedIn    
-        span Hey #{nickname}!    
-            a(href=`/videos/upload`) Upload your video!
-            hr
-        
-    each video in videos
-        +video(video)
-    else 
-            li Nothing found
+    div.video__container
+        each video in videos
+            +video(video)
+        else 
+                li Nothing found

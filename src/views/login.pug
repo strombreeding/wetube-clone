@@ -1,14 +1,22 @@
 extends base
 block content 
-    h1 Login and go to haven
-    if errorMsg 
-        span=errorMsg
-    form(action="/login",method="POST",autocomplete="off") 
-        input(type="email",require ,name="email", placeholder="email@jiny.com",maxlength='25')
-        input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
-        input(value="login",type="submit")
-    span 아직 회원이 아니신가요?  
-    a(href="/join")  회원가입
-    hr
-    br
-    a(href="/user/github/start") Github로 로그인 &rarr;
+    div.form__container
+        form(action="/login",method="POST",autocomplete="off") 
+            h1 로그인 하세요
+            if errorMsg 
+                span=errorMsg
+            div.form__box
+                input(type="email",require ,name="email", placeholder="email@jiny.com",maxlength='25')
+                input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
+            input(value="login",type="submit")
+        br
+        a.join__btn(href="/join")  &rarr; 회원가입
+        br
+        br
+        small 소셜 로그인
+        form.sosial__form
+            a.sosial__btn(href="/user/github/start") 깃허브
+                i.fab.fa-github
+            a.sosial__btn(href="/user/kakao/login") kakao
+                img.kakao-img(src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7a7edf55-3336-470c-858d-69e14253cb8b%2FUntitled.png?table=block&id=24064121-a0fd-4c70-8d41-7a83b5cc890c&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2")
+        br

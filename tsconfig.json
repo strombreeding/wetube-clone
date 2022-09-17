@@ -1,5 +1,5 @@
 {
-    "include": ["src"], 
+    "include": ["src"],
     "compilerOptions": {
         "target": "ES6" ,
         "module": "CommonJS",
@@ -8,8 +8,10 @@
         "esModuleInterop": true, 
         "strict":true,
         "moduleResolution": "node",
+        "allowSyntheticDefaultImports" : true,
         "resolveJsonModule" : true, //use JSON
         "noImplicitAny":true,
+        "jsx": "react",
         
     }
 }

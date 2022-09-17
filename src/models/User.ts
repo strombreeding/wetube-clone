@@ -3,14 +3,22 @@ import bcrypt from "bcrypt"
 
 const userSchema = new mongoose.Schema({
   email :{type:String, trim:true, required:true,unique:true,maxlength:25},
-  avatarUrl:String,
-  nickname : {type:String, trim:true},
+  avatarUrl:{type:String, },
+  nickname : {type:String, trim:true, maxlength:15},
   username : {type:String, trim:true, required:true},
   password1 : {type:String, trim:true, required:true, minlength:8,maxlength:15},
-  sosialOnly : {type: Boolean, default: false},
+  own : [],
+  subscriber : {type:Number},
+  subscribe : [{type:String}],
+  createdAt : {type:Date, default:Date.now},
+
+
+  // subscribe : [{default:null,}],
 })
 userSchema.pre('save', async function () {
-  this.password1 = await bcrypt.hash(this.password1,10)
+  if(this.isModified("password1")){
+    this.password1 = await bcrypt.hash(this.password1,10)
+  }
 } );
 
 

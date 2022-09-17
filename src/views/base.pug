@@ -2,35 +2,29 @@ doctype html
 html(lang="ko")
     head
         title #{pageTitle} | Wetube
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css")
+        link(rel="stylesheet", href="/assets/css/styles.css")
+        meta(name='viewport' ,content='width=device-width, initial-scale=1,user-scalable=no')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+        script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
     style 
         include css/style.css
-
+    script 
+        include script/home.ts
     body
-        nav(style={margin:"5px"})
-            div
-                li
-                    a(href="/") Home
-            div
-                li 
-                    form(action='/serch',method="GET")
-                        input(name="searchWord",placeholder="serch")
-                        input(value="Go",type="submit")
-            div
-                if loggedIn
-                    li 
-                        a(href=`/user/${nickname}/userPlace`) #{nickname}
-                    li 
-                        a(href="/user/logout") Log out
-                else 
-                    li 
-                        a(href="/join") Join
-                    li 
-                        a(href="/login") Login
-        hr(style={margin:"0px"})
-
-
+        include partials/header
         main 
-            block content
-    include partials/footer.pug
+            block   content
+        include partials/footer.pug
+        
+    block script 
+    script(src="/assets/js/main.js") 
+    
+                    //-     if avatarUrl === ''
+                    //-     li 
+                    //-         a(href=`/user/${nickname}/userPlace`) #{nickname}
+                    //-             img(src=`https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ffa3feb67-0971-4269-aaaa-c65f02f58bed%2FUntitled.png?table=block&id=251fc1a9-05fe-4a55-82cb-c39ad15b8870&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2`,width="20",height="20" )
+                    //- else 
+                    //-     li 
+                    //-         a(href=`/user/${nickname}/userPlace`) #{nickname}
+                    //-             img(src=`/${avatarUrl}`,width="20",height="20" )

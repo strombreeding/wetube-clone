@@ -1,0 +1,69 @@
+.host__chanel{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.host__nav{
+    width: 80%;
+    padding: 10px;
+}
+.host__ul{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.form__descriptions{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    small{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        color: gray;
+    }
+    h3{
+        margin-bottom: 10px;
+
+    }
+    div{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+    }
+    textarea{
+        font-size: 0.8em;
+        color: whitesmoke;
+        border-radius: 5px;
+        border: 0;
+        background-color: $bg;
+        padding:20px;
+        text-align: start;
+        font-size: 1em;
+        resize: none;
+    }
+    input{
+        border-radius: 5px;
+        border: 0;
+        background-color: $bg;
+
+    }
+}
+.pc__uploadTogle{
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: $bg;
+    width: 100px;
+    height: 80px;
+    padding: 20px 10px ;
+    margin:0;
+    justify-content: space-around;
+}

@@ -1,20 +1,72 @@
 extends base
 block content 
     script 
-      include script/userEdit.ts
-    h2=certification
-    h2 #{nickname}  #{email}'s Edit
-    if !certification
-        form(method="POST")
-            small 개인정보 변경을 위하여 비밀번호를 입력해 주세요.
-            br
-            small=errorMsg
-            input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
-            input(value="Go",type="submit")
-    if certification 
-        form(method="POST",autocomplete="off") 
-            small=errorMsg
-            br
-            small(name="smallName") 바꾸고 싶은 닉네임을 입력해보세요. (공백 불가) 
-            input(style={margin:'5px'},type="text",require, onchange="nicknameCheck()", name="nickname", placeholder="Nickname")
-            input.hidden(name="join",value="Edit!",type="submit")
+        include script/userPage.ts
+    //- h2 #{nickname} 프로필 변경
+    h1=errorMsg
+    div.container
+        a(href=`${avatarUrl}`)
+            label(for="avatar") 
+            img#host__img(src=`${avatarUrl}`).host__img
+        br
+        if !certification
+            form(method="POST")
+                small 비밀번호를 입력해 주세요.
+                br
+                br
+                br
+                small=errorMsg
+                input(type="password",require, name="password1", placeholder="password" ,minlength="9",maxlength="20")
+                br
+                br
+                input(value="Go",type="submit")
+        else if certification 
+            //- div
+            //-     a(onclick="changeInfo()") 회원정보 변경  
+            //-     span  / 
+            //-     a(onclick="changePw()") 비밀번호 변경
+            //- br
+            form#zz.zz(name="infoForm",method="POST",autocomplete="off",enctype="multipart/form-data") 
+                label.input-file-button(for="avatar") 사진선택
+                    i.fa-solid.fa-image
+                input(style={display:"none"},type="file", id="avatar",name="avatar",accept="image/*")
+                br
+                br
+                br
+                //- label(for="avatar") 프사
+                br
+                br
+                small(name="smallName") 닉네임 입력후 제출 (공백 불가)
+                br
+                br
+                div.edit__div
+                    input(value=`${nickname}`,style={margin:'5px'},type="text",require, onchange="nicknameCheck()", name="nickname", placeholder="Nickname")
+                    //- button(onclick="nicknameCheck()")
+                    //-     i.fas.fa-search
+                input(value="Submit",type="submit")
+            div.container
+                form(name="pwForm", method="POST", action="/user/:id/edit-pw")
+                    div.form__descriptions(style={padding:"15px"})
+                        h1 비밀번호 변경
+                        input.hidden(value=`${nickname}`,name="nickname")
+                        br
+                        small 기존 비밀번호를 입력해 주세요.
+                        input(style={margin:'5px'},type="password", require, name="oldpw", placeholder="Old Password" ,minlength="8",maxlength="15")
+                        small 새로운 비밀번호를 입력해 주세요. 
+                        small (공백을 제외한 특수문자를 조합하여 8~15자)
+                        input(style={margin:'5px'},type="password", require, onchange="checkPw()",name="password1", placeholder="New Password" ,minlength="8",maxlength="15")
+                        input(style={margin:'5px 0 3px 5px'},type="password",require, onchange="checkPw()", name="password2", placeholder="Check password", minlength="8",maxlength="15")
+                        small(name="check") 
+                        input.hidden(name="change",value="Edit!",type="submit")
+            div.container
+                form(method="post",action="/user/:id/delete")
+                    div.form__descriptions(style={padding:"15px"})
+                        h3 회원탈퇴
+                        br
+                        input(style={margin:'5px'}, require, name="deleteUser", value=nickname ,minlength="8",maxlength="15")
+                        small 위 회원은
+                        small  탈퇴를 원합니다.
+                        input(require name="deleteAccept", placeholder="여기에 쓰세요 '나갈게'")
+                        input(type="submit" value="삭제!")
+block script 
+    script(src="/assets/js/userEdit.js") 

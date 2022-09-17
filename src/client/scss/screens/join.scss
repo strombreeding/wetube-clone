@@ -1,0 +1,133 @@
+.form__container{
+    font-size: 25px;
+    width: 40%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: $nav;
+    padding: 20px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    input[type="submit"]{
+        background-color: #CC0000;
+        border: 0ch;
+        border-radius: 10%;
+        color: wheat;
+        margin: 5px;
+    }
+}
+.form__box{
+    input{
+        background-color: #121212;
+    }
+    text-align: left;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    small{
+        margin: 5px;
+        font-size: 15px;
+    }
+    
+}
+h1 {
+    margin: 15px;
+}
+.join__btn{
+    font-size: 15px;
+}
+.err{
+    margin: 15px;
+}
+.sosial__form{
+    flex-direction: row;
+    justify-content: space-between;
+    display: flex;
+    .sosial__btn{
+        text-align: center;
+        font-size: 13px;
+        width: 80px;
+        margin: 10px;
+        .fab.fa-github{
+            font-size: 80px;
+        }
+        .kakao-img{
+            border-radius: 50%;
+        }
+        padding: 15px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+@media screen and (max-width:664px){
+    .form__container{
+        h1 {
+            font-size: 30px;
+            margin: 15px;
+        }
+        small{
+            margin: 5px 0px;
+            font-size: 20px;
+        }
+        font-size: 20px;
+        width: 80%;
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color: $nav;
+        padding: 20px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        input[type="submit"]{
+            background-color: #CC0000;
+            border: 0ch;
+            border-radius: 15px;
+            color: wheat;
+            margin: 5px;
+            font-size: 25px;
+            font-weight: 600;
+            width: 30%;
+            height: 15px;
+        }
+    }
+    .form__box{
+        font-size: 10px;
+        input{
+            font-size: 15px;
+            background-color: #121212;
+        }
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .join__btn{
+        font-size: 20px;
+    }
+    .err{
+        margin: 15px;
+    }
+    .sosial__form{
+        flex-direction: row;
+        justify-content: space-between;
+        display: flex;
+        .sosial__btn{
+            text-align: center;
+            font-size: 10px;
+            width: 70px;
+            margin: 5px;
+            .fab.fa-github{
+                font-size: 70px;
+            }
+            .kakao-img{
+                border-radius: 50%;
+            }
+            padding: 7.5px;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+}
+
