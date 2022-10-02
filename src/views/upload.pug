@@ -16,14 +16,19 @@ block content
                                 span#totalTime 00:00
             div#img 
         br
-        video#preview.hidden
+
+        video#preview
         ul.pc__uploadTogle
-            li
-                label#lavel(for="video") 동영상
+            li#lavel
+                label(for="video") 동영상
                     i.fa-solid.fa-square-plus
-            li 
-                label#startBtn 녹화하기 
-                    i.fa-solid.fa-record-vinyl
+            li#recordBtn 
+                label#startBtn(for="startBtn")  
+                    i.fa-solid.fa-record-vinyl 녹화하기
+            li#downloadBtn.hidden
+                a#download__a
+                    i.fa-solid.fa-download 다운로드
+                //- button.hidden#startBtn
         form#zz(method="POST",autocomplete="off",enctype="multipart/form-data") 
             br
             div.form__descriptions 
@@ -44,5 +49,5 @@ block content
 block script
     script(src="/assets/js/upload.js") 
     script(src="/assets/js/recorder.js") 
-    script(src="/assets/js/videoPlayer.js") 
+    //- script(src="/assets/js/videoPlayer.js") 
 //- (placeholder=`${thisVideo.title}`)

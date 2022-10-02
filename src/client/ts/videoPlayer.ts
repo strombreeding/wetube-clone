@@ -13,9 +13,9 @@ const timeline = document.getElementById("timeline") as QueryOptions;
 const fullScreenBtn = document.getElementById("fullScreen") as HTMLElement;
 const videoContainer = document.getElementById("videoContainer") as HTMLElement;
 const videoControls = document.getElementsByClassName("videoControls")[0] as HTMLElement;
-// const fullScreenIcon = fullScreenBtn.querySelector("i") as QueryOptions;
-// const muteBtnIcon = muteBtn.querySelector("i")as QueryOptions;
-// const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
+const fullScreenIcon = fullScreenBtn.querySelector("i") as QueryOptions;
+const muteBtnIcon = muteBtn.querySelector("i")as QueryOptions;
+const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
 
 //mobile
 // const mobilePlay = document.getElementsByClassName("mobile__play")[0] as HTMLElement;

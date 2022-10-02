@@ -14,7 +14,8 @@ url plan
 /video/:id/upload =Upload video
 /video/remove =Remove video
 /video/serch =serch videos
-git 연동해보기
+fullscreen
+standalone
 
 
 9.9 할것
