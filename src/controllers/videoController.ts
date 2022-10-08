@@ -98,11 +98,11 @@ export const getUpload:RequestHandler = (req,res) => {
 import fs from "fs"
 export const postUpload:RequestHandler  = async(req,res) => {
     const {title,hashtags,description} = req.body
-    console.log(req.body)
-    console.log(JSON.stringify(req.file)+"zz")
+    console.log(req.file)
+    // console.log(JSON.stringify(req.file)+"zz")
     try{ 
         const video = await Video.create({
-            fileUrl:req.file?.path,
+            fileUrl:req.file?.location,
             owner:req.session.uniqueId,
             title,
             description,

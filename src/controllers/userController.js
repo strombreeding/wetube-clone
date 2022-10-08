@@ -303,12 +303,15 @@ const getEdit = (req, res) => {
 };
 exports.getEdit = getEdit;
 const postEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d, _e, _f, _g, _h, _j;
+    var _b, _c, _d, _e, _f, _g, _h;
     const { password1, nickname } = req.body;
     const avatarUrl = req.session.avatarUrl;
-    console.log(req.body, req.file);
     const pageTitle = "Edit";
     const user = yield User_1.default.findOne({ nickname: req.params.id });
+    if (req.file) {
+        console.log(req.file);
+        console.log("이거맞냐", req.file.location);
+    }
     if (!user) {
         console.log("입구컷");
         return res.status(400).render("userEdit", { pageTitle });
@@ -326,27 +329,24 @@ const postEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.redirect(`/user/${user.nickname}/edit-profile`);
         }
     }
-    catch (_k) {
+    catch (_j) {
         console.log("catch");
         const newNickname = yield User_1.default.exists({ nickname: nickname });
-        console.log("now file path =" + avatarUrl);
-        console.log("new file path = " + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.path));
         if (nickname === req.session.nickname) {
-            if (avatarUrl !== ((_c = req.file) === null || _c === void 0 ? void 0 : _c.path)) { // 아바타만 바꿀시
+            if (avatarUrl !== ((_b = req.file) === null || _b === void 0 ? void 0 : _b.path)) { // 아바타만 바꿀시
                 const fsExtra = require("fs-extra");
                 const directory = process.cwd() + "/uploads/storage/";
-                fs_1.default.unlink("/" + ((_d = req.file) === null || _d === void 0 ? void 0 : _d.path), (err) => {
+                fs_1.default.unlink("/" + ((_c = req.file) === null || _c === void 0 ? void 0 : _c.path), (err) => {
                     if (err) {
                         console.log("제거 완료");
                     }
                 });
                 fsExtra.emptyDirSync(directory);
                 yield User_1.default.updateOne({ email: user.email }, {
-                    $set: { avatarUrl: `/${(_e = req.file) === null || _e === void 0 ? void 0 : _e.path}` },
+                    $set: { avatarUrl: `${(_d = req.file) === null || _d === void 0 ? void 0 : _d.location}` },
                     $currentDate: { lastModified: true }
                 });
-                req.session.avatarUrl = `/${(_f = req.file) === null || _f === void 0 ? void 0 : _f.path}`;
-                console.log(req.session.avatarUrl);
+                req.session.avatarUrl = `${(_e = req.file) === null || _e === void 0 ? void 0 : _e.location}`;
                 return res.redirect(`/user/${nickname}/userPlace`);
             }
             return res.render(`userEdit`, { pageTitle, errorMsg: `✅ "${nickname}"= 기존 닉네임` });
@@ -369,17 +369,17 @@ const postEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //다른 에딧 과정을 조건문에 추가 *리턴금지
         const fsExtra = require("fs-extra");
         const directory = process.cwd() + "/uploads/storage/";
-        fs_1.default.unlink("/" + ((_g = req.file) === null || _g === void 0 ? void 0 : _g.path), (err) => {
+        fs_1.default.unlink("/" + ((_f = req.file) === null || _f === void 0 ? void 0 : _f.path), (err) => {
             if (err) {
                 console.log("제거 완료");
             }
         });
         fsExtra.emptyDirSync(directory);
         yield User_1.default.updateOne({ email: user.email }, {
-            $set: { avatarUrl: `/${(_h = req.file) === null || _h === void 0 ? void 0 : _h.path}` },
+            $set: { avatarUrl: `/${(_g = req.file) === null || _g === void 0 ? void 0 : _g.location}` },
             $currentDate: { lastModified: true }
         });
-        req.session.avatarUrl = `/${(_j = req.file) === null || _j === void 0 ? void 0 : _j.path}`;
+        req.session.avatarUrl = `/${(_h = req.file) === null || _h === void 0 ? void 0 : _h.location}`;
         return res.redirect(`/user/${nickname}/userPlace`);
     }
 });

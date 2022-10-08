@@ -4,7 +4,7 @@ import { RequestHandler } from "express";
 import bcrypt from "bcrypt";
 import axios from "axios";
 import fs from "fs"
-
+import s3Storage from "multer-s3";
 // 소셜로그인
 export const starKakaoLogin:RequestHandler = (req,res) => {
     const baseUrl ="https://kauth.kakao.com/oauth/authorize?"
@@ -280,7 +280,7 @@ export const updatePw:RequestHandler = async(req,res) => {
 }
 // 이미지, 닉네임변경
 export const getEdit:RequestHandler = (req,res) => {
-        if(req.params.id === req.session.nickname){
+    if(req.params.id === req.session.nickname){
         return res.render("userEdit",{pageTitle:req.session.username+"'s page"})
     }else{
         return res.status(400).send("수상한 녀석이군..  처단하라!!")
@@ -289,9 +289,12 @@ export const getEdit:RequestHandler = (req,res) => {
 export const postEdit:RequestHandler = async(req,res) => {
     const {password1,nickname} = req.body
     const avatarUrl = req.session.avatarUrl
-    console.log(req.body,req.file)
     const pageTitle = "Edit"
     const user = await User.findOne({nickname:req.params.id})
+    if(req.file){
+        console.log(req.file)
+        console.log("이거맞냐",req.file.location)
+    }
     if(!user){
         console.log("입구컷")
         return res.status(400).render("userEdit",{pageTitle})
@@ -311,8 +314,6 @@ export const postEdit:RequestHandler = async(req,res) => {
     catch{   
         console.log("catch")
         const newNickname = await User.exists({nickname:nickname});
-        console.log("now file path =" +avatarUrl)
-        console.log("new file path = "+req.file?.path)
         if(nickname===req.session.nickname){
             if(avatarUrl !== req.file?.path){ // 아바타만 바꿀시
                 const fsExtra = require("fs-extra");
@@ -324,11 +325,10 @@ export const postEdit:RequestHandler = async(req,res) => {
                 })
                 fsExtra.emptyDirSync(directory)
                 await User.updateOne({email:user.email},{
-                    $set:{avatarUrl:`/${req.file?.path}`},
+                    $set:{avatarUrl:`${req.file?.location}`},
                     $currentDate: { lastModified: true }
                 })
-                req.session.avatarUrl=`/${req.file?.path}`
-                console.log(req.session.avatarUrl)
+                req.session.avatarUrl=`${req.file?.location}`
                 return res.redirect(`/user/${nickname}/userPlace`)
             }
             return res.render(`userEdit`,{pageTitle,errorMsg:`✅ "${nickname}"= 기존 닉네임`})
@@ -359,11 +359,10 @@ export const postEdit:RequestHandler = async(req,res) => {
         })
         fsExtra.emptyDirSync(directory)
         await User.updateOne({email:user.email},{
-            $set:{avatarUrl:`/${req.file?.path}`},
+            $set:{avatarUrl:`/${req.file?.location}`},
             $currentDate: { lastModified: true }
         })
-        req.session.avatarUrl=`/${req.file?.path}`
-        
+        req.session.avatarUrl=`/${req.file?.location}`
         return res.redirect(`/user/${nickname}/userPlace`)
     }
 }

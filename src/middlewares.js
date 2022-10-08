@@ -25,8 +25,12 @@ const s3 = new aws_sdk_1.default.S3({
 const multerUploader = (0, multer_s3_1.default)({
     s3: s3,
     bucket: `wetube-jinytree`,
+    acl: 'public-read',
     metadata: function (req, file, cb) {
-        cb(null, { fieldName: req.session.uniqueId + "_" + Date.now() + "." + "mp4" });
+        cb(null, {
+            filename: req.session.uniqueId + "_" + Date.now() + "." + "mp4",
+            fieldName: req.session.uniqueId + "_" + Date.now() + "." + "mp4"
+        });
     },
 });
 const localMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

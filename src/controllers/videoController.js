@@ -113,11 +113,11 @@ const fs_1 = __importDefault(require("fs"));
 const postUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
     const { title, hashtags, description } = req.body;
-    console.log(req.body);
-    console.log(JSON.stringify(req.file) + "zz");
+    console.log(req.file);
+    // console.log(JSON.stringify(req.file)+"zz")
     try {
         const video = yield Video_1.default.create({
-            fileUrl: (_b = req.file) === null || _b === void 0 ? void 0 : _b.path,
+            fileUrl: (_b = req.file) === null || _b === void 0 ? void 0 : _b.location,
             owner: req.session.uniqueId,
             title,
             description,
