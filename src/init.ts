@@ -9,5 +9,5 @@ import Comment from "./models/Comment"
 app.use("/", apiRouter)
 
 // const PORT = process.env.PORT;
-const PORT = 4000;
+const PORT = process.env.PORT|| 4000;
 app.listen(PORT , () => console.log(`✅ ${process.env.PORT} Server listening on port ${PORT} 🛸`))
