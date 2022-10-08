@@ -6,7 +6,7 @@
   "scripts": {
     "pro:build": "tsc",
     "start": "nodemon --exec node src/init.js",
-    "build": "npm run pro:build && webpack --mode=production",
+    "build": "webpack --mode=production",
     "dev:start": "nodemon --exec ts-node src/init.ts",
     "dev:static":"webpack --mode=development -w"
   },
