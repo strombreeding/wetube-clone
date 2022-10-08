@@ -10,4 +10,4 @@ app.use("/", apiRouter)
 
 // const PORT = process.env.PORT;
 const PORT = process.env.PORT|| 4000;
-app.listen(PORT , () => console.log(`✅ ${process.env.PORT} Server listening on port ${PORT} 🛸`))
+app.listen(PORT , () => console.log(`✅ Server listening on port ${PORT} 🛸`))
