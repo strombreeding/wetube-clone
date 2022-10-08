@@ -4,7 +4,7 @@ import { QueryOptions } from "mongoose";
 //pc
 const video =document.querySelector("video") as QueryOptions
 const playBtn = document.getElementById("play") as HTMLElement;
-const bgClickPlay = document.getElementById("bgClick__play") as HTMLElement;
+const bgClickPlay = document.getElementsByClassName("watch__video")[0] as HTMLVideoElement;
 const muteBtn = document.getElementById("mute") as HTMLElement;
 const volumRange = document.getElementById("volum") as HTMLInputElement;
 const currentTime = document.getElementById("currentTime") as HTMLElement;
@@ -46,15 +46,17 @@ let controlsMovementTimeout:any = null
             //     }
             // }
             
-            const handlePlay = () =>{
-const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
+const handlePlay = (e:any) =>{
+    if(e.keyCode===32||e.type==="click"){
+        const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
 
-                if(video.paused){
-                    video.play();
-                    playBtnIcon.classList= "fas fa-pause"
-                }else{
-                    video.pause()
-                    playBtnIcon.classList= "fas fa-play"
+                    if(video.paused){
+                        video.play();
+                        playBtnIcon.classList= "fas fa-pause"
+                    }else{
+                        video.pause()
+                        playBtnIcon.classList= "fas fa-play"
+        }
     }
 }
 
@@ -192,7 +194,6 @@ const 조회수 = () =>{
 }
 
 
-
 video.addEventListener("canplay",조회수)
 playBtn.addEventListener("click",handlePlay)
 muteBtn.addEventListener("click",handleMute)
@@ -203,7 +204,8 @@ timeline.addEventListener("input",handleTimeLineChange)
 fullScreenBtn.addEventListener("click",handleFullScreen)
 videoContainer.addEventListener("mousemove",handleMouseMove)
 videoContainer.addEventListener("mouseleave",handleMouseLeave)
-bgClickPlay.addEventListener("click",    handlePlay)
+bgClickPlay.addEventListener("click",  handlePlay)
+window.addEventListener("keydown",handlePlay)
 // //mobile
 // mobilePlayBtn.addEventListener("click",mobileHandlePlay)
 // videoContainer.addEventListener("touchstart",handleMouseMove)

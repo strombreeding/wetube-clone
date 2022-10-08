@@ -22,7 +22,7 @@ function miniSerch(){
     serchLogo?.classList.toggle('active')
     serchtogle?.classList.toggle('active')
 }
-function deleteCmt(id){
+function deleteCmt(id:string){
     if(confirm("댓글을 삭제하시겠습니까?")){
         $.ajax({
             type:"delete",
@@ -35,7 +35,7 @@ function deleteCmt(id){
         })
     }
 }
-function editCmt(id){
+function editCmt(id:string){
     const val = document.getElementById(id) 
     if(val){
         const edit = prompt("수정할 내용을 입력후 확인을 눌러주세요.",val?.className) 

@@ -48,18 +48,22 @@ export const checkName:RequestHandler = async(req,res) =>{
 // sosial join
 import fs from "fs"
 import { async } from "regenerator-runtime"
-
-export const a:RequestHandler = (req,res)=>{
-    console.log(req.file)
+export const b:RequestHandler = async(req,res,next)=>{
+    const fsExtra = require("fs-extra");
+    const directory = process.cwd()+"/uploads/storage/"
+    try{
+        await fsExtra.emptyDirSync(directory)
+        console.log(directory)
+        console.log("완료")
+    }
+    catch(err){
+        console.log(err)
+    }
+    next()
+}
+export const a:RequestHandler = async(req,res)=>{
     const filePath = req.file?.path
-    // const fsExtra = require("fs-extra");
-    // const directory = process.cwd()+"/uploads/storage/"
-    // fs.unlink("/"+filePath,(err)=>{
-    //     if(err){
-    //         console.log("완료")
-    //     }
-    // })
-    // fsExtra.emptyDirSync(directory)
+
     res.status(200).json({path:filePath})
 }
 

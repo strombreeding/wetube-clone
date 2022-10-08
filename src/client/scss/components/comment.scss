@@ -12,10 +12,12 @@
     }
 }
 #commentList{
+    margin-top: 20px;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .commentTogle{
     display: flex;
     justify-content: center;

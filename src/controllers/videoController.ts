@@ -6,10 +6,11 @@ import Comment from "../models/Comment"
 
 export const watch:RequestHandler = async (req,res) => {
     const Id = req.params.id // req.parmas.id == string 이기 때문에
-    const video = await Video.findById(Id).populate("owner").populate("comments").populate("owner")
+    const video = await Video.findById(Id).populate("owner").populate("comments")
     let comments = [];
     if(video){
         for(let i =0; i<video?.comments.length;i++){
+            // Comment에서 video.commet
             const comment = await Comment.findById(video.comments[i]).populate("owner")
             comments.push(comment)
         }
@@ -57,9 +58,13 @@ export const postEdit:RequestHandler =async(req,res)=>{
 }
 export const remove:RequestHandler = async(req,res) => {
     const Id = req.params.id;
-    const video = await Video.findById(Id).populate("owner");
+    const video = await Video.findById(Id).populate("owner").populate("comments");
     const {deleteTitle} = req.body
-    console.log(video)
+    if(video?.comments){
+        for(let i = 0; i<video?.comments.length; i++){
+            await Comment.findByIdAndDelete(video.comments[i])
+        }
+    }
     if(deleteTitle!=="삭제" || !video){
         return res.sendStatus(500).render("404", {error:`잘못된 접근입니다.`,pageTitle:"Error",})
     }
@@ -72,8 +77,7 @@ export const remove:RequestHandler = async(req,res) => {
             {_id : video.owner._id},
             {
                 $pull:{own:video.owner._id},
-        })
-        console.log(video.owner._id)
+            })
     }
     return res.redirect("/")
     // const videoIndex = videos.findIndex(object => {return object.id === Id;})

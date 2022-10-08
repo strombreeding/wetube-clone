@@ -4,7 +4,7 @@ const path = require("path")
 const BASE_TS = "./src/client/ts/"
 
 module.exports ={
-    watch : true,
+    // watch : true,
     entry : {
         main:BASE_TS+"main.ts",
         videoPlayer: BASE_TS+"videoPlayer.ts",
@@ -17,7 +17,7 @@ module.exports ={
             filename:"css/styles.css",
         })
     ],
-    mode:"development",
+    // mode:"production",
     //development
     //production
     output : {

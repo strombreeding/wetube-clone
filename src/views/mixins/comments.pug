@@ -34,12 +34,12 @@ mixin comment(info)
                 if String(info.owner._id) === String(uniqueId)
                     div.myCommentTogle
                         ul 
-                            a(id=`${info._id}`,onclick=`editCmt(this.id)`,class=info.text)
+                            a(id=`${info._id}`,onclick=`editCmt(this.id)`,class=info.text,href="#")
                                 i.fa-solid.fa-pen  수정
-                            a(id=`${info._id}`,onclick=`deleteCmt(this.id)`)
+                            a(id=`${info._id}`,onclick=`deleteCmt(this.id)`,href="#")
                                 i.fa-solid.fa-trash-can  삭제
-                else 
-                    div.commentTogle
-                        ul 
-                            a(id=`${info._id}`,href=(`/api/comment/report`))
-                                i.fa-solid.fa-ghost  신고
+                //- else 
+                //-     div.commentTogle
+                //-         ul 
+                //-             a(id=`${info._id}`,href=(`/api/comment/report`))
+                //-                 i.fa-solid.fa-ghost  신고

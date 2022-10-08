@@ -99,7 +99,7 @@ const storage2 = multer.diskStorage({
         mimeType = "mp4";
         break;
       }
-      cb(null,req.session.uniqueId+"."+mimeType)
+      cb(null,Math.random()+"."+mimeType)
     },
   })
   export const uploadVideo = multer({

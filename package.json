@@ -4,10 +4,11 @@
   "description": "clone cording",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/init.ts",
-    "static": "webpack --config webpack.config.js",
-    "jsRun": "nodemon --exec node src/init.js",
-    "build": "tsc"
+    "pro:static": "webpack --mode=production",
+    "pro:build": "tsc",
+    "pro:start": "nodemon --exec node src/init.js",
+    "dev:start": "nodemon --exec ts-node src/init.ts",
+    "dev:static":"webpack --mode=development -w"
   },
   "repository": {
     "type": "git",

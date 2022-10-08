@@ -142,8 +142,8 @@ main{
 }
 
 .message {
-  position: absolute;
-  z-index: 2;
+  position: sticky;
+  z-index: 3;
   top: 5%;
   left: 0;
   right: 0;
