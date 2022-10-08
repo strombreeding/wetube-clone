@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "pro:build": "tsc",
-    "pro:start": "nodemon --exec node src/init.js",
-    "build": "webpack --mode=production",
-    "start": "nodemon --exec ts-node src/init.ts",
+    "start": "nodemon --exec node src/init.js",
+    "build": "npm run pro:build && webpack --mode=production",
+    "dev:start": "nodemon --exec ts-node src/init.ts",
     "dev:static":"webpack --mode=development -w"
   },
   "repository": {
