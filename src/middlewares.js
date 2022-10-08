@@ -14,6 +14,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.preVideo = exports.uploadVideo = exports.storageAvatar = exports.uploadAvatar = exports.protectOnlyMiddleware = exports.publicOnlyMiddleware = exports.localMiddleware = void 0;
 const multer_1 = __importDefault(require("multer"));
+const multer_s3_1 = __importDefault(require("multer-s3"));
+const aws_sdk_1 = __importDefault(require("aws-sdk"));
+const s3 = new aws_sdk_1.default.S3({
+    credentials: {
+        accessKeyId: `${process.env.S3_KEY}`,
+        secretAccessKey: `${process.env.S3_SECRET}`
+    }
+});
+const multerUploader = (0, multer_s3_1.default)({
+    s3: s3,
+    bucket: `wetube-jinytree`,
+    metadata: function (req, file, cb) {
+        cb(null, { fieldName: req.session.uniqueId + "_" + Date.now() + "." + "mp4" });
+    },
+});
 const localMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.locals.loggedIn = Boolean(req.session.loggedIn);
     res.locals.username = req.session.username;
@@ -57,13 +72,14 @@ exports.uploadAvatar = (0, multer_1.default)({
     dest: "uploads/avatars/",
     limits: {
         fileSize: 3000000,
-    }
+    },
+    storage: multerUploader,
 });
 exports.storageAvatar = (0, multer_1.default)({
     dest: "uploads/storage/",
     limits: {
         fileSize: 3000000,
-    }
+    },
 });
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
@@ -118,7 +134,7 @@ const storage2 = multer_1.default.diskStorage({
     },
 });
 exports.uploadVideo = (0, multer_1.default)({
-    storage,
+    storage: multerUploader,
     limits: {
         fileSize: 10000000,
     }

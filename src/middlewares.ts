@@ -1,6 +1,21 @@
 import { RequestHandler } from "express"
 import multer from "multer"
+import multerS3 from "multer-s3"
+import aws from "aws-sdk"
+const s3= new aws.S3({
+  credentials:{
+    accessKeyId:`${process.env.S3_KEY}`,
+    secretAccessKey:`${process.env.S3_SECRET}`
+  }
+})
 
+const multerUploader = multerS3({
+  s3:s3,
+  bucket:`wetube-jinytree`,
+  metadata: function (req, file, cb) {
+    cb(null, {fieldName: req.session.uniqueId+"_"+Date.now()+"."+"mp4"});
+  },
+})
 export const localMiddleware:RequestHandler = async(req,res,next)=>{
     res.locals.loggedIn = Boolean(req.session.loggedIn)
     res.locals.username = req.session.username
@@ -41,13 +56,15 @@ export const uploadAvatar = multer({
   dest:"uploads/avatars/",
   limits:{
     fileSize:3000000,
-  }
+  },
+  storage:multerUploader,
 })
 export const storageAvatar = multer({
   dest:"uploads/storage/",
   limits:{
     fileSize:3000000,
-  }
+  },
+  
 })
 
 const storage = multer.diskStorage({
@@ -103,7 +120,7 @@ const storage2 = multer.diskStorage({
     },
   })
   export const uploadVideo = multer({
-    storage,
+    storage:multerUploader,
     limits:{
       fileSize:10000000,
     }
