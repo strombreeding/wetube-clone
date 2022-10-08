@@ -1,3 +1,17 @@
+cookie: Cookie;
+uniqueId : String;
+username : String;
+email : String;
+loggedIn : Boolean;
+nickname: String;
+sosialOnly : Boolean;
+certification : Boolean;
+avatarUrl:String;
+subscribe:[];
+subscriber:Number;
+backUrl:String;
+messages:String;
+
 url plan
 
 / -Home
