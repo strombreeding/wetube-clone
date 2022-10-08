@@ -1,0 +1,45 @@
+mixin comment(info)
+    - let nowDate = Date.now()
+    - let uploadDate = info.createdAt.getTime()
+    - let disc = (Number(nowDate) - Number(uploadDate))
+    - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
+    div.cmtContainer(data-id=info._id)
+        div.comment__box
+            a.mobile__search(href=`/user/${info.owner.nickname}/userPlace`)
+                img.search_avatar(src=info.owner.avatarUrl)
+            div
+                div.search__meta
+                    if bornDate <60
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000))}초 전
+                    else if bornDate <3600
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60))}분 전
+                    else if bornDate <86400
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60))}시간 전
+                    else if bornDate <2592000
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24))}일 전
+                    else if bornDate <31536000
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*30))}달 전
+                    else if bornDate >=31536000   
+                        a(href=`/user/${info.owner.nickname}/userPlace`) 
+                            small(style={color:"rgb(152, 143, 129)"}) #{info.owner.nickname}  ﹒ #{Math.round((Date.now()-info.createdAt.getTime())/(1000*60*60*24*365))}년 전
+                div.comment__text
+                    p #{info.text}
+        if loggedIn
+            div
+                if String(info.owner._id) === String(uniqueId)
+                    div.myCommentTogle
+                        ul 
+                            a(id=`${info._id}`,onclick=`editCmt(this.id)`,class=info.text)
+                                i.fa-solid.fa-pen  수정
+                            a(id=`${info._id}`,onclick=`deleteCmt(this.id)`)
+                                i.fa-solid.fa-trash-can  삭제
+                else 
+                    div.commentTogle
+                        ul 
+                            a(id=`${info._id}`,href=(`/api/comment/report`))
+                                i.fa-solid.fa-ghost  신고

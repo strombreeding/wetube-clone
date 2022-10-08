@@ -6,7 +6,7 @@
 
 // For PC
     header {    
-        z-index: 1;
+        z-index: 2;
         position: sticky;
         top: 0;
         .mobile__togle_Item{
@@ -103,6 +103,7 @@
 
 @media screen and (min-width:513px) and (max-width:840px){
     header {
+        z-index: 2;
         padding:5px 15px;
         display: flex;
         justify-content: space-between ;

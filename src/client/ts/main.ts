@@ -6,5 +6,7 @@ const togle = document.getElementsByClassName("mobile__profile")[0] as HTMLEleme
 const togleItem =  document.getElementsByClassName("mobile__togle_Item")[0] as HTMLElement
 
 
+if(togle){
 
-togle.addEventListener("click",()=>{togleItem.classList.toggle('active')})
+    togle.addEventListener("click",()=>{togleItem.classList.toggle('active')})
+}

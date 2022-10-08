@@ -2,6 +2,7 @@ import { RequestHandler } from "express"
 import { Schema } from "mongoose"
 import User from "../models/User"
 import Video from "../models/Video"
+import Comment from "../models/Comment"
 
 
 // join 
@@ -46,6 +47,7 @@ export const checkName:RequestHandler = async(req,res) =>{
 }
 // sosial join
 import fs from "fs"
+import { async } from "regenerator-runtime"
 
 export const a:RequestHandler = (req,res)=>{
     console.log(req.file)
@@ -86,4 +88,59 @@ export const registerView:RequestHandler = async(req,res) =>{
 export const storageAvatarz:RequestHandler = async(req,res)=>{
     console.log(req.file)
     return res.json({path:req.file?.path})
+}
+
+export const addComment:RequestHandler =async (req,res) => {
+    const {
+        session : {nickname,uniqueId,avatarUrl},
+        body:{text},
+        params:{id}
+    } = req;
+    const comment = await Comment.create({
+        text,
+        owner:uniqueId,
+        video:id,
+    })
+    console.log(comment.createdAt)
+    await Video.updateOne({
+            _id:id,
+        },
+        {
+            $push:{
+                comments:comment._id
+            }
+        })
+    req.flash("error","댓글을 달았어요!")
+    return res.status(201).json({uniqueId,text,nickname,avatarUrl,createdAt:comment.createdAt,commentId:comment._id})
+    
+
+}
+
+export const editComment:RequestHandler =async (req,res)=>{
+    const {id,edit} = req.body
+    try{
+        await Comment.findByIdAndUpdate(id,{
+            text:edit,
+        })
+        console.log("수정완료")
+        req.flash("error","댓글수정 완료.")
+        return res.sendStatus(200)
+    }
+        catch(error){
+            req.flash("error","해당 댓글을 찾을 수 없습니다.")
+            return res.status(404)
+        }
+    }
+    export const deleteComment:RequestHandler =async (req,res)=>{
+        const {id} = req.body
+    try{
+        await Comment.findByIdAndDelete(id)
+        console.log("삭제완료")
+        req.flash("error","댓글삭제 완료.")
+        return res.sendStatus(200)
+    }
+    catch(error){
+        req.flash("error","해당 댓글을 찾을 수 없습니다.")
+        return res.sendStatus(404)
+    }
 }

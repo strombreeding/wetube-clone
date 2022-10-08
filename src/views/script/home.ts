@@ -22,6 +22,38 @@ function miniSerch(){
     serchLogo?.classList.toggle('active')
     serchtogle?.classList.toggle('active')
 }
+function deleteCmt(id){
+    if(confirm("댓글을 삭제하시겠습니까?")){
+        $.ajax({
+            type:"delete",
+            url:`/api/comment/edit`,
+            data:{id},
+            success:(res)=>{
+                console.log(res)
+                window.location.reload()
+            }
+        })
+    }
+}
+function editCmt(id){
+    const val = document.getElementById(id) 
+    if(val){
+        const edit = prompt("수정할 내용을 입력후 확인을 눌러주세요.",val?.className) 
+        if(edit){
+            $.ajax({
+                type:"post",
+                url:`/api/comment/edit`,
+                data:{edit,id},
+                success:function(res){
+                    window.location.reload()
+                }
+            })
+        }
+
+    }
+}
+
+
 
 const subscribe = () => {
     const nickname = document.getElementsByClassName("owner_item1")[0].textContent

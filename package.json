@@ -24,6 +24,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.5",
+    "@types/express-flash": "^0.0.2",
     "@types/jquery": "^3.5.14",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.3",
@@ -43,12 +44,15 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.8.5",
+    "@ffmpeg/ffmpeg": "^0.9.7",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cross-fetch": "^3.1.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "fs-extra": "^10.1.0",
     "jquery": "^3.6.0",

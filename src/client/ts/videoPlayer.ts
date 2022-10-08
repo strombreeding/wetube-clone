@@ -9,13 +9,11 @@ const muteBtn = document.getElementById("mute") as HTMLElement;
 const volumRange = document.getElementById("volum") as HTMLInputElement;
 const currentTime = document.getElementById("currentTime") as HTMLElement;
 const totalTime = document.getElementById("totalTime") as HTMLElement;
-const timeline = document.getElementById("timeline") as QueryOptions;
+const timeline = document.getElementById("timeline") as HTMLInputElement;
 const fullScreenBtn = document.getElementById("fullScreen") as HTMLElement;
 const videoContainer = document.getElementById("videoContainer") as HTMLElement;
 const videoControls = document.getElementsByClassName("videoControls")[0] as HTMLElement;
-const fullScreenIcon = fullScreenBtn.querySelector("i") as QueryOptions;
-const muteBtnIcon = muteBtn.querySelector("i")as QueryOptions;
-const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
+
 
 //mobile
 // const mobilePlay = document.getElementsByClassName("mobile__play")[0] as HTMLElement;
@@ -28,61 +26,101 @@ const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
 let controlsTimeout:any = null
 let controlsMovementTimeout:any = null
 
-// video.volume = Number(localStorage.getItem("preferredVol"))
-// volumRange.value = String(localStorage.getItem("preferredVol"))
+    video.volume = Number(localStorage.getItem("preferredVol"))
+    volumRange.value = String(localStorage.getItem("preferredVol"))
+
+
+
+
 
 
 // const mobileHandlePlay = () =>{
-//     //비디오가 실행중이면 멈추고
-//     //아니면 실행시킨다
-//     if(video.paused){
-//         video.play();
-//         mobilePlayBtnIcon.classList= "fas fa-pause"
-//     }else{
-//         video.pause()
-//         mobilePlayBtnIcon.classList= "fas fa-play"
-//     }
-// }
+    //     //비디오가 실행중이면 멈추고
+    //     //아니면 실행시킨다
+    //     if(video.paused){
+        //         video.play();
+        //         mobilePlayBtnIcon.classList= "fas fa-pause"
+        //     }else{
+            //         video.pause()
+            //         mobilePlayBtnIcon.classList= "fas fa-play"
+            //     }
+            // }
+            
+            const handlePlay = () =>{
+const playBtnIcon = playBtn.querySelector("i")as QueryOptions;
 
-// const handlePlay = () =>{
-//     if(video.paused){
-//         video.play();
-//         playBtnIcon.classList= "fas fa-pause"
-//     }else{
-//         video.pause()
-//         playBtnIcon.classList= "fas fa-play"
-//     }
-// }
+                if(video.paused){
+                    video.play();
+                    playBtnIcon.classList= "fas fa-pause"
+                }else{
+                    video.pause()
+                    playBtnIcon.classList= "fas fa-play"
+    }
+}
 
 
-// const handleMute = () =>{
-//     if(video.muted){
-//         video.muted = false
-//         if(localStorage.getItem("preferredVol")==="0"){
-//             localStorage.setItem("preferredVol","0.1")
-//             video.volume = 0.1
-//         }
-//     }else {
-//         video.muted = true
-//     }
-//     muteBtnIcon.classList = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up"
+const handleMute = () =>{
+    const muteBtnIcon = muteBtn.querySelector("i")as QueryOptions;
+    if(video.muted){
+        video.muted = false
+        if(localStorage.getItem("preferredVol")==="0"){
+            localStorage.setItem("preferredVol","0.1")
+            video.volume = 0.1
+        }
+    }else {
+        video.muted = true
+    }
+    muteBtnIcon.classList = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up"
     
-//     volumRange.value= video.muted ?  "0": String(localStorage.getItem("preferredVol"))
-//     console.log("현재음량 "+localStorage.getItem("preferredVol"))
-// }
-// const handleVolumeChange = (event:any) =>{
-//     let {target: {value}} = event //==event.target.value
-//     localStorage.setItem("preferredVol",String(`${value}`))
-//     video.volume = value
-//     if(video.volume===0){
-//         video.muted = true
-//         muteBtnIcon.classList ="fas fa-volume-mute"
-//     }else{
-//         video.muted = false
-//         muteBtnIcon.classList ="fas fa-volume-up"
-//     }
-// }
+    volumRange.value= video.muted ?  "0": String(localStorage.getItem("preferredVol"))
+    console.log("현재음량 "+localStorage.getItem("preferredVol"))
+}
+const handleVolumeChange = (event:any) =>{
+    const muteBtnIcon = muteBtn.querySelector("i")as QueryOptions;
+    let {target: {value}} = event //==event.target.value
+    localStorage.setItem("preferredVol",String(`${value}`))
+    video.volume = value
+    if(video.volume===0){
+        video.muted = true
+        muteBtnIcon.classList ="fas fa-volume-mute"
+    }else{
+        video.muted = false
+        muteBtnIcon.classList ="fas fa-volume-up"
+    }
+}
 
+
+const handleFullScreen = () =>{
+    const fullScreen = document.fullscreenElement;
+    const fullScreenIcon = fullScreenBtn.querySelector("i") as QueryOptions;
+    if(fullScreen){
+        document.exitFullscreen();
+        fullScreenIcon.className = "fas fa-expand"
+    }else {
+        videoContainer.requestFullscreen()
+        fullScreenIcon.className = "fas fa-compress"
+    }
+}
+const hideControls = () =>{
+    // mobilePlay.className ="hidden"
+    videoControls.className="hidden"
+}
+const handleMouseMove = () =>{
+    if(controlsTimeout){
+        clearTimeout(controlsTimeout)
+        controlsTimeout = null;
+    }
+    if(controlsMovementTimeout){
+        clearTimeout(controlsMovementTimeout)
+        controlsMovementTimeout=null
+    }
+    // mobilePlay.className ="mobile__play"
+    videoControls.className="videoControls"
+    controlsMovementTimeout=setTimeout(hideControls,3000)
+}
+const handleMouseLeave = () =>{
+    controlsTimeout = setTimeout(hideControls,3000)
+}
 
 
 
@@ -107,16 +145,17 @@ const now = (time:Date) =>{
     return playNow
 }
 const handleMetaData = ()=>{
+    console.log(video.duration)
     const totalTimes = new Date(Math.floor(video.duration)*1000)
     const a = now(totalTimes)
     totalTime.textContent = a;
-    timeline.max = Math.floor(video.duration)
+    timeline.max = String(Math.floor(video.duration))
 }
 const handleTimeUpdate = ()=>{
     const nowTime =  new Date(Math.floor(video.currentTime)*1000)
     const a = now(nowTime)
     currentTime.textContent = a
-    timeline.value = Math.floor(video.currentTime);
+    timeline.value = String(Math.floor(video.currentTime));
     if(video.duration===video.currentTime){
         video.pause()
         // playBtnIcon.classList= "fas fa-play"
@@ -126,41 +165,6 @@ const handleTimeLineChange = (event:any) =>{
     const {target: {value}} = event //==event.target.value
     video.currentTime = value;
 }
-
-// const handleFullScreen = () =>{
-//     const fullScreen = document.fullscreenElement;
-//     if(fullScreen){
-//         alert(fullScreen)
-//         document.exitFullscreen();
-//         fullScreenIcon.className = "fas fa-expand"
-//     }else {
-//         videoContainer.requestFullscreen()
-//         fullScreenIcon.className = "fas fa-compress"
-//     }
-// }
-// const hideControls = () =>{
-//     mobilePlay.className ="hidden"
-//     videoControls.className="hidden"
-// }
-// const handleMouseMove = () =>{
-//     if(controlsTimeout){
-//         clearTimeout(controlsTimeout)
-//         controlsTimeout = null;
-//     }
-//     if(controlsMovementTimeout){
-//         clearTimeout(controlsMovementTimeout)
-//         controlsMovementTimeout=null
-//     }
-//     mobilePlay.className ="mobile__play"
-//     videoControls.className="videoControls"
-//     controlsMovementTimeout=setTimeout(hideControls,3000)
-// }
-// const handleMouseLeave = () =>{
-//     controlsTimeout = setTimeout(hideControls,3000)
-// }
-
-
-
 
 
 
@@ -190,16 +194,16 @@ const 조회수 = () =>{
 
 
 video.addEventListener("canplay",조회수)
-// playBtn.addEventListener("click",handlePlay)
-// muteBtn.addEventListener("click",handleMute)
-// volumRange.addEventListener("input",handleVolumeChange)
+playBtn.addEventListener("click",handlePlay)
+muteBtn.addEventListener("click",handleMute)
+volumRange.addEventListener("input",handleVolumeChange)
 video.addEventListener("loadedmetadata",handleMetaData)
 video.addEventListener("timeupdate",handleTimeUpdate)
 timeline.addEventListener("input",handleTimeLineChange)
-// fullScreenBtn.addEventListener("click",handleFullScreen)
-// videoContainer.addEventListener("mousemove",handleMouseMove)
-// videoContainer.addEventListener("mouseleave",handleMouseLeave)
-// bgClickPlay.addEventListener("click",    handlePlay)
+fullScreenBtn.addEventListener("click",handleFullScreen)
+videoContainer.addEventListener("mousemove",handleMouseMove)
+videoContainer.addEventListener("mouseleave",handleMouseLeave)
+bgClickPlay.addEventListener("click",    handlePlay)
 // //mobile
 // mobilePlayBtn.addEventListener("click",mobileHandlePlay)
 // videoContainer.addEventListener("touchstart",handleMouseMove)

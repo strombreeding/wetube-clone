@@ -1,12 +1,14 @@
 import express,{RequestHandler}  from "express";
 import morgan from "morgan";
 import session from "express-session"
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter"
 import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
 import apiRouter from "./routers/apiRouter";
 import { localMiddleware } from "./middlewares";
+import { json } from "stream/consumers";
 
 
 // express 서버와 로그생성을 도와주는 패키지 만들기
@@ -38,6 +40,7 @@ app.set("views", process.cwd() + "/src/views");
 
 // 미들웨어
 app.use(express.urlencoded({ extended: true }));
+// app.use(express.json())
 app.use(
   session({
     secret: `${process.env.COOKIE_SECRET}`,
@@ -54,6 +57,7 @@ app.use(
 
 
 // 라우터
+app.use(flash())
 app.use("/images",express.static("images"))
 app.use("/uploads",express.static("uploads"))
 app.use("/assets",express.static("assets"))

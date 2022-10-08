@@ -1,7 +1,7 @@
 import regeneratorRuntime from "regenerator-runtime";
-
-import { QueryOptions } from "mongoose";
-import { type } from "os";
+import { createFFmpeg,fetchFile } from "@ffmpeg/ffmpeg";
+// import { a } from "../../controllers/apiController";
+// const ffmpeg = createFFmpeg({log:true});
 
 const startBtn = document.getElementById("startBtn") as HTMLElement;
 const video = document.getElementById("preview") as HTMLMediaElement;
@@ -11,9 +11,7 @@ const downloadBtn = document.getElementById("downloadBtn") as HTMLElement
 let stream:any;
 let recorder:MediaRecorder;
 let videoFile:any
-console.log(videoFile)
 const handleStop = () =>{
-    console.log("스탑",videoFile)
     startBtn.textContent = "녹화하기"
     startBtn.className="fa-solid fa-record-vinyl"
     startBtn.removeEventListener("click", handleStop)
@@ -23,38 +21,47 @@ const handleStop = () =>{
     
 }
 
-
+const downLoad =async () => {
+    // await ffmpeg.load();
+    // ffmpeg.FS("writeFile","recording.webm",await fetchFile(video.src))
+    // await ffmpeg.run("-i","recodring.webm","-r","60","output.mp4")
+    // download__a.href=video.src
+    download__a.click()
+    console.log("zz")
+}
 const handleReady = async()=>{
-    init()
+    await init()
     label.className = "hidden"
     downloadBtn.className="hidden"
     startBtn.removeEventListener("click", handleReady)
     startBtn.textContent = "준비중..."
     startBtn.className=""
-    setTimeout(()=>{
+    try{
+        console.log("츄라이")
         startBtn.addEventListener("click", handleStop)
-        
         startBtn.textContent = "녹화중지"
-        
         recorder = new MediaRecorder(stream,{mimeType:"video/webm"}) as MediaRecorder
         recorder.ondataavailable = (e:any) => {
             videoFile = URL.createObjectURL(e.data)
-            console.log(videoFile)
             video.srcObject =null;
             video.src=videoFile
-            console.log(videoFile)
             video.loop=true;
-            download__a.href=videoFile;
-            download__a.download = "zz"
             downloadBtn.className="downLoad"
             label.className = ""
+            // download__a.download="zzz"
             video.play()
-            return
+            
         }
-        
         recorder.start()
-    },2000)
-    console.log(videoFile)
+        console.log(videoFile,"Zz")
+    }
+    catch(error){
+        console.log(error)
+    }
+    // setTimeout(()=>{
+    //     }
+    // },2000)
+    // console.log(videoFile)
 }
 
 // 자동실행
@@ -67,7 +74,7 @@ const init = async()=>{
 
 
 
-
+download__a.addEventListener("click", downLoad)
 startBtn.addEventListener("click", handleReady)
 
 

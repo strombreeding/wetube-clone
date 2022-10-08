@@ -19,6 +19,7 @@ export const publicOnlyMiddleware:RequestHandler = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error","Not autorize")
     return res.redirect("/");
   }
 };
@@ -28,6 +29,8 @@ export const protectOnlyMiddleware:RequestHandler = (req, res, next) => {
   }else if(req.session.email){
     return next()
   } else {
+    req.flash("error","로그인이 필요해요")
+    console.log(res.locals.messages)
     return res.redirect("/");
   }
 };

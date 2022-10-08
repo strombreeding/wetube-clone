@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   subscriber : {type:Number},
   subscribe : [{type:String}],
   createdAt : {type:Date, default:Date.now},
+  comments :[{type:mongoose.Schema.Types.ObjectId, required:true, ref:"Comment"}]
 
 
   // subscribe : [{default:null,}],
@@ -23,5 +24,5 @@ userSchema.pre('save', async function () {
 
 
 
-const userModel = mongoose.model("User",userSchema)
-export default userModel
+const User = mongoose.model("User",userSchema)
+export default User

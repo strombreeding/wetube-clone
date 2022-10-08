@@ -8,9 +8,9 @@ const videoSchema = new mongoose.Schema({
     hashtags : [{type:String,trim:true,}],
     views:{type:Number, default:1},
     owner : {type:mongoose.Schema.Types.ObjectId, required:true, ref:"User"},
-    
+    comments :[{type:mongoose.Schema.Types.ObjectId, required:true, ref:"Comment"}]
 })
 
 
-const videoModel = mongoose.model("Video",videoSchema)
-export default videoModel
+const Video = mongoose.model("Video",videoSchema)
+export default Video
