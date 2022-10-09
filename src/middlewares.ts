@@ -14,7 +14,7 @@ const multerUploader = multerS3({
   acl: 'public-read',
   key: function (req, file, cb) {
     let mimeType ;
-    if(file.mimeType.includes("video")){
+    if(file.mimetype.includes("video")){
       switch (file.mimetype) {
         case "video/mp4":
           mimeType = "mp4";
@@ -32,7 +32,7 @@ const multerUploader = multerS3({
           mimeType = "mp4";
           break;
         }
-    }else if(file.mimeType.includes("image")){
+    }else if(file.mimetype.includes("image")){
             switch (file.mimetype) {
         case "image/png":
           mimeType = "png";
@@ -45,7 +45,7 @@ const multerUploader = multerS3({
           break;
         }
     }
-    cb(null, req.session.email+Date.now() + "."+mimeType);
+    cb(null, req.session.email+`${Date.now()}` + "."+mimeType);
   }
 })
 export const localMiddleware:RequestHandler = async(req,res,next)=>{
