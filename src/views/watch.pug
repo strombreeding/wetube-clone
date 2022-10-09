@@ -10,7 +10,7 @@ block content
             //- div#videoContainer
             div#bgClick__play 
             div#videoContainer(data-id=video._id)
-                video(src="/"+video.fileUrl,playsinline,crossorigin).watch__video
+                video(src=+video.fileUrl,playsinline,crossorigin).watch__video
                 //- 비디오 컨트롤러 - mobile 구현문제로 잠시 삭제
                 //- div.mobile__controls
                 //-     div.mobile__play 
