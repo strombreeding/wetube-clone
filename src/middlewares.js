@@ -26,12 +26,42 @@ const multerUploader = (0, multer_s3_1.default)({
     s3: s3,
     bucket: `wetube-jinytree`,
     acl: 'public-read',
-    metadata: function (req, file, cb) {
-        cb(null, {
-            filename: req.session.uniqueId + "_" + Date.now() + "." + "mp4",
-            fieldName: req.session.uniqueId + "_" + Date.now() + "." + "mp4"
-        });
-    },
+    key: function (req, file, cb) {
+        let mimeType;
+        if (file.mimeType.includes("video")) {
+            switch (file.mimetype) {
+                case "video/mp4":
+                    mimeType = "mp4";
+                    break;
+                case "video/avi":
+                    mimeType = "avi";
+                    break;
+                case "video/mov":
+                    mimeType = "mov";
+                    break;
+                case "video/wmv":
+                    mimeType = "wmv";
+                    break;
+                default:
+                    mimeType = "mp4";
+                    break;
+            }
+        }
+        else if (file.mimeType.includes("image")) {
+            switch (file.mimetype) {
+                case "image/png":
+                    mimeType = "png";
+                    break;
+                case "image/jpeg":
+                    mimeType = "jpeg";
+                    break;
+                default:
+                    mimeType = "png";
+                    break;
+            }
+        }
+        cb(null, req.session.email + Date.now() + "." + mimeType);
+    }
 });
 const localMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.locals.loggedIn = Boolean(req.session.loggedIn);
