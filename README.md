@@ -1,35 +1,20 @@
-cookie: Cookie;
-uniqueId : String;
-username : String;
-email : String;
-loggedIn : Boolean;
-nickname: String;
-sosialOnly : Boolean;
-certification : Boolean;
-avatarUrl:String;
-subscribe:[];
-subscriber:Number;
-backUrl:String;
-messages:String;
+@types/express-session/index.d.ts에 아래 값들을 추가해주어야합니다
+    cookie: Cookie;
+    uniqueId : String;
+    username : String;
+    email : String;
+    loggedIn : Boolean;
+    nickname: String;
+    sosialOnly : Boolean;
+    certification : Boolean;
+    avatarUrl:String;
+    subscribe:[];
+    subscriber:Number;
+    backUrl:String;
+    messages:String;
+    passport:any;
+    random:String;
 
-url plan
-
-/ -Home
-/join -Join
-/login -login
-
-/user/:id =mypage
-/user/logout =logout
-/user/edit =edit profile
-/user/delete =회원탈퇴
-
-/video/:id =watching video now
-/video/:id/edit =Edit video
-/video/:id/upload =Upload video
-/video/remove =Remove video
-/video/serch =serch videos
-fullscreen
-standalone
 
 
 9.9 할것

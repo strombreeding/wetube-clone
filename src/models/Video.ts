@@ -5,6 +5,7 @@ const videoSchema = new mongoose.Schema({
     fileUrl:{type:String, required:true},
     description: {type:String, trim:true,required:true, minLength:10},
     createdAt : {type:Date, default:Date.now},
+    s3Id : {type:String},
     hashtags : [{type:String,trim:true,}],
     views:{type:Number, default:1},
     owner : {type:mongoose.Schema.Types.ObjectId, required:true, ref:"User"},

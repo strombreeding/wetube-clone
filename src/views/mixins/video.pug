@@ -5,10 +5,10 @@ mixin video(info)
     - let bornDate = Math.round((disc)/(1000)) //초로 계산됨
     div.video__div
             a(href=`/videos/${info._id}`) 
-                video#homeVideo.video__box(href=`/videos/${info._id}`,src=info.fileUrl)
+                video#homeVideo.video__box(href=`/videos/${info._id}`,src=info.fileUrl,crossorigin)
             div.video__descriptions
                 a(href=`/user/${info.owner.nickname}/userPlace`)
-                    img(src=info.owner.avatarUrl).video__avatar
+                    img(src=info.owner.avatarUrl,crossorigin).video__avatar
                 div.fuck
                     div
                         a.video__title(href=`/videos/${info._id}`) #{info.title}

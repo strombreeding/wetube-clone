@@ -6,9 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userController_1 = require("../controllers/userController");
 const middlewares_1 = require("../middlewares");
+const passport_1 = __importDefault(require("../passport"));
 const userRouter = express_1.default.Router();
 userRouter.post("/subscribe", userController_1.postSubscribe);
-// 소셜로그인
+// 소셜로그인 a.authenticate('google',{scope:['profile']})
+userRouter.get("/google/start", (req, res, next) => { console.log("접속완료"); next(); }, passport_1.default.authenticate('google', { scope: ['email', 'profile'] }));
+userRouter.get("/auth/google/callback", passport_1.default.authenticate('google', { failureRedirect: "/" }), userController_1.finishGoogleLogin);
 userRouter.get("/github/start", userController_1.startGithubLogin);
 userRouter.get("/github/finish", userController_1.finishGithubLogin);
 userRouter.get("/kakao/login", userController_1.starKakaoLogin);

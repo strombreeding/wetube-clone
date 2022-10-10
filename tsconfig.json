@@ -12,6 +12,5 @@
         "resolveJsonModule" : true, //use JSON
         "noImplicitAny":true,
         "jsx": "react",
-        
     }
 }

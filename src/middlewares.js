@@ -12,57 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.preVideo = exports.uploadVideo = exports.storageAvatar = exports.uploadAvatar = exports.protectOnlyMiddleware = exports.publicOnlyMiddleware = exports.localMiddleware = void 0;
+exports.preVideo = exports.uploadVideo = exports.storageAvatar = exports.uploadAvatar = exports.s3 = exports.protectOnlyMiddleware = exports.publicOnlyMiddleware = exports.localMiddleware = void 0;
 const multer_1 = __importDefault(require("multer"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
-const s3 = new aws_sdk_1.default.S3({
-    credentials: {
-        accessKeyId: `${process.env.S3_KEY}`,
-        secretAccessKey: `${process.env.S3_SECRET}`
-    }
-});
-const multerUploader = (0, multer_s3_1.default)({
-    s3: s3,
-    bucket: `wetube-jinytree`,
-    acl: 'public-read',
-    key: function (req, file, cb) {
-        let mimeType;
-        if (file.mimeType.includes("video")) {
-            switch (file.mimetype) {
-                case "video/mp4":
-                    mimeType = "mp4";
-                    break;
-                case "video/avi":
-                    mimeType = "avi";
-                    break;
-                case "video/mov":
-                    mimeType = "mov";
-                    break;
-                case "video/wmv":
-                    mimeType = "wmv";
-                    break;
-                default:
-                    mimeType = "mp4";
-                    break;
-            }
-        }
-        else if (file.mimeType.includes("image")) {
-            switch (file.mimetype) {
-                case "image/png":
-                    mimeType = "png";
-                    break;
-                case "image/jpeg":
-                    mimeType = "jpeg";
-                    break;
-                default:
-                    mimeType = "png";
-                    break;
-            }
-        }
-        cb(null, req.session.email + Date.now() + "." + mimeType);
-    }
-});
 const localMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.locals.loggedIn = Boolean(req.session.loggedIn);
     res.locals.username = req.session.username;
@@ -101,13 +54,68 @@ const protectOnlyMiddleware = (req, res, next) => {
     }
 };
 exports.protectOnlyMiddleware = protectOnlyMiddleware;
-//multer for upload, edit
+// file upload 
+// 
+exports.s3 = new aws_sdk_1.default.S3({
+    credentials: {
+        accessKeyId: `${process.env.S3_KEY}`,
+        secretAccessKey: `${process.env.S3_SECRET}`
+    }
+});
+const s3ImageUploader = (0, multer_s3_1.default)({
+    s3: exports.s3,
+    bucket: `wetube-jinytree/image`,
+    acl: 'public-read',
+    key: (req, file, cb) => createFileName(req, file, cb)
+});
+const s3VideoUploader = (0, multer_s3_1.default)({
+    s3: exports.s3,
+    bucket: `wetube-jinytree/video`,
+    acl: 'public-read',
+    key: (req, file, cb) => createFileName(req, file, cb)
+});
+const createFileName = (req, file, cb) => {
+    let mimeType;
+    if (file.mimetype.includes("video")) {
+        switch (file.mimetype) {
+            case "video/mp4":
+                mimeType = "mp4";
+                break;
+            case "video/avi":
+                mimeType = "avi";
+                break;
+            case "video/mov":
+                mimeType = "mov";
+                break;
+            case "video/wmv":
+                mimeType = "wmv";
+                break;
+            default:
+                mimeType = "mp4";
+                break;
+        }
+    }
+    else if (file.mimetype.includes("image")) {
+        switch (file.mimetype) {
+            case "image/png":
+                mimeType = "png";
+                break;
+            case "image/jpeg":
+                mimeType = "jpeg";
+                break;
+            default:
+                mimeType = "png";
+                break;
+        }
+    }
+    cb(null, req.session.email + `${req.session.random}` + "." + mimeType);
+};
 exports.uploadAvatar = (0, multer_1.default)({
     dest: "uploads/avatars/",
     limits: {
         fileSize: 3000000,
     },
-    storage: multerUploader,
+    storage: s3ImageUploader,
 });
 exports.storageAvatar = (0, multer_1.default)({
     dest: "uploads/storage/",
@@ -168,9 +176,9 @@ const storage2 = multer_1.default.diskStorage({
     },
 });
 exports.uploadVideo = (0, multer_1.default)({
-    storage: multerUploader,
+    storage: s3VideoUploader,
     limits: {
-        fileSize: 10000000,
+        fileSize: 30000000,
     }
 });
 exports.preVideo = (0, multer_1.default)({

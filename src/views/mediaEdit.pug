@@ -17,10 +17,11 @@ block content
                     input(require,value=thisVideo.hashtags.join(), name="hashtags", placeholder=" 쉼표 ',' 로 분할" maxlength="35")
                 input(value="save",type="submit")
     div.container
-        form(action=`/videos/${thisVideo.id}/remove`, method="POST",autocomplete="off") 
+        form(action=`/videos/${thisVideo.id}/remove`, method="post",autocomplete="off") 
             div.form__descriptions(style={padding:"15px"})
-                h3 게시글 삭제
+                h3(name=`${thisVideo.createdAt.getTime()}`) 게시글 삭제
                 br
                 input(require name="deleteTitle", placeholder="여기에 쓰세요 '삭제'", minlength="2", maxlength="2")
                 input(type="submit" value="삭제!")
+                input(style={display:"none"},name="createdAt",value=thisVideo.s3Id)
     //- (placeholder=`${thisVideo.title}`)

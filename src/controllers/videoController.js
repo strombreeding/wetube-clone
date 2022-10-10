@@ -16,11 +16,13 @@ exports.postUpload = exports.getUpload = exports.remove = exports.postEdit = exp
 const Video_1 = __importDefault(require("../models/Video"));
 const User_1 = __importDefault(require("../models/User"));
 const Comment_1 = __importDefault(require("../models/Comment"));
+const middlewares_1 = require("../middlewares");
 const watch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const Id = req.params.id; // req.parmas.id == string 이기 때문에
     const video = yield Video_1.default.findById(Id).populate("owner").populate("comments");
     let comments = [];
+    console.log(req.session);
     if (video) {
         for (let i = 0; i < (video === null || video === void 0 ? void 0 : video.comments.length); i++) {
             // Comment에서 video.commet
@@ -75,7 +77,8 @@ exports.postEdit = postEdit;
 const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const Id = req.params.id;
     const video = yield Video_1.default.findById(Id).populate("owner").populate("comments");
-    const { deleteTitle } = req.body;
+    const { deleteTitle, createdAt } = req.body;
+    //db에서 비디오와 엮인 모든것 삭제.
     if (video === null || video === void 0 ? void 0 : video.comments) {
         for (let i = 0; i < (video === null || video === void 0 ? void 0 : video.comments.length); i++) {
             yield Comment_1.default.findByIdAndDelete(video.comments[i]);
@@ -93,16 +96,23 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             $pull: { own: video.owner._id },
         });
     }
+    // s3 에서 비디오파일 삭제
+    console.log(`${req.session.email}${createdAt}.mp4`);
+    try {
+        middlewares_1.s3.deleteObject({
+            Bucket: `wetube-jinytree/video`,
+            Key: `${req.session.email}${createdAt}.mp4`
+        }, (err, data) => {
+            if (err) {
+                throw err;
+            }
+            console.log('s3 deleteObject ', data);
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
     return res.redirect("/");
-    // const videoIndex = videos.findIndex(object => {return object.id === Id;})
-    // const thisVideo = videos[videoIndex];
-    // if(req.body.deleteTitle ==='accept'){
-    //     videos.splice(videoIndex,1)
-    //     return res.redirect("/")
-    // }else{
-    //     console.log(req.body)
-    //     res.redirect('edit')
-    // }
 });
 exports.remove = remove;
 const getUpload = (req, res) => {
@@ -120,6 +130,7 @@ const postUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             fileUrl: (_b = req.file) === null || _b === void 0 ? void 0 : _b.location,
             owner: req.session.uniqueId,
             title,
+            s3Id: req.session.random,
             description,
             hashtags: hashtags.replace(/(\s*)/g, "").replace(/\#/g, "").split(",").map((word) => `#${word}`)
         });

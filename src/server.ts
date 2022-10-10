@@ -8,6 +8,7 @@ import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
 import apiRouter from "./routers/apiRouter";
 import { localMiddleware } from "./middlewares";
+import passport from  "passport"
 import { json } from "stream/consumers";
 
 
@@ -15,24 +16,6 @@ import { json } from "stream/consumers";
 const app = express();
 const logger = morgan("dev");
 app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
-// app.all('*', (req, res, next) =>
-// {
-//     let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-
-//     if (protocol == 'https')
-//     {
-//         next();
-//     }
-//     else
-//     {
-//         let from = `${protocol}://${req.hostname}${req.url}`;
-//         let to = `https://${req.hostname}${req.url}`;
-
-//         // log and redirect
-//         console.log(`[${req.method}]: ${from} -> ${to}`);
-//         res.redirect(to);
-//     }
-// });
 
 //view engine setting
 app.set("view engine", "pug");
@@ -49,7 +32,7 @@ app.use(
     cookie: {
       maxAge: 3600*1000,//3600초(1시간)동안 쿠키유효
     },
-    store:MongoStore.create({mongoUrl:process.env.DB_URL})
+    store:MongoStore.create({mongoUrl:process.env.DB_URL}),
   })
   ); 
   app.use(localMiddleware)

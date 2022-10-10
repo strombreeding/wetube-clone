@@ -2,12 +2,14 @@ import Video from "../models/Video";
 import { RequestHandler } from "express";
 import User from "../models/User"
 import Comment from "../models/Comment"
+import { s3 } from "../middlewares";
 
 
 export const watch:RequestHandler = async (req,res) => {
     const Id = req.params.id // req.parmas.id == string 이기 때문에
     const video = await Video.findById(Id).populate("owner").populate("comments")
     let comments = [];
+    console.log(req.session)
     if(video){
         for(let i =0; i<video?.comments.length;i++){
             // Comment에서 video.commet
@@ -59,7 +61,8 @@ export const postEdit:RequestHandler =async(req,res)=>{
 export const remove:RequestHandler = async(req,res) => {
     const Id = req.params.id;
     const video = await Video.findById(Id).populate("owner").populate("comments");
-    const {deleteTitle} = req.body
+    const {deleteTitle,createdAt} = req.body
+    //db에서 비디오와 엮인 모든것 삭제.
     if(video?.comments){
         for(let i = 0; i<video?.comments.length; i++){
             await Comment.findByIdAndDelete(video.comments[i])
@@ -79,16 +82,20 @@ export const remove:RequestHandler = async(req,res) => {
                 $pull:{own:video.owner._id},
             })
     }
+    // s3 에서 비디오파일 삭제
+    console.log(`${req.session.email}${createdAt}.mp4`)
+    try{
+        s3.deleteObject({
+            Bucket: `wetube-jinytree/video`,
+            Key: `${req.session.email}${createdAt}.mp4`
+          }, (err, data) => {
+            if (err) { throw err; }
+            console.log('s3 deleteObject ', data)
+          })
+    }catch(err){
+        console.log(err)
+    }
     return res.redirect("/")
-    // const videoIndex = videos.findIndex(object => {return object.id === Id;})
-    // const thisVideo = videos[videoIndex];
-    // if(req.body.deleteTitle ==='accept'){
-    //     videos.splice(videoIndex,1)
-    //     return res.redirect("/")
-    // }else{
-    //     console.log(req.body)
-    //     res.redirect('edit')
-    // }
 }
 
 export const getUpload:RequestHandler = (req,res) => {
@@ -105,6 +112,7 @@ export const postUpload:RequestHandler  = async(req,res) => {
             fileUrl:req.file?.location,
             owner:req.session.uniqueId,
             title,
+            s3Id:req.session.random,
             description,
             hashtags:hashtags.replace(/(\s*)/g, "").replace(/\#/g,"").split(",").map((word: string) => `#${word}`)
         })

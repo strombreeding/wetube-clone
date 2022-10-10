@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postSubscribe = exports.postIndividualPage = exports.getIndividualPage = exports.logOut = exports.Delete = exports.postEdit = exports.getEdit = exports.updatePw = exports.POSTsosialCreatePw = exports.GETsosialCreatePw = exports.finishGithubLogin = exports.startGithubLogin = exports.finishKakaoLogin = exports.starKakaoLogin = void 0;
+exports.postSubscribe = exports.postIndividualPage = exports.getIndividualPage = exports.logOut = exports.Delete = exports.postEdit = exports.getEdit = exports.updatePw = exports.POSTsosialCreatePw = exports.GETsosialCreatePw = exports.finishGoogleLogin = exports.finishGithubLogin = exports.startGithubLogin = exports.finishKakaoLogin = exports.starKakaoLogin = void 0;
 const Video_1 = __importDefault(require("../models/Video"));
 const User_1 = __importDefault(require("../models/User"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -205,6 +205,59 @@ const finishGithubLogin = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.finishGithubLogin = finishGithubLogin;
+const finishGoogleLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userdata = req.session.passport.user;
+    const email = userdata.email;
+    const existsUser = yield User_1.default.findOne({ email });
+    if (existsUser) { //이미가입한유저
+        req.session.email = existsUser.email;
+        req.session.loggedIn = true;
+        req.session.username = existsUser.username;
+        req.session.nickname = existsUser.nickname;
+        req.session.uniqueId = JSON.stringify(existsUser._id).replace(/\"/g, "");
+        req.session.sosialOnly = true;
+        req.session.avatarUrl = existsUser.avatarUrl;
+        req.session.subscriber = existsUser.subscriber;
+        console.log("✅ login success by github");
+        return res.redirect("/");
+    }
+    else if (!existsUser) {
+        //깃허브 이메일로 가입된 유저가 없을 겅유
+        let nickCheck = yield User_1.default.findOne({ nickname: userdata.displayName });
+        let nickname = userdata.displayName;
+        let num = 0;
+        if (nickCheck !== null) {
+            console.log("🔥 `" + nickname + "`는 이미 존재해!");
+            while (nickCheck !== null) {
+                nickCheck = yield User_1.default.findOne({ nickname: userdata.displayName + "_" + String(num) });
+                ++num;
+                console.log("🔥 닉네임 중복을 피하는중...");
+            }
+            console.log("🔥 없는 닉네임 찾았다!! ->" + userdata.displayName + "_" + String(num));
+            nickname = userdata.displayName + "_" + String(num);
+            console.log(nickname);
+        }
+        console.log(nickname);
+        const user = yield User_1.default.create({
+            email,
+            avatarUrl: userdata.picture,
+            username: `${userdata.family_name} ${userdata.given_name}`,
+            nickname,
+            password1: "123456789",
+            sosialOnly: true,
+            subscriber: 0,
+            subscribe: [],
+        });
+        req.session.email = user.email;
+        console.log("✅ saved github data in DB. Next step");
+        res.redirect("/user/sosial");
+    }
+    else {
+        req.flash("error", "로그인중 오류가 발생했습니다.");
+        res.status(500).redirect("/login");
+    }
+});
+exports.finishGoogleLogin = finishGoogleLogin;
 //소셜로그인 최초이용시, 회원가입을 위한 패스워드 입력 api
 const GETsosialCreatePw = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.render("sosialJoin", { pageTitle: `Join`, userEmail: req.session.email });
