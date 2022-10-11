@@ -10,6 +10,7 @@ import apiRouter from "./routers/apiRouter";
 import { localMiddleware } from "./middlewares";
 import passport from  "passport"
 import { json } from "stream/consumers";
+import accessOrigin from "./allowOrigin";
 
 
 // express 서버와 로그생성을 도와주는 패키지 만들기
@@ -36,10 +37,11 @@ app.use(
   })
   ); 
   app.use(localMiddleware)
-
+  app.use(accessOrigin)
 
 
 // 라우터
+
 app.use(flash())
 app.use("/images",express.static("images"))
 app.use("/uploads",express.static("uploads"))
