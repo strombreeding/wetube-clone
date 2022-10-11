@@ -14,6 +14,22 @@ apiRouter.route("/video/:id([0-9a-f]{24})/view").post(registerView)
 apiRouter.route("/videos/:id/comment").post(addComment)
 apiRouter.route("/avatarUrl/save").post(storageAvatar.single("avatar"),storageAvatarz)
 apiRouter.route("/preview/save").post(b,preVideo.single("video"),a)
-
-
+// side project test api
+apiRouter.route("/test")
+    .get((req: any,res: any)=>{
+        console.log(req)
+        return res.status(200).send("GET 으로 잘왔네")
+    })
+    .post((req: any,res: any)=>{
+        console.log(req)
+        return res.status(200).send("post 으로 잘왔네")
+    })
+    .delete((req: any,res: any)=>{
+        console.log(req)
+        return res.status(200).send("delete 으로 잘왔네")
+    })
+    .patch((req: any,res: any)=>{
+        console.log(req)
+        return res.status(200).send("patch 으로 잘왔네")
+    })
 export default apiRouter;
