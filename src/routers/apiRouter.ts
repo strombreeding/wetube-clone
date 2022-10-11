@@ -19,7 +19,6 @@ apiRouter.route("/test")
     .get((req: any,res: any)=>{
         console.log(req)
         return res.status(200).json({
-            Headers:{"Access-Control-Allow-Origin":"*"},
             msg:"GET 으로 잘왔네",
             json:"이것은 제이슨",
             fet:"fetch로는 되는데 ajax는 안되노"
