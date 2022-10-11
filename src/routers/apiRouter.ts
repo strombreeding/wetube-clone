@@ -18,7 +18,11 @@ apiRouter.route("/preview/save").post(b,preVideo.single("video"),a)
 apiRouter.route("/test")
     .get((req: any,res: any)=>{
         console.log(req)
-        return res.status(200).send("GET 으로 잘왔네")
+        return res.status(200).json({
+            msg:"GET 으로 잘왔네",
+            json:"이것은 제이슨",
+            fet:"fetch로는 되는데 ajax는 안되노"
+        })
     })
     .post((req: any,res: any)=>{
         console.log(req)

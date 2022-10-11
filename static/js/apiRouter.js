@@ -16,7 +16,11 @@ apiRouter.route("/preview/save").post(apiController_1.b, middlewares_1.preVideo.
 apiRouter.route("/test")
     .get(function (req, res) {
     console.log(req);
-    return res.status(200).send("GET 으로 잘왔네");
+    return res.status(200).json({
+        msg: "GET 으로 잘왔네",
+        json: "이것은 제이슨",
+        fet: "fetch로는 되는데 ajax는 안되노"
+    });
 })
     .post(function (req, res) {
     console.log(req);
