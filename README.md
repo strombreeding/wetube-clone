@@ -1,21 +1,81 @@
-@types/express-session/index.d.ts에 아래 값들을 추가해주어야합니다
-    cookie: Cookie;
-    uniqueId : String;
-    username : String;
-    email : String;
-    loggedIn : Boolean;
-    nickname: String;
-    sosialOnly : Boolean;
-    certification : Boolean;
-    avatarUrl:String;
-    subscribe:[];
-    subscriber:Number;
-    backUrl:String;
-    messages:String;
-    passport:any;
-    random:String;
+<h1>Wetube</h1>
 
-
+<h2>📚 사용기술</h2>
+<div align=center> 
+    <h3>프론트</h3>
+    <img src="https://img.shields.io/badge/pug-A86454?style=for-the-badge&logo=pug&logoColor=white"> 
+    <img src="https://img.shields.io/badge/TYPESCRIPT-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
+    <img src="https://img.shields.io/badge/scss-CC6699?style=for-the-badge&logo=Sass&logoColor=white">
+    <img src="https://img.shields.io/badge/fontawesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white">
+    <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
+    <img src="https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=Webpack&logoColor=white">
+    <br>
+    <h3>백</h3>
+    <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+    <img src="https://img.shields.io/badge/ts_node-3178C6?style=for-the-badge&logo=ts-node&logoColor=white">
+    <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
+    <img src="https://img.shields.io/badge/mongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">
+    <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
+    <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
+    <br>
+    <h3>배포</h3>
+    <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=Heroku&logoColor=white">
+    <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+    <br>
+</div>
+<h2> 트러블 슈팅</h2>
+<details>
+<summary> IOS 환경 video 재생 불가 </summary>
+<div markdown="2">
+  <h3> QuickTime 에서 읽을 수 없는 파일  </h3>
+    <small>
+      -아이폰에서는 볼수 없던 문구가 macbook 에서는 발견됨! 
+      <br>
+      -아마 파일 확장자를 알 수 없기때문에 생긴 문제로 추측
+    </small> 
+  <h3> multer 파일저장시 파일명뒤에 확장자 붙이기</h3>
+    <small>
+      -새로운 multer storage 객체를 만들고 mimetype 별로 filename 세팅을 해주었다.
+      <br>
+      -그 결과 잘 실행됨!
+    </small>
+</div>
+</details>
+<details>
+  <summary> express-session </summary>
+  <div markdown="2">
+    <h3> session에 값 저장하려니 sessions data에 없다고함 </h3>
+      <small>
+        -타입스크립트로 개발하다보니 session에 저장된 데이터값만 추가할수 있나봄! 
+        <br>
+        -@types/express-session/index.d.ts 파일에 추가하려는 session key와 타입 입력해줌!
+        <br>
+        <br>
+        <details>
+          <summary> express-session-data에 추가해야하는 것들 </summary>
+          <div markdown="3">
+              <small>
+                cookie: Cookie;<br>
+                uniqueId : String;<br>
+                username : String;<br>
+                email : String;<br>
+                loggedIn : Boolean;<br>
+                nickname: String;<br>
+                sosialOnly : Boolean;<br>
+                certification : Boolean;<br>
+                avatarUrl:String;<br>
+                subscribe:[];<br>
+                subscriber:Number;<br>
+                backUrl:String;<br>
+                messages:String;<br>
+                passport:any;<br>
+                random:String;<br>
+              </small> 
+          </div>
+          </details>
+      </small> 
+  </div>
+  </details>
 
 9.9 할것
 댓글창 활성화
