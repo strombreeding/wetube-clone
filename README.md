@@ -27,31 +27,49 @@
 <details>
 <summary> IOS 환경 video 재생 불가 </summary>
 <div markdown="2">
-  <h3> QuickTime 에서 읽을 수 없는 파일  </h3>
+  <h3>문제 정의: ios환경에서 비디오재생 불가  </h3>
     <small>
-      -아이폰에서는 볼수 없던 문구가 macbook 에서는 발견됨! 
+     사실 수집
+     <br> 
+     -ios 제외 window, android 에서는 비디오 재생이 잘 동작함.<br>
+     -macbook 에서 QuickTime 에서 실행할수 없는 확장자라고 함  <br>
       <br>
-      -아마 파일 확장자를 알 수 없기때문에 생긴 문제로 추측
+      원인 추론<br> 
+      - 파일 확장자를 알 수 없기때문에 생긴 문제로 추측<br>
+      - multer 가 파일 저장시, 파일이름에 확장자를 붙이지 않음<br><br>
+      조치방안<br>
+      - multer 옵션으로 storage 객체 생성<br>
+      - filename을 사용자이메일+랜덤숫자+.확장자로 저장<br>
+      - 랜덤숫자는 multer가 실행되기 전 middleware 로 세션에 저장<br>
+      <br><br>
+      결과관찰
+      <br>
+      - ios 에서 잘 재생됨<br>
+      - 저장된 파일형식이 storage 에서 설정한대로 저장됨<br>
     </small> 
-  <h3> multer 파일저장시 파일명뒤에 확장자 붙이기</h3>
-    <small>
-      -새로운 multer storage 객체를 만들고 mimetype 별로 filename 세팅을 해주었다.
-      <br>
-      -그 결과 잘 실행됨!
-    </small>
 </div>
 </details>
 <details>
-  <summary> express-session </summary>
-  <div markdown="2">
-    <h3> session에 값 저장하려니 sessions data에 없다고함 </h3>
-      <small>
-        -타입스크립트로 개발하다보니 session에 저장된 데이터값만 추가할수 있나봄! 
-        <br>
-        -@types/express-session/index.d.ts 파일에 추가하려는 session key와 타입 입력해줌!
-        <br>
-        <br>
-        <details>
+<summary> session data 에 없습니다. </summary>
+<div markdown="2">
+  <h3>문제 정의: session에 값저장시, session data에 없다는 오류발생  </h3>
+    <small>
+     사실 수집
+     <br> 
+     - session 에 data가 없다면서 컴파일이 안됨<br>
+      <br>
+      원인 추론<br> 
+      - typescript 라서 data도 필요한것만 지정해야 작동되나봄.<br>
+      - javascript 로 개발할시 오류가 생기지 않음<br>
+      <br>
+      조치방안<br>
+      - @types/epxress-session/index.d.ts 파일에 session id와 타입 지정<br>
+      <br><br>
+      결과관찰
+      <br>
+      - 오류 없어짐 <br>
+      <br>
+      <details>
           <summary> express-session-data에 추가해야하는 것들 </summary>
           <div markdown="3">
               <small>
@@ -73,9 +91,38 @@
               </small> 
           </div>
           </details>
-      </small> 
-  </div>
-  </details>
+    </small> 
+</div>
+</details>
+
+<details>
+<summary> 트러블 폼 </summary>
+<div markdown="2">
+  <h3>문제 정의:   </h3>
+    <small>
+     사실 수집
+     <br> 
+     - <br>
+     - <br>
+      <br>
+      원인 추론<br> 
+      - <br>
+      - <br>
+      <br>
+      조치방안<br>
+      -<br>
+      - <br>
+      - <br>
+      <br><br>
+      결과관찰
+      <br>
+      - <br>
+      - <br>
+    </small> 
+</div>
+</details>
+
+
 
 9.9 할것
 댓글창 활성화
