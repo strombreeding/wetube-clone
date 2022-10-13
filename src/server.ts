@@ -37,15 +37,13 @@ app.use(
   })
   ); 
   app.use(localMiddleware)
-const nowLoginUsers =async (req,res,next) => {
+const nowLoginUsers:RequestHandler =async (req,res,next) => {
   const a = await MongoStore.find({});
   console.log (a)
   next()
   // for (let i = 0; i < a.length; i++) {
   //   const b = a[i].Session.join(",")
-
   // }
-  
 }
 app.use(nowLoginUsers)
 // 라우터
