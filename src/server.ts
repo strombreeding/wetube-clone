@@ -38,7 +38,8 @@ app.use(
   ); 
   app.use(localMiddleware)
 
-app.use((req)=>console.log(req.session))
+app.use((req,res,next)=>{console.log(req.session)
+next()})
 // 라우터
 
 app.use(flash())
