@@ -56,6 +56,7 @@ const nowLoginUsers:RequestHandler =async (req,res,next) => {
     console.log(err)
     next()
   }
+}
 app.use(nowLoginUsers)
 // 라우터
 
