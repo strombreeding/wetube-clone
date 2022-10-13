@@ -10,7 +10,7 @@ const userRouter = express.Router();
 userRouter.post("/subscribe",postSubscribe)
 
 // 소셜로그인 a.authenticate('google',{scope:['profile']})
-userRouter.get("/google/start", (req,res,next)=>{console.log("접속완료");next()},a.authenticate('google',{scope:['email','profile']}))
+userRouter.get("/google/start", (req,res,next)=>{console.log("접속완료");next()},a.authenticate('google',{scope:['email','profile']}),(req)=>console.log(req.session))
 userRouter.get("/auth/google/callback", a.authenticate('google',{failureRedirect: "/"}),finishGoogleLogin)
 userRouter.get("/github/start", startGithubLogin)
 userRouter.get("/github/finish", finishGithubLogin)
