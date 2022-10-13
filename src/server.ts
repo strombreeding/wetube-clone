@@ -1,6 +1,6 @@
 import express,{RequestHandler}  from "express";
 import morgan from "morgan";
-import session from "express-session"
+import session, { Session } from "express-session"
 import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter"
@@ -37,9 +37,17 @@ app.use(
   })
   ); 
   app.use(localMiddleware)
+const nowLoginUsers =async (req,res,next) => {
+  const a = await MongoStore.find({});
+  console.log (a)
+  next()
+  // for (let i = 0; i < a.length; i++) {
+  //   const b = a[i].Session.join(",")
 
-app.use((req,res,next)=>{console.log(req.session)
-next()})
+  // }
+  
+}
+app.use(nowLoginUsers)
 // 라우터
 
 app.use(flash())
