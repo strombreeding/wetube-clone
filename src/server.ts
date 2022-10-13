@@ -55,7 +55,6 @@ const nowLoginUsers:RequestHandler =async (req,res,next) => {
         
     }
     console.log(nowLogin)
-    req.flash("error",`현재 로그인 ${nowLogin}`)
     next()
 }
 app.use(nowLoginUsers)
