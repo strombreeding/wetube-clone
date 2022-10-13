@@ -10,6 +10,7 @@ import apiRouter from "./routers/apiRouter";
 import { localMiddleware,accessOrigin } from "./middlewares";
 import passport from  "passport"
 import { json } from "stream/consumers";
+import SessionData from "./models/Session";
 
 
 // express 서버와 로그생성을 도와주는 패키지 만들기
@@ -39,7 +40,7 @@ app.use(
   app.use(localMiddleware)
 const nowLoginUsers:RequestHandler =async (req,res,next) => {
   try{
-    const a = await MongoStore.find({});
+    const a = await SessionData.find({});
     console.log (a)
     next()
   }
