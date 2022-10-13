@@ -39,7 +39,6 @@ app.use(
   ); 
   app.use(localMiddleware)
 const nowLoginUsers:RequestHandler =async (req,res,next) => {
-  try{
     const a = await SessionData.find({});
     let nowLogin = 0;
     for (let i = 0; i < a.length; i++) {
@@ -50,12 +49,6 @@ const nowLoginUsers:RequestHandler =async (req,res,next) => {
     }
     req.flash("error",`현재 로그인 ${nowLogin}`)
     next()
-  }
-  catch(err){
-
-    console.log(err)
-    next()
-  }
 }
 app.use(nowLoginUsers)
 // 라우터
