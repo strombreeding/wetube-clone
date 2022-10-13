@@ -6,5 +6,5 @@ const sessionSchema = new mongoose.Schema({
 })
 
 
-const SessionData = mongoose.model("Comment",sessionSchema)
+const SessionData = mongoose.model("Session",sessionSchema)
 export default SessionData
