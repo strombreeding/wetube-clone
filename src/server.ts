@@ -42,12 +42,13 @@ const nowLoginUsers:RequestHandler =async (req,res,next) => {
     const a = await SessionData.find({});
     console.log(a)
     let nowLogin = 0;
-    // for (let i = 0; i < a.length; i++) {
-    //   const b = a[i].session.includes(`"loggedIn":true`)
-    //   if(b){
-    //     nowLogin+=1
-    //   }
-    // }
+    for (let i = 0; i < a.length; i++) {
+      const b = a[i].session.includes(`"loggedIn":true`)
+      if(b){
+        nowLogin+=1
+      }
+    }
+    console.log(nowLogin)
     // req.flash("error",`현재 로그인 ${nowLogin}`)
     next()
 }
