@@ -16,7 +16,7 @@ import { json } from "stream/consumers";
 const app = express();
 const logger = morgan("dev");
 app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
-app.use(accessOrigin)
+// app.use(accessOrigin)
 
 //view engine setting
 app.set("view engine", "pug");
@@ -38,7 +38,7 @@ app.use(
   ); 
   app.use(localMiddleware)
 
-
+app.use((req)=>console.log(req.session))
 // 라우터
 
 app.use(flash())
