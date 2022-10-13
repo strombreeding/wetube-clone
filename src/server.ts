@@ -38,9 +38,16 @@ app.use(
   ); 
   app.use(localMiddleware)
 const nowLoginUsers:RequestHandler =async (req,res,next) => {
-  const a = await MongoStore.find({});
-  console.log (a)
-  next()
+  try{
+    const a = await MongoStore.find({});
+    console.log (a)
+    next()
+  }
+  catch(err){
+
+    console.log(err)
+    next()
+  }
   // for (let i = 0; i < a.length; i++) {
   //   const b = a[i].Session.join(",")
   // }
