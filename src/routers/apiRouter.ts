@@ -20,20 +20,29 @@ apiRouter.route("/test")
         console.log(req)
         return res.status(200).json({
             msg:"GET 으로 잘왔네",
-            json:"이것은 제이슨",
-            fet:"fetch로는 되는데 ajax는 안되노"
+            data:"이것은 제이슨",
         })
     })
     .post((req: any,res: any)=>{
-        console.log(req)
-        return res.status(200).send("post 으로 잘왔네")
+        console.log(req.body)
+        const a = req.body
+        return res.status(200).json({
+            msg:"post 으로 잘왔네",
+            data:a,
+        })
     })
     .delete((req: any,res: any)=>{
-        console.log(req)
-        return res.status(200).send("delete 으로 잘왔네")
+        console.log(req.body)
+        return res.status(200).json({
+            msg:"delete 으로 잘왔네",
+            data:a,
+        })
     })
     .patch((req: any,res: any)=>{
-        console.log(req)
-        return res.status(200).send("patch 으로 잘왔네")
+        console.log(req.body)
+        return res.status(200).json({
+            msg:"patch 으로 잘왔네",
+            data:a,
+        })
     })
 export default apiRouter;

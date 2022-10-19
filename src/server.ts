@@ -9,7 +9,7 @@ import videoRouter from "./routers/videoRouter"
 import apiRouter from "./routers/apiRouter";
 import { 
   localMiddleware,
-  // accessOrigin
+  accessOrigin
  } from "./middlewares";
 import passport from  "passport"
 import { json } from "stream/consumers";
@@ -40,25 +40,29 @@ app.use(
     store:MongoStore.create({mongoUrl:process.env.DB_URL}),
   })
   ); 
-  app.use(localMiddleware)
-const nowLoginUsers:RequestHandler =async (req,res,next) => {
-    const a = await SessionData.find({});
-    console.log(a[2])
-    let nowLogin = 0;
-    for (let i = 0; i < a.length; i++) {
-      if(a[i]){
-        const b = a[i].session?.includes(`"loggedIn":true`)
-        if(b){
-          nowLogin+=1
-        }
-      }
+app.use(localMiddleware)
+// const nowLoginUsers:RequestHandler =async (req,res,next) => {
+//     const a = await SessionData.find({});
+//     let nowLogin = 0;
+//     for (let i = 0; i < a.length; i++) {
+//       if(a[i]){
+//         const b = a[i].session?.includes(`"loggedIn":true`)
+//         if(b){
+//           await SessionData.deleteOne(a[i])
+//           nowLogin+=1
+//         }
+//       }
         
-    }
-    console.log(nowLogin)
-    next()
-}
-app.use(nowLoginUsers)
+//     }
+//     console.log(nowLogin)
+//     next()
+// }
+// app.use(nowLoginUsers)
 // 라우터
+
+app.use(accessOrigin)
+
+
 
 app.use(flash())
 app.use("/images",express.static("images"))

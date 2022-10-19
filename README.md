@@ -1,5 +1,6 @@
 <h1>Wetube</h1>
-
+<h3>작동 방식</h3>
+<small></small>
 <h2>📚 사용기술</h2>
 <div align=center> 
     <h3>프론트</h3>

@@ -5,7 +5,7 @@ import aws from "aws-sdk"
 
 
 export const accessOrigin = (req: any,res: any,next: any)=>{
-  res.header("Access-Control-Allow-Origin","*"); // 모든 도메인에 서버 호출가능
+  res.header("Access-Control-Allow-Origin","https://strombreeding.github.io/2eum/"); // 모든 도메인에 서버 호출가능
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   next();
