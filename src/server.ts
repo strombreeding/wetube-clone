@@ -1,4 +1,4 @@
-import express,{RequestHandler}  from "express";
+import express,{RequestHandler,Request,Response,NextFunction,ErrorRequestHandler}  from "express";
 import morgan from "morgan";
 import session, { Session } from "express-session"
 import flash from "express-flash";
@@ -6,14 +6,12 @@ import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter"
 import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
+import EeumRouter from "./2eum/routers/apiRouter"
 import apiRouter from "./routers/apiRouter";
 import { 
   localMiddleware,
   accessOrigin
  } from "./middlewares";
-import passport from  "passport"
-import { json } from "stream/consumers";
-import SessionData from "./models/Session";
 
 
 // express 서버와 로그생성을 도와주는 패키지 만들기
@@ -62,6 +60,10 @@ app.use(localMiddleware)
 
 app.use(accessOrigin)
 
+const errorHandler:ErrorRequestHandler = (err,req,res)=>{
+  console.log(err)
+  res.status(500).json(err)
+}
 
 
 app.use(flash())
@@ -72,5 +74,7 @@ app.use("/" , rootRouter)
 app.use("/user",userRouter)
 app.use("/videos", videoRouter)
 app.use("/api", apiRouter)
+app.use("/2eum", EeumRouter)
+app.use(errorHandler)
 
 export default app

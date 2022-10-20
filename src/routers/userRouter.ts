@@ -1,7 +1,7 @@
 import express from "express";
 import {finishKakaoLogin,starKakaoLogin,postSubscribe,updatePw,logOut,Delete,startGithubLogin,finishGithubLogin,GETsosialCreatePw,POSTsosialCreatePw,getEdit,postEdit, getIndividualPage,postIndividualPage, finishGoogleLogin} from "../controllers/userController"
 import { protectOnlyMiddleware, uploadAvatar } from "../middlewares";
-import a from "../passport";
+import google from "../passport";
 import passport from "passport"
 
 
@@ -10,8 +10,8 @@ const userRouter = express.Router();
 userRouter.post("/subscribe",postSubscribe)
 
 // 소셜로그인 a.authenticate('google',{scope:['profile']})
-userRouter.get("/google/start", (req,res,next)=>{console.log("접속완료");next()},a.authenticate('google',{scope:['email','profile']}),(req)=>console.log(req.session))
-userRouter.get("/auth/google/callback", a.authenticate('google',{failureRedirect: "/"}),finishGoogleLogin)
+userRouter.get("/google/start", google.authenticate('google',{scope:['email','profile']}),(req)=>console.log(req.session))
+userRouter.get("/auth/google/callback", google.authenticate('google',{failureRedirect: "/"}),finishGoogleLogin)
 userRouter.get("/github/start", startGithubLogin)
 userRouter.get("/github/finish", finishGithubLogin)
 userRouter.get("/kakao/login",starKakaoLogin)

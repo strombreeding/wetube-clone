@@ -1,7 +1,7 @@
 import express,{RequestHandler} from "express";
-import multer from "multer";
-import { a,b,storageAvatarz,checkEmail, checkName, sosialDelete,registerView, addComment, editComment, deleteComment,  } from "../controllers/apiController";
+import { a,b,storageAvatarz,checkEmail, checkName, sosialDelete,registerView, addComment, editComment, deleteComment,   } from "../controllers/apiController";
 import { storageAvatar,protectOnlyMiddleware, preVideo } from "../middlewares";
+import google from "../passport";
 
 const apiRouter = express.Router();
 
@@ -45,4 +45,7 @@ apiRouter.route("/test")
             data:a,
         })
     })
+
+
 export default apiRouter;
+
