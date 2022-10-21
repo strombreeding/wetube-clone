@@ -99,7 +99,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
             const nickname = profile.data.properties.nickname;
             const avatarUrl = profile.data.properties.profile_image;
             const user = await User.findOne({email})
-            console.log(user)
+            console.log(profile)
             if(user){
                 console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ")
                 req.session.email = email;
