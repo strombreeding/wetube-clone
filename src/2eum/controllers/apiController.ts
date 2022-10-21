@@ -22,7 +22,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
                 session:req.session
             }
         })
-        
+
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
         let nickCheck = await User.findOne({nickname:userdata.displayName}) 
@@ -108,7 +108,6 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                 req.session.sosialOnly = true
                 req.session.avatarUrl = user.avatarUrl
                 req.session.subscriber = user.subscriber
-                
                 console.log("✅ login success by github")
                 return res.status(200).json({
                     data:{
@@ -145,9 +144,18 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                     subscribe: [],
                 })
                 req.session.email = user.email
+                req.session.nickname =user.nickname
+                req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
+                req.session.avatarUrl = user.avatarUrl
                 console.log("✅ saved kako data in DB. Next step")
-                console.log(req.get('referer'))
-                res.status(200).redirect("/user/sosial")
+                return res.status(200).json({
+                    data:{
+                        msg:"카카오 로그인 성공",
+                        session:req.session,
+                        sessionId:req.sessionID,
+                        avatarUrl:req.session.avatarUrl
+                    }
+                })
             }
         }else{
             console.log("X 엑세스토큰이 없음!")
