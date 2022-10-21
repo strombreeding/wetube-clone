@@ -1,6 +1,7 @@
 import axios from "axios"
 import {RequestHandler} from "express"
 import User from "../../models/User"
+import dotevb from "dotenv"
 export const GoogleLogin:RequestHandler = async(req,res) =>{
     console.log(req.session.passport)
     const userdata = req.session.passport.user
