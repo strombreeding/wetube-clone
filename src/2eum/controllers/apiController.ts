@@ -176,6 +176,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
 export const key:RequestHandler = (req,res)=>{
     const KAKAO_URL = process.env.KAKAO_URL
     const KAKAO_KEY = process.env.KAKAO_KEY
+    console.log("zzzzzzzzzzzzzzz",KAKAO_KEY)
     return res.json({
         KAKAO_KEY,
         KAKAO_URL
