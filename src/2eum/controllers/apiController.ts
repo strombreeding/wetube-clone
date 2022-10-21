@@ -108,7 +108,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                 req.session.nickname =user.nickname
                 req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
                 req.session.sosialOnly = true
-                req.session.avatarUrl = user.avatarUrl
+                req.session.avatarUrl = user.avatarUrl?.replace("http://","https://")
                 req.session.subscriber = user.subscriber
                 console.log("✅ login success by github")
                 return res.status(200).json({
@@ -148,7 +148,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                 req.session.email = user.email
                 req.session.nickname =user.nickname
                 req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
-                req.session.avatarUrl = user.avatarUrl
+                req.session.avatarUrl = user.avatarUrl?.replace("http://","https://")
                 console.log("✅ saved kako data in DB. Next step")
                 return res.status(200).json({
                     data:{
