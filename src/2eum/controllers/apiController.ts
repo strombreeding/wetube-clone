@@ -7,7 +7,8 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
     const userdata = req.session.passport.user
     const email = userdata.email
     const existsUser = await User.findOne({email});
-    const uniqueId = JSON.stringify(existsUser?._id).replace(/\"/g,"")
+    const uniqueId = existsUser?._id
+    console.log(uniqueId)
     if(existsUser){ //이미가입한유저
         console.log("✅ login success by ")
         return res
@@ -22,7 +23,6 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
                 session:req.session
             }
         })
-
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
         let nickCheck = await User.findOne({nickname:userdata.displayName}) 
