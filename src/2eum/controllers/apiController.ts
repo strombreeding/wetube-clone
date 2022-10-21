@@ -8,7 +8,6 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
     const userdata = req.session.passport.user
     const email = userdata.email
     const existsUser = await User.findOne({email});
-    console.log(uniqueId)
     if(existsUser){ //이미가입한유저
         const uniqueId = existsUser._id
         console.log("✅ login success by ")
