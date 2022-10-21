@@ -84,11 +84,11 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
 }
 export const finisKakaoLogin:RequestHandler = async(req,res) =>{
     const baseUrl ="https://kauth.kakao.com/oauth/token"
+    console.log(req.params.code)
     const config:any = {
         grant_type:"authorization_code",
         client_id : process.env.REST_API_KEY_EUM,
         redirect_uri : process.env.REDIRECT_URI_EUM,
-        client_secret:process.env.RES_API_SECRET,
         code:req.params.code,
     }
     const params = new URLSearchParams(config).toString();
