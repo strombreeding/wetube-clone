@@ -19,7 +19,8 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         .status(200)
         .json({
             statusCode:200,
-            msg:"google 로그인 완료"
+            msg:"google 로그인 완료",
+            data:req.session
         })
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
@@ -54,7 +55,8 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         .status(201)
         .json({
             statusCode:201,
-            msg:"google 로그인 완료"
+            msg:"google 로그인 완료",
+            data:req.session
         })
         }
     else {
