@@ -52,9 +52,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         })
         const user = User.find({email})
         console.log("✅ saved github data in DB. Next step")
-        return res
-        .status(201)
-        .json({
+        return res.status(201).json({
             statusCode:201,
             msg:"google 회원가입 완료! 로그인 진행해주세요.",
             data: {user}
