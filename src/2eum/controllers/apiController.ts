@@ -14,12 +14,10 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             statusCode:200,
             msg:"이미 가입된 유저, 로그인 완료",
             data:{
-                email:existsUser.email,
-                username:existsUser.username,
-                nickname:existsUser.nickname,
                 avatarUrl:existsUser.avatarUrl,
                 uniqueId:JSON.stringify(existsUser._id).replace(/\"/g,""),
-                sessionId:req.session
+                sessionId:req.sessionID,
+                session:req.session
             }
         })
     }else if(!existsUser){
