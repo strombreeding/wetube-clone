@@ -50,13 +50,20 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             subscriber : 0,
             subscribe: [],
         })
-        const user = User.find({email})
         console.log("✅ saved github data in DB. Next step")
-        console.log(user)
+        //이거하고 안되면 req.session 에다가 email, nickname,avatarUrl 넣고 그걸 리턴
+        req.session.email=email;
+        req.session.nickname=nickname;
+        req.session.avatarUrl=userdata.picture
+
         return res.status(201).json({
             statusCode:201,
             msg:"google 회원가입 완료! 로그인 진행해주세요.",
-            data: {user}
+            data: {
+                session:req.session,
+                sessionId:req.sessionID,
+                avatarUrl:userdata.picture
+            }
         })
         }
     }
