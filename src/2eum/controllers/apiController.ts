@@ -72,7 +72,8 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
         client_id : process.env.REST_API_KEY_EUM,
         redirect_uri : process.env.REDIRECT_URI_EUM,
         response_type :"code",
-        scope : "profile_nickname,profile_image,account_email"
+        scope : "profile_nickname,profile_image,account_email",
+        from:"kakao"
     }
     const params = new URLSearchParams(config).toString();
     const finalUrl = `${baseUrl}${params}`;
