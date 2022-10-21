@@ -28,44 +28,41 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         let nickCheck = await User.findOne({nickname:userdata.displayName}) 
         let nickname= userdata.displayName
         let num = 0
-        if(nickCheck!==null){
-            console.log("🔥 `"+nickname+"`는 이미 존재해!")
-            while(nickCheck!==null){
-                nickCheck = await User.findOne({nickname:userdata.displayName+"_"+String(num)})
-                ++num
-                console.log("🔥 닉네임 중복을 피하는중..." )
+        try{
+            if(nickCheck!==null){
+                console.log("🔥 `"+nickname+"`는 이미 존재해!")
+                while(nickCheck!==null){
+                    nickCheck = await User.findOne({nickname:userdata.displayName+"_"+String(num)})
+                    ++num
+                    console.log("🔥 닉네임 중복을 피하는중..." )
+                }
+                console.log("🔥 없는 닉네임 찾았다!! ->"+userdata.displayName+"_"+String(num))
+                nickname = userdata.displayName+"_"+String(num)
+                console.log(nickname)
             }
-            console.log("🔥 없는 닉네임 찾았다!! ->"+userdata.displayName+"_"+String(num))
-            nickname = userdata.displayName+"_"+String(num)
             console.log(nickname)
+            await User.create({
+                email,
+                avatarUrl:userdata.picture,
+                username:`${userdata.family_name} ${userdata.given_name}`,
+                nickname,
+                password1: "123456789",
+                sosialOnly : true,
+                subscriber : 0,
+                subscribe: [],
+            })
+            const user = User.find({email})
+            console.log("✅ saved github data in DB. Next step")
+            console.log(user)
+            return res.status(201).json({
+                statusCode:201,
+                msg:"google 회원가입 완료! 로그인 진행해주세요.",
+                data: {user}
+            })
         }
-        console.log(nickname)
-        await User.create({
-            email,
-            avatarUrl:userdata.picture,
-            username:`${userdata.family_name} ${userdata.given_name}`,
-            nickname,
-            password1: "123456789",
-            sosialOnly : true,
-            subscriber : 0,
-            subscribe: [],
-        })
-        const user = User.find({email})
-        console.log("✅ saved github data in DB. Next step")
-        return res.status(201).json({
-            statusCode:201,
-            msg:"google 회원가입 완료! 로그인 진행해주세요.",
-            data: {user}
-        })
+        catch(e){
+            throw new Error("Error")
         }
-    else {
-        req.flash("error","로그인중 오류가 발생했습니다.")
-        new Error("오류발생")
-        res.status(500).json({
-            statusCode:500,
-            msg:"오류발생"
-        })
-    }
 }
 export const startKakaoLogin:RequestHandler = (req,res) => {
     const baseUrl ="https://kauth.kakao.com/oauth/authorize?"
