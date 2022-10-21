@@ -17,7 +17,10 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         console.log("✅ login success by ")
         return res
         .status(200)
-        .redirect('http://127.0.0.1:5500/sosialTerminal.html')
+        .json({
+            statusCode:200,
+            msg:"google 로그인 완료"
+        })
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
         let nickCheck = await User.findOne({nickname:userdata.displayName}) 
@@ -49,7 +52,10 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         console.log("✅ saved github data in DB. Next step")
         return res
         .status(201)
-        .redirect('http://127.0.0.1:5500/sosialTerminal.html')
+        .json({
+            statusCode:201,
+            msg:"google 로그인 완료"
+        })
         }
     else {
         req.flash("error","로그인중 오류가 발생했습니다.")
