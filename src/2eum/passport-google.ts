@@ -12,7 +12,7 @@ passport.use(
     new GoogleStrategy({
         clientID: process.env.EUM_GOOGLE_ID,
         clientSecret : process.env.EUM_GOOGLE_SECRET,
-        callbackURL : "https://wetube-jinytree.herokuapp.com/2eum/auth/google/callback",
+        callbackURL : "http://127.0.0.1:5500/sosialTerminal.html",
         passReqToCallback:true
     },
     async (request:any,accessToken: any , refreshToken: any, profile: any, done:Function) => {
