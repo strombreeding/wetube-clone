@@ -85,7 +85,7 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
 }
 export const finisKakaoLogin:RequestHandler = async(req,res) =>{
     console.log(req.body)
-        const access_token = req.body.data.access_token
+        const access_token = req.body.access_token
         
         if(access_token){
             console.log("🔥 액세스 토큰이 존재함!")
