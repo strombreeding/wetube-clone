@@ -22,6 +22,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
                 session:req.session
             }
         })
+        
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
         let nickCheck = await User.findOne({nickname:userdata.displayName}) 
