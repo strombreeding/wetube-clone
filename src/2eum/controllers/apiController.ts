@@ -2,25 +2,24 @@ import axios from "axios"
 import {RequestHandler} from "express"
 import User from "../../models/User"
 export const GoogleLogin:RequestHandler = async(req,res) =>{
+    console.log(req.session.passport)
     const userdata = req.session.passport.user
     const email = userdata.email
     const existsUser = await User.findOne({email});
     if(existsUser){ //이미가입한유저
-        req.session.email = existsUser.email;
-        req.session.loggedIn = true;
-        req.session.username =existsUser.username
-        req.session.nickname =existsUser.nickname
-        req.session.uniqueId = JSON.stringify(existsUser._id).replace(/\"/g,"")
-        req.session.sosialOnly = true
-        req.session.avatarUrl = existsUser.avatarUrl
-        req.session.subscriber = existsUser.subscriber
         console.log("✅ login success by ")
         return res
         .status(200)
         .json({
             statusCode:200,
-            msg:"google 로그인 완료",
-            data:req.session
+            msg:"이미 가입된 유저, 로그인 완료",
+            data:{
+                email:existsUser.email,
+                username:existsUser.username,
+                nickname:existsUser.nickname,
+                avatarUrl:existsUser.avatarUrl,
+                uniqueId:JSON.stringify(existsUser._id).replace(/\"/g,"")
+            }
         })
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
@@ -39,7 +38,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             console.log(nickname)
         }
         console.log(nickname)
-        const user = await User.create({
+        await User.create({
             email,
             avatarUrl:userdata.picture,
             username:`${userdata.family_name} ${userdata.given_name}`,
@@ -49,14 +48,14 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             subscriber : 0,
             subscribe: [],
         })
-        req.session.email = user.email
+        const user = User.find({email})
         console.log("✅ saved github data in DB. Next step")
         return res
         .status(201)
         .json({
             statusCode:201,
-            msg:"google 로그인 완료",
-            data:req.session
+            msg:"google 회원가입 완료! 로그인 진행해주세요.",
+            data: {user}
         })
         }
     else {
