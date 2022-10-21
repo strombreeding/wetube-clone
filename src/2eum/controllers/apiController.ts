@@ -81,23 +81,24 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
     console.log("🔥 스타트 깃허브는 끝냈고, 이제 파이널 url 갈거야")
     return res.redirect(finalUrl)
     //여기서 다시 클라이언트로 복귀후 클라에서 아래 url code 담아서 요청
+
 }
 export const finisKakaoLogin:RequestHandler = async(req,res) =>{
-    const baseUrl ="https://kauth.kakao.com/oauth/token"
-    const config:any = {
-        grant_type:"authorization_code",
-        client_id : process.env.REST_API_KEY,
-        redirect_uri : process.env.REDIRECT_URI,
-        client_secret:process.env.RES_API_SECRET,
-        code:req.query.code,
-    }
-    const params = new URLSearchParams(config).toString();
-    try{
-        const a = await axios.post(baseUrl,params, {
-            headers: { 'Content-Type': "application/x-www-form-urlencoded;charset=utf-8" },
-        });
-        console.log(a)
-        const access_token = a.data.access_token
+    // const baseUrl ="https://kauth.kakao.com/oauth/token"
+    // const config:any = {
+    //     grant_type:"authorization_code",
+    //     client_id : process.env.REST_API_KEY,
+    //     redirect_uri : process.env.REDIRECT_URI,
+    //     client_secret:process.env.RES_API_SECRET,
+    //     code:req.query.code,
+    // }
+    // const params = new URLSearchParams(config).toString();
+    // try{
+        // const a = await axios.post(baseUrl,params, {
+        //     headers: { 'Content-Type': "application/x-www-form-urlencoded;charset=utf-8" },
+        // });
+        // console.log(a)
+        const access_token = req.body.data.access_token
         
         if(access_token){
             console.log("🔥 액세스 토큰이 존재함!")
@@ -108,60 +109,54 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
             const avatarUrl = profile.data.properties.profile_image;
             const user = await User.findOne({email})
             console.log(user)
-            return res.json({data:user})
-        }
-    }
-        catch(e){
-
-        }
-    //         if(user){
-    //             console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ")
-    //             req.session.email = email;
-    //             req.session.loggedIn = true;
-    //             req.session.username =user.nickname
-    //             req.session.nickname =user.nickname
-    //             req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
-    //             req.session.sosialOnly = true
-    //             req.session.avatarUrl = user.avatarUrl
-    //             req.session.subscriber = user.subscriber
+            if(user){
+                console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ")
+                req.session.email = email;
+                req.session.loggedIn = true;
+                req.session.username =user.nickname
+                req.session.nickname =user.nickname
+                req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
+                req.session.sosialOnly = true
+                req.session.avatarUrl = user.avatarUrl
+                req.session.subscriber = user.subscriber
                 
-    //             console.log("✅ login success by github")
-    //             return res.redirect("/")
-    //         }else{
-    //             //깃허브 이메일로 가입된 유저가 없을 겅유
-    //             let nickCheck = await User.findOne({nickname:profile.data.properties.nickname}) 
-    //             let nickname= profile.data.properties.nickname
-    //             let num = 0
-    //             if(nickCheck!==null){
-    //                 console.log("🔥 `"+nickname+"`는 이미 존재해!")
-    //                 while(nickCheck!==null){
-    //                     nickCheck = await User.findOne({nickname:nickname+"_"+String(num)})
-    //                     ++num
-    //                     console.log("🔥 닉네임 중복을 피하는중..." )
-    //                 }
-    //                 console.log("🔥 없는 닉네임 찾았다!! ->"+nickname+"_"+String(num))
-    //                 nickname = nickname+"_"+String(num)
-    //                 console.log(nickname)
-    //             }
-    //             const user = await User.create({
-    //                 email,
-    //                 avatarUrl,
-    //                 username:nickname,
-    //                 nickname,
-    //                 password1: "123456789",
-    //                 sosialOnly : true,
-    //                 subscriber : 0,
-    //                 subscribe: [],
-    //             })
-    //             req.session.email = user.email
-    //             console.log("✅ saved kako data in DB. Next step")
-    //             console.log(req.get('referer'))
-    //             res.status(200).redirect("/user/sosial")
-    //         }
-    //     }else{
-    //         console.log("X 엑세스토큰이 없음!")
-    //         res.status(404).redirect("login")
-    //     }
+                console.log("✅ login success by github")
+                return res.redirect("/")
+            }else{
+                //깃허브 이메일로 가입된 유저가 없을 겅유
+                let nickCheck = await User.findOne({nickname:profile.data.properties.nickname}) 
+                let nickname= profile.data.properties.nickname
+                let num = 0
+                if(nickCheck!==null){
+                    console.log("🔥 `"+nickname+"`는 이미 존재해!")
+                    while(nickCheck!==null){
+                        nickCheck = await User.findOne({nickname:nickname+"_"+String(num)})
+                        ++num
+                        console.log("🔥 닉네임 중복을 피하는중..." )
+                    }
+                    console.log("🔥 없는 닉네임 찾았다!! ->"+nickname+"_"+String(num))
+                    nickname = nickname+"_"+String(num)
+                    console.log(nickname)
+                }
+                const user = await User.create({
+                    email,
+                    avatarUrl,
+                    username:nickname,
+                    nickname,
+                    password1: "123456789",
+                    sosialOnly : true,
+                    subscriber : 0,
+                    subscribe: [],
+                })
+                req.session.email = user.email
+                console.log("✅ saved kako data in DB. Next step")
+                console.log(req.get('referer'))
+                res.status(200).redirect("/user/sosial")
+            }
+        }else{
+            console.log("X 엑세스토큰이 없음!")
+            res.status(404).redirect("login")
+        }
     // }
     // catch{
     //     console.log("kako REST API 연결실패!")
