@@ -19,7 +19,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
                 nickname:existsUser.nickname,
                 avatarUrl:existsUser.avatarUrl,
                 uniqueId:JSON.stringify(existsUser._id).replace(/\"/g,""),
-                sessionId:req.sessionID
+                sessionId:req.session
             }
         })
     }else if(!existsUser){
