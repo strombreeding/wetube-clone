@@ -70,7 +70,7 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
     const baseUrl ="https://kauth.kakao.com/oauth/authorize?"
     const config:any = {
         client_id : process.env.REST_API_KEY_EUM,
-        redirect_uri : process.env.REDIRECT_URI,
+        redirect_uri : process.env.REDIRECT_URI_EUM,
         response_type :"code",
         scope : "profile_nickname,profile_image,account_email"
     }
@@ -79,6 +79,8 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
     console.log(finalUrl)
     console.log("🔥 스타트 깃허브는 끝냈고, 이제 파이널 url 갈거야")
     return res.redirect(finalUrl)
+    //여기서 다시 클라이언트로 복귀후 클라에서 아래 url code 담아서 요청
+
 }
 export const finisKakaoLogin:RequestHandler = async(req,res) =>{
     const baseUrl ="https://kauth.kakao.com/oauth/token"
