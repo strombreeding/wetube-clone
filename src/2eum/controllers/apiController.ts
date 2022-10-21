@@ -171,3 +171,12 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
         res.status(404).redirect("https://strombreeding.github.io/2eum/")
     }
 }
+
+export const key:RequestHandler = (req,res)=>{
+    const KAKAO_URL = process.env.KAKAO_URL
+    const KAKAO_KEY = process.env.KAKAO_KEY
+    return res.json({
+        KAKAO_KEY,
+        KAKAO_URL
+    })
+}
