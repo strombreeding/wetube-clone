@@ -17,10 +17,6 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         console.log("✅ login success by ")
         return res
         .status(200)
-        .json({
-            statusCode:200,
-            msg:"google 로그인 완료"
-        })
         .redirect('http://127.0.0.1:5500/sosialTerminal.html')
     }else if(!existsUser){
         //깃허브 이메일로 가입된 유저가 없을 겅유
@@ -51,10 +47,9 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         })
         req.session.email = user.email
         console.log("✅ saved github data in DB. Next step")
-        return res.status(201).json({
-            statusCode:201,
-            msg:"google 로그인 완료"
-        })
+        return res
+        .status(201)
+        .redirect('http://127.0.0.1:5500/sosialTerminal.html')
         }
     else {
         req.flash("error","로그인중 오류가 발생했습니다.")
