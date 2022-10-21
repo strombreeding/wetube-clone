@@ -3,13 +3,14 @@ import {RequestHandler} from "express"
 import User from "../../models/User"
 import dotevb from "dotenv"
 export const GoogleLogin:RequestHandler = async(req,res) =>{
+    console.log("앙기모찌")
     console.log(req.session.passport)
     const userdata = req.session.passport.user
     const email = userdata.email
     const existsUser = await User.findOne({email});
-    const uniqueId = existsUser?._id
     console.log(uniqueId)
     if(existsUser){ //이미가입한유저
+        const uniqueId = existsUser._id
         console.log("✅ login success by ")
         return res
         .status(200)
