@@ -10,7 +10,7 @@ EeumRouter.get("/google/start",
 
 EeumRouter.get("/auth/google/callback", google.authenticate('google'),GoogleLogin)
 EeumRouter.get("/kakao/start", startKakaoLogin)
-EeumRouter.get("/kakao/finish", finisKakaoLogin)
+EeumRouter.post("/kakao/finish", finisKakaoLogin)
 EeumRouter.get("/kakao", key)
 
 export default EeumRouter

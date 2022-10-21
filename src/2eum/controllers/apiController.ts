@@ -84,20 +84,6 @@ export const startKakaoLogin:RequestHandler = (req,res) => {
 
 }
 export const finisKakaoLogin:RequestHandler = async(req,res) =>{
-    // const baseUrl ="https://kauth.kakao.com/oauth/token"
-    // const config:any = {
-    //     grant_type:"authorization_code",
-    //     client_id : process.env.REST_API_KEY,
-    //     redirect_uri : process.env.REDIRECT_URI,
-    //     client_secret:process.env.RES_API_SECRET,
-    //     code:req.query.code,
-    // }
-    // const params = new URLSearchParams(config).toString();
-    // try{
-        // const a = await axios.post(baseUrl,params, {
-        //     headers: { 'Content-Type': "application/x-www-form-urlencoded;charset=utf-8" },
-        // });
-        // console.log(a)
         const access_token = req.body.data.access_token
         
         if(access_token){
