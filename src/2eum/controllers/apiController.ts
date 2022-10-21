@@ -69,7 +69,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
 export const startKakaoLogin:RequestHandler = (req,res) => {
     const baseUrl ="https://kauth.kakao.com/oauth/authorize?"
     const config:any = {
-        client_id : process.env.REST_API_KEY,
+        client_id : process.env.REST_API_KEY_EUM,
         redirect_uri : process.env.REDIRECT_URI,
         response_type :"code",
         scope : "profile_nickname,profile_image,account_email"
@@ -84,8 +84,8 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
     const baseUrl ="https://kauth.kakao.com/oauth/token"
     const config:any = {
         grant_type:"authorization_code",
-        client_id : process.env.REST_API_KEY,
-        redirect_uri : process.env.REDIRECT_URI,
+        client_id : process.env.REST_API_KEY_EUM,
+        redirect_uri : process.env.REDIRECT_URI_EUM,
         client_secret:process.env.RES_API_SECRET,
         code:req.query.code,
     }
@@ -107,47 +107,57 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
             const user = await User.findOne({email})
             if(user){
                 // console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ")
-                // req.session.email = email;
-                // req.session.loggedIn = true;
-                // req.session.username =user.nickname
-                // req.session.nickname =user.nickname
-                // req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
-                // req.session.sosialOnly = true
-                // req.session.avatarUrl = user.avatarUrl
-                // req.session.subscriber = user.subscriber
-                
-                // console.log("✅ login success by github")
-                return res.redirect("https://strombreeding.github.io/2eum/")
+                req.session.email = email;
+                req.session.username =user.nickname
+                req.session.nickname =user.nickname
+                req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g,"")
+                req.session.avatarUrl = user.avatarUrl
+                return res.status(200).json({
+                    msg:"카카오 로그인 완료!",
+                    data:{
+                        avatarUrl:user.avatarUrl,
+                        uniqueId:JSON.stringify(user._id).replace(/\"/g,""),
+                        sessionId:req.sessionID,
+                        session:req.session
+                    }
+                })
             }else{
                 //깃허브 이메일로 가입된 유저가 없을 겅유
-                // let nickCheck = await User.findOne({nickname:profile.data.properties.nickname}) 
-                // let nickname= profile.data.properties.nickname
-                // let num = 0
-                // if(nickCheck!==null){
-                //     console.log("🔥 `"+nickname+"`는 이미 존재해!")
-                //     while(nickCheck!==null){
-                //         nickCheck = await User.findOne({nickname:nickname+"_"+String(num)})
-                //         ++num
-                //         console.log("🔥 닉네임 중복을 피하는중..." )
-                //     }
-                //     console.log("🔥 없는 닉네임 찾았다!! ->"+nickname+"_"+String(num))
-                //     nickname = nickname+"_"+String(num)
-                //     console.log(nickname)
-                // }
-                // const user = await User.create({
-                //     email,
-                //     avatarUrl,
-                //     username:nickname,
-                //     nickname,
-                //     password1: "123456789",
-                //     sosialOnly : true,
-                //     subscriber : 0,
-                //     subscribe: [],
-                // })
-                // req.session.email = user.email
-                // console.log("✅ saved kako data in DB. Next step")
-                // console.log(req.get('referer'))
-                res.status(200).redirect("https://strombreeding.github.io/2eum/")
+                let nickCheck = await User.findOne({nickname:profile.data.properties.nickname}) 
+                let nickname= profile.data.properties.nickname
+                let num = 0
+                if(nickCheck!==null){
+                    console.log("🔥 `"+nickname+"`는 이미 존재해!")
+                    while(nickCheck!==null){
+                        nickCheck = await User.findOne({nickname:nickname+"_"+String(num)})
+                        ++num
+                        console.log("🔥 닉네임 중복을 피하는중..." )
+                    }
+                    console.log("🔥 없는 닉네임 찾았다!! ->"+nickname+"_"+String(num))
+                    nickname = nickname+"_"+String(num)
+                    console.log(nickname)
+                }
+                const user = await User.create({
+                    email,
+                    avatarUrl,
+                    username:nickname,
+                    nickname,
+                    password1: "123456789",
+                    sosialOnly : true,
+                    subscriber : 0,
+                    subscribe: [],
+                })
+                return res
+                .status(201)
+                .json({
+                    statusCode:201,
+                    msg:"google 회원가입 완료! 로그인 진행해주세요.",
+                    data: {
+                        user,
+                        sessionId:req.sessionID,
+                        session:req.session
+                    }
+                })
             }
         }else{
             console.log("X 엑세스토큰이 없음!")
