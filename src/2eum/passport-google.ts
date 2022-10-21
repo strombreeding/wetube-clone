@@ -17,6 +17,7 @@ passport.use(
     },
     async (request:any,accessToken: any , refreshToken: any, profile: any, done:Function) => {
         console.log(profile)
+        console.log("zz")
         try{
             done(null,profile)
         }
