@@ -18,7 +18,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
                 msg:"이미 가입된 유저, 로그인 완료",
                 data:{
                     avatarUrl:existsUser.avatarUrl,
-                    uniqueId,
+                    access_token:uniqueId,
                     sessionId:req.sessionID,
                     session:req.session
                 }
@@ -40,7 +40,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             console.log(nickname)
         }
         console.log(nickname)
-        await User.create({
+        const newUser = await User.create({
             email,
             avatarUrl:userdata.picture,
             username:`${userdata.family_name} ${userdata.given_name}`,
@@ -55,6 +55,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
         req.session.email=email;
         req.session.nickname=nickname;
         req.session.avatarUrl=userdata.picture
+        req.session.uniqueId=String(newUser._id)
 
         return res.status(201).json({
             statusCode:201,
@@ -62,6 +63,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             data: {
                 session:req.session,
                 sessionId:req.sessionID,
+                access_token:req.session.uniqueId,
                 avatarUrl:userdata.picture
             }
         })
@@ -116,6 +118,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                         msg:"카카오 로그인 성공",
                         session:req.session,
                         sessionId:req.sessionID,
+                        access_token:req.session.uniqueId,
                         avatarUrl:req.session.avatarUrl
                     }
                 })
@@ -155,6 +158,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                         msg:"카카오 로그인 성공",
                         session:req.session,
                         sessionId:req.sessionID,
+                        access_token:req.session.uniqueId,
                         avatarUrl:req.session.avatarUrl
                     }
                 })
