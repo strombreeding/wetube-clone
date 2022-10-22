@@ -17,7 +17,7 @@ import {
 // express 서버와 로그생성을 도와주는 패키지 만들기
 const app = express();
 const logger = morgan("dev");
-app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
+// app.use(logger);//morgan()에는 next()가 포함되어있다! 미들웨어로 사용할 함수들은 모두 next()가 있다.
 // app.use(accessOrigin)
 
 //view engine setting

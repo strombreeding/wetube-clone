@@ -338,16 +338,12 @@ export const getEdit:RequestHandler = (req,res) => {
     }
 }
 export const postEdit:RequestHandler = async(req,res) => {
+    
     const {password1,nickname} = req.body
     const avatarUrl = req.session.avatarUrl
     const pageTitle = "Edit"
     const user = await User.findOne({nickname:req.params.id})
-    if(req.file){
-        console.log(req.file)
-        console.log("이거맞냐",req.file.location)
-    }
     if(!user){
-        console.log("입구컷")
         return res.status(400).render("userEdit",{pageTitle})
     }
     //위 이프문을 실행하면 user는 자동적으로 있다는 것!
