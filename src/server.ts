@@ -60,10 +60,10 @@ app.use(localMiddleware)
 
 app.use(accessOrigin)
 
-const errorHandler:ErrorRequestHandler = (err,req,res)=>{
-  console.log(err)
-  res.status(500).json(err)
-}
+// const errorHandler:ErrorRequestHandler = (err,req,res)=>{
+//   console.log(err)
+//   res.status(500).json(err)
+// }
 
 
 app.use(flash())
@@ -75,6 +75,6 @@ app.use("/user",userRouter)
 app.use("/videos", videoRouter)
 app.use("/api", apiRouter)
 app.use("/2eum", EeumRouter)
-app.use(errorHandler)
+// app.use(errorHandler)
 
 export default app

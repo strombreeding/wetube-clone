@@ -46,9 +46,9 @@ header
                 a(href="/login").header__btn Login
         if loggedIn
             a.header__profile(href=`/user/${nickname}/userPlace`)
-                img(src=`${avatarUrl}`,crossorigin,data-id=nickname )#header__avatar.header__avatar
+                img(src=`${avatarUrl}`,data-id=nickname )#header__avatar.header__avatar
         if loggedIn
             a.mobile__profile
-                img(src=`${avatarUrl}`,crossorigin,data-id=nickname )#header__avatar.header__avatar
+                img(src=`${avatarUrl}`,data-id=nickname )#header__avatar.header__avatar
 block script 
 
