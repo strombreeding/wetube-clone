@@ -1,12 +1,12 @@
 import axios from "axios"
 import {RequestHandler} from "express"
-import User from "../../models/User"
+import Youth from "../../models/Youth"
 import dotevb from "dotenv"
 export const GoogleLogin:RequestHandler = async(req,res) =>{
     console.log("앙기모찌")
     const userdata = req.session.passport.user
     const email = userdata.email
-    const existsUser = await User.findOne({email});
+    const existsUser = await Youth.findOne({email});
     try{
         if(existsUser){ //이미가입한유저
             const uniqueId = existsUser._id
@@ -25,13 +25,13 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             })
         }else if(!existsUser){
             //깃허브 이메일로 가입된 유저가 없을 겅유
-            let nickCheck = await User.findOne({nickname:userdata.displayName}) 
+            let nickCheck = await Youth.findOne({nickname:userdata.displayName}) 
             let nickname= userdata.displayName
             let num = 0
         if(nickCheck!==null){
             console.log("🔥 `"+nickname+"`는 이미 존재해!")
             while(nickCheck!==null){
-                nickCheck = await User.findOne({nickname:userdata.displayName+"_"+String(num)})
+                nickCheck = await Youth.findOne({nickname:userdata.displayName+"_"+String(num)})
                 ++num
                 console.log("🔥 닉네임 중복을 피하는중..." )
             }
@@ -40,7 +40,7 @@ export const GoogleLogin:RequestHandler = async(req,res) =>{
             console.log(nickname)
         }
         console.log(nickname)
-        const newUser = await User.create({
+        const newUser = await Youth.create({
             email,
             avatarUrl:userdata.picture,
             username:`${userdata.family_name} ${userdata.given_name}`,
@@ -100,7 +100,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
             const email = profile.data.kakao_account.email;
             const nickname = profile.data.properties.nickname;
             const avatarUrl = profile.data.properties.profile_image;
-            const user = await User.findOne({email})
+            const user = await Youth.findOne({email})
             console.log(profile)
             if(user){
                 console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ")
@@ -124,13 +124,13 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                 })
             }else{
                 //깃허브 이메일로 가입된 유저가 없을 겅유
-                let nickCheck = await User.findOne({nickname:profile.data.properties.nickname}) 
+                let nickCheck = await Youth.findOne({nickname:profile.data.properties.nickname}) 
                 let nickname= profile.data.properties.nickname
                 let num = 0
                 if(nickCheck!==null){
                     console.log("🔥 `"+nickname+"`는 이미 존재해!")
                     while(nickCheck!==null){
-                        nickCheck = await User.findOne({nickname:nickname+"_"+String(num)})
+                        nickCheck = await Youth.findOne({nickname:nickname+"_"+String(num)})
                         ++num
                         console.log("🔥 닉네임 중복을 피하는중..." )
                     }
@@ -138,7 +138,7 @@ export const finisKakaoLogin:RequestHandler = async(req,res) =>{
                     nickname = nickname+"_"+String(num)
                     console.log(nickname)
                 }
-                const user = await User.create({
+                const user = await Youth.create({
                     email,
                     avatarUrl,
                     username:nickname,
