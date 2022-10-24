@@ -13,13 +13,18 @@ const EeumRouter = express();
 const logOut2eum: RequestHandler = async (req, res) => {
   console.log(req.body)
   const { sessionId } = req.body;
-  await SessionData.findById(sessionId);
-  console.log("로그아웃 완료")
-  res.status(200).json({
-    msg: "로그아웃 완료",
-  });
+  try{
+    await SessionData.findById(sessionId);
+    console.log("로그아웃 완료")
+    res.status(200).json({
+      msg: "로그아웃 완료",
+    });
+  }
+  catch(e){
+    console.log(e)
+  }
 };
-EeumRouter.route("/").delete(logOut2eum);
+EeumRouter.delete("/",logOut2eum);
 EeumRouter.get(
   "/google/start",
   google.authenticate("google", { scope: ["email", "profile"] }),
