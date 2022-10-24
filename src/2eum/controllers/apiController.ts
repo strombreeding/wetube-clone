@@ -63,7 +63,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         data: {
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.uniqueId,
+          access_token: req.session.id,
           avatarUrl: userdata.picture,
         },
       });
@@ -114,7 +114,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
           msg: "카카오 로그인 성공",
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.uniqueId,
+          access_token: req.session.id,
           avatarUrl: req.session.avatarUrl,
         },
       });
@@ -155,7 +155,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
           msg: "카카오 로그인 성공",
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.uniqueId,
+          access_token: req.session.id,
           avatarUrl: req.session.avatarUrl,
         },
       });
