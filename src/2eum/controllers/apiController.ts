@@ -105,7 +105,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
     if (user) {
       console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ");
       req.session.email = email;
-      req.session.username = user.nickname;
+      req.session.username = nickname;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
       console.log("✅ login success by kakao");
@@ -146,7 +146,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
         username: nickname,
       });
       req.session.email = user.email;
-      req.session.nickname = user.nickname;
+      req.session.nickname = user.username;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
       console.log("✅ saved kako data in DB. Next step");
