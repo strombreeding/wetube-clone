@@ -13,10 +13,10 @@ const EeumRouter = express();
 
 const logOut2eum: RequestHandler = async (req, res) => {
   console.log(req.params)
-  const { sessionId } = req.params;
+  const { id } = req.params;
   try{
-    await SessionData.findByIdAndDelete(sessionId);
-    console.log(sessionId,"로그아웃 완료")
+    await SessionData.findByIdAndDelete(id);
+    console.log("로그아웃 완료")
     res.status(200).json({
       msg: `로그아웃 완료`,
     });
