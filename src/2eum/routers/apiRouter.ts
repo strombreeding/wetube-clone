@@ -29,6 +29,7 @@ EeumRouter.get(
   google.authenticate("google"),
   GoogleLogin
 );
+
 EeumRouter.get("/kakao/start", startKakaoLogin);
 EeumRouter.post("/kakao/finish", finisKakaoLogin);
 EeumRouter.get("/kakao", key);
