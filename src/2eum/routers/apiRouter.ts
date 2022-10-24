@@ -12,21 +12,20 @@ const EeumRouter = express();
 
 
 const logOut2eum: RequestHandler = async (req, res) => {
-  console.log(req.body)
-  const { sessionId } = req.body;
-  const a = {_id:sessionId}
+  console.log(req.params)
+  const { sessionId } = req.params;
   try{
-    await SessionData.findByIdAndDelete(a);
-    console.log("로그아웃 완료")
+    await SessionData.findByIdAndDelete(sessionId);
+    console.log(sessionId,"로그아웃 완료")
     res.status(200).json({
-      msg: "로그아웃 완료",
+      msg: `로그아웃 완료`,
     });
   }
   catch(e){
     console.log(e)
   }
 };
-EeumRouter.delete("/",logOut2eum);
+EeumRouter.delete("/:id",logOut2eum);
 EeumRouter.get(
   "/google/start",
   google.authenticate("google", { scope: ["email", "profile"] }),
