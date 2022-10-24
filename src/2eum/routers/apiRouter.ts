@@ -15,7 +15,7 @@ const logOut2eum: RequestHandler = async (req, res) => {
   console.log(req.params)
   const { id } = req.params;
   try{
-    await SessionData.findByIdAndDelete(id);
+    await SessionData.findOneAndDelete({_id:id});
     console.log("로그아웃 완료")
     res.status(200).json({
       msg: `로그아웃 완료`,
