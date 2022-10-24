@@ -15,6 +15,7 @@ const logOut2eum: RequestHandler = async (req, res) => {
   console.log(req.body)
   const { sessionId } = req.body;
   const _id = new mongoose.Types.ObjectId(sessionId)
+  console.log(_id)
   try{
     await SessionData.findByIdAndDelete(_id);
     console.log("로그아웃 완료")
