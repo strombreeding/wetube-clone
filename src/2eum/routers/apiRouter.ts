@@ -9,8 +9,10 @@ import {
 import google from "../passport-google";
 const EeumRouter = express();
 const logOut2eum: RequestHandler = async (req, res) => {
+  console.log("로그아웃 들어옴")
   const { sessionId } = req.body;
   await SessionData.findByIdAndDelete({ _id: sessionId });
+  console.log("로그아웃 완료")
   res.status(200).json({
     msg: "로그아웃 완료",
   });

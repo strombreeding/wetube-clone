@@ -101,14 +101,14 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
     const nickname = profile.data.properties.nickname;
     const avatarUrl = profile.data.properties.profile_image;
     const user = await Youth.findOne({ email });
-    console.log(profile);
+    // console.log(profile);
     if (user) {
       console.log("kakao 로그인 : 해당 이메일로 가입된 사용자가 있음. ");
       req.session.email = email;
       req.session.username = user.nickname;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
-      console.log("✅ login success by github");
+      console.log("✅ login success by kakao");
       return res.status(200).json({
         data: {
           msg: "카카오 로그인 성공",
