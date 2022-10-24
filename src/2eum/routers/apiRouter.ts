@@ -1,4 +1,5 @@
 import express, { RequestHandler } from "express";
+import mongoose from "mongoose";
 import SessionData from "../../models/Session";
 import {
   finisKakaoLogin,
@@ -13,8 +14,9 @@ const EeumRouter = express();
 const logOut2eum: RequestHandler = async (req, res) => {
   console.log(req.body)
   const { sessionId } = req.body;
+  const _id = new mongoose.Types.ObjectId(sessionId)
   try{
-    await SessionData.findById(sessionId);
+    await SessionData.findByIdAndDelete(_id);
     console.log("로그아웃 완료")
     res.status(200).json({
       msg: "로그아웃 완료",
