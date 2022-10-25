@@ -2,6 +2,61 @@ import axios from "axios";
 import { RequestHandler } from "express";
 import Youth from "../../models/Youth";
 import dotevb from "dotenv";
+import jwt from "jsonwebtoken"
+//jwt token 사용법
+
+// 서명 jwt.sign({data}, secretKey , { expiresIn :"1h || 1d"})
+// jwt 로그인 시나리오
+// 로그인시 클라로 access_toke, refresh_token 넘겨줌
+// 권한이 필요한 요청 수행시 실행될 미들웨어 생성
+// 요청시 미들웨어 실행 
+// access,refresh 둘 다 만료 = > 에러, localstorage clear
+// 리프레쉬 살아있다 => 엑세스 재발급
+
+export const createAccessToken = async(id:any)=>{
+  try{
+    const user = await Youth.findById(id)
+    if(user){
+      const access_token = jwt.sign({
+        username:user.username,
+        avatarUrl:user.avatarUrl,
+        uniqueId:user._id
+      },
+      "wegewewgewg",
+      {
+        expiresIn:'1h'
+      })
+
+
+      return access_token
+    }
+  }catch(e){
+    throw new Error("토큰발급실패")
+  }
+}
+export const createRefreshToken = async(id:any)=>{
+  try{
+    const user = await Youth.findById(id)
+    if(user){
+      const refresh_token = jwt.sign({
+        username:user.username,
+        avatarUrl:user.avatarUrl,
+        uniqueId:user._id
+      },
+      "wegewewgewg",
+      {
+        expiresIn:"14d"
+      })
+
+
+      return refresh_token
+    }
+  }catch(e){
+    throw new Error("토큰발급실패")
+  }
+}
+
+
 export const GoogleLogin: RequestHandler = async (req, res) => {
   console.log("앙기모찌");
   const userdata = req.session.passport.user;
@@ -11,19 +66,22 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
     if (existsUser) {
       //이미가입한유저
       const uniqueId = existsUser._id;
+      const refresh_token = await createRefreshToken(uniqueId)
+      const access_token = await createAccessToken(uniqueId)
       console.log("✅ login success by ");
       return res.status(200).json({
         statusCode: 200,
         msg: "이미 가입된 유저, 로그인 완료",
         data: {
+          access_token,
+          refresh_token,
           avatarUrl: existsUser.avatarUrl,
-          access_token: uniqueId,
           sessionId: req.sessionID,
         },
       });
     } else if (!existsUser) {
       //깃허브 이메일로 가입된 유저가 없을 겅유
-      let nickCheck = await Youth.findOne({ nickname: userdata.displayName });
+      let nickCheck = await Youth.findOne({ username: userdata.displayName });
       let nickname = userdata.displayName;
       let num = 0;
       if (nickCheck !== null) {
@@ -50,7 +108,13 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         ownTickets: [],
         username: nickname,
       });
-      console.log("✅ saved github data in DB. Next step");
+      const refresh_token = await createRefreshToken(newUser._id)
+      const access_token = await createAccessToken(newUser._id)
+      // await SessionData.create({
+      //   id:req.sessionID,
+        
+      // })
+      console.log("✅ saved Google data in DB. Next step = login");
       //이거하고 안되면 req.session 에다가 email, nickname,avatarUrl 넣고 그걸 리턴
       req.session.email = email;
       req.session.username = nickname;
@@ -63,7 +127,8 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         data: {
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.id,
+          access_token,
+          refresh_token,
           avatarUrl: userdata.picture,
         },
       });

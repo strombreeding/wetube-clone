@@ -27,12 +27,9 @@ app.set("views", process.cwd() + "/src/views");
 // 미들웨어
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.json())
-let unique:string="";
-const fakeId:RequestHandler=(req,res,next)=>{
-  unique=req.sessionID
-  next()}
 
-app.use(fakeId,
+
+app.use(
   session({
     secret: `${process.env.COOKIE_SECRET}`,
     resave: false,
@@ -40,7 +37,6 @@ app.use(fakeId,
     cookie: {
       maxAge: 3600*1000,//3600초(1시간)동안 쿠키유효
     },
-    name:unique,
     store:MongoStore.create({mongoUrl:process.env.DB_URL}),
   })
   ); 
