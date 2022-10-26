@@ -3,6 +3,8 @@ import { RequestHandler } from "express";
 import Youth from "../../models/Youth";
 import dotevb from "dotenv";
 import jwt from "jsonwebtoken"
+import { db } from "../../db";
+import JWT from "../../models/Jwt";
 //jwt token 사용법
 
 // 서명 jwt.sign({data}, secretKey , { expiresIn :"1h || 1d"})
@@ -26,8 +28,6 @@ export const createAccessToken = async(id:any)=>{
       {
         expiresIn:'1h'
       })
-
-
       return access_token
     }
   }catch(e){
@@ -47,15 +47,18 @@ export const createRefreshToken = async(id:any)=>{
       {
         expiresIn:"14d"
       })
-
-
+      
+      await JWT.create({
+        username:user.username,
+        avatarUrl:user.avatarUrl,
+      })
+      
       return refresh_token
     }
   }catch(e){
     throw new Error("토큰발급실패")
   }
 }
-
 
 export const GoogleLogin: RequestHandler = async (req, res) => {
   console.log("앙기모찌");
