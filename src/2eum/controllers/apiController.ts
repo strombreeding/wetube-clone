@@ -153,7 +153,7 @@ export const startKakaoLogin: RequestHandler = (req, res) => {
   const finalUrl = `${baseUrl}${params}`;
   console.log(finalUrl);
   console.log("🔥 스타트 깃허브는 끝냈고, 이제 파이널 url 갈거야");
-  return res.redirect(finalUrl);
+  return res.redirect(finalUrl); // 리다이렉트됨 => 리다이렉트 url 로 code={access+token}
   //여기서 다시 클라이언트로 복귀후 클라에서 아래 url code 담아서 요청
 };
 export const finisKakaoLogin: RequestHandler = async (req, res) => {
@@ -207,8 +207,8 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
         }
         console.log(
           "🔥 없는 닉네임 찾았다!! ->" + nickname + "_" + String(num)
-        );
-        nickname = nickname + "_" + String(num);
+          );
+          nickname = nickname + "_" + String(num);
         console.log(nickname);
       }
       const user = await Youth.create({
@@ -220,6 +220,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
       req.session.nickname = user.username;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
+      console.log(user)
       console.log("✅ saved kako data in DB. Next step");
       return res.status(200).json({
         data: {
@@ -237,10 +238,10 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
   }
   // }
   // catch{
-  //     console.log("kako REST API 연결실패!")
-  //     res.status(404).redirect("login")
-  // }
-};
+    //     console.log("kako REST API 연결실패!")
+    //     res.status(404).redirect("login")
+    // }
+  };
 
 export const key: RequestHandler = (req, res) => {
   const redirect_url = process.env.KAKAO_URL;
