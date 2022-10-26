@@ -147,7 +147,7 @@ export const startKakaoLogin: RequestHandler = (req, res) => {
     client_id: process.env.REST_API_KEY_EUM,
     redirect_uri: process.env.REDIRECT_URI_EUM,
     response_type: "code",
-    scope: "profile_nickname,profile_image,account_email,age_range,talk_message",
+    scope: "profile_nickname,profile_image,account_email,birthday,talk_message",
   };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}${params}`;
@@ -167,6 +167,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
       headers: { Authorization: `Bearer ${access_token}` },
     });
     console.log(profile)
+    console.log(profile.data.properties.email)
     const email = profile.data.kakao_account.email;
     const nickname = profile.data.properties.nickname;
     const avatarUrl = profile.data.properties.profile_image;
