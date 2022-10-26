@@ -93,6 +93,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
           nickCheck = await Youth.findOne({
             nickname: userdata.displayName + "_" + String(num),
           });
+          console.log(nickCheck)
           ++num;
           console.log("🔥 닉네임 중복을 피하는중...");
         }
