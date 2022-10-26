@@ -166,6 +166,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
     const profile = await axios.get(apiUrl, {
       headers: { Authorization: `Bearer ${access_token}` },
     });
+    console.log(profile)
     const email = profile.data.kakao_account.email;
     const nickname = profile.data.properties.nickname;
     const avatarUrl = profile.data.properties.profile_image;
