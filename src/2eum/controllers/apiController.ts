@@ -177,6 +177,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
       req.session.username = nickname;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
+      console.log(user)
       console.log("✅ login success by kakao");
       return res.status(200).json({
         data: {
