@@ -91,7 +91,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         console.log("🔥 `" + nickname + "`는 이미 존재해!");
         while (nickCheck !== null) {
           nickCheck = await Youth.findOne({
-            nickname: userdata.displayName + "_" + String(num),
+            username: userdata.displayName + "_" + String(num),
           });
           console.log(nickCheck)
           ++num;
@@ -190,7 +190,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
     } else {
       //깃허브 이메일로 가입된 유저가 없을 겅유
       let nickCheck = await Youth.findOne({
-        nickname: profile.data.properties.nickname,
+        username: profile.data.properties.nickname,
       });
       console.log(nickCheck)
       let nickname = profile.data.properties.nickname;
@@ -199,7 +199,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
         console.log("🔥 `" + nickname + "`는 이미 존재해!");
         while (nickCheck !== null) {
           nickCheck = await Youth.findOne({
-            nickname: nickname + "_" + String(num),
+            username: nickname + "_" + String(num),
           });
           ++num;
           console.log(nickCheck)
