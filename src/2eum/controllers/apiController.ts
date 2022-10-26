@@ -192,6 +192,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
       let nickCheck = await Youth.findOne({
         nickname: profile.data.properties.nickname,
       });
+      console.log(nickCheck)
       let nickname = profile.data.properties.nickname;
       let num = 0;
       if (nickCheck !== null) {
@@ -201,6 +202,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
             nickname: nickname + "_" + String(num),
           });
           ++num;
+          console.log(nickCheck)
           console.log("🔥 닉네임 중복을 피하는중...");
         }
         console.log(
