@@ -76,7 +76,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         statusCode: 200,
         msg: "이미 가입된 유저, 로그인 완료",
         data: {
-          access_token,
+          access_token:existsUser._id,
           refresh_token,
           avatarUrl: existsUser.avatarUrl,
           sessionId: req.sessionID,
@@ -131,7 +131,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         data: {
           session: req.session,
           sessionId: req.sessionID,
-          access_token,
+          access_token:newUser._id,
           refresh_token,
           avatarUrl: userdata.picture,
         },
@@ -186,7 +186,7 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
           msg: "카카오 로그인 성공",
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.id,
+          access_token: user._id,
           avatarUrl: req.session.avatarUrl,
         },
       });
@@ -223,14 +223,13 @@ export const finisKakaoLogin: RequestHandler = async (req, res) => {
       req.session.nickname = user.username;
       req.session.uniqueId = JSON.stringify(user._id).replace(/\"/g, "");
       req.session.avatarUrl = user.avatarUrl;
-      console.log(user)
       console.log("✅ saved kako data in DB. Next step");
       return res.status(200).json({
         data: {
           msg: "카카오 로그인 성공",
           session: req.session,
           sessionId: req.sessionID,
-          access_token: req.session.id,
+          access_token: user._id,
           avatarUrl: req.session.avatarUrl,
         },
       });
