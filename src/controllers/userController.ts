@@ -526,10 +526,6 @@ export const getIndividualPage: RequestHandler = async (req, res) => {
     "owner"
   ); // 호스트의 비디오 목록
   let subscribeing = false;
-  console.log(myInfo?.subscribe);
-  console.log(myInfo?.subscribe[0]);
-  console.log(String(hostinfo?._id));
-  console.log(hostinfo?._id);
   if (myInfo?.subscribe) {
     for (let i = 0; i < myInfo?.subscribe.length; i++) {
       console.log(i + "번째 반복중");
@@ -559,8 +555,6 @@ export const getIndividualPage: RequestHandler = async (req, res) => {
     return res.status(404).send("연결 실패");
   }
 };
-export const postIndividualPage: RequestHandler = async (req, res) => {};
-
 export const postSubscribe: RequestHandler = async (req, res) => {
   const { nickname, userNickname, subscribeing } = req.body;
   console.log(req.body, "zzz");

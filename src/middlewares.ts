@@ -1,4 +1,4 @@
-import { RequestHandler } from "express"
+import { RequestHandler,ErrorRequestHandler, NextFunction } from "express"
 import multer, { Multer } from "multer"
 import multerS3 from "multer-s3"
 import aws from "aws-sdk"
@@ -46,9 +46,24 @@ export const publicOnlyMiddleware:RequestHandler = (req, res, next) => {
 };
 
 
+
+export const errorHandler:ErrorRequestHandler = (err,req,res,next)=>{
+  console.log(err)
+  res.status(500).render("404",{errorMsg:err})
+}
+export const requestHandler = (asyncFunction:Function)=>{
+  return async (req:Express.Request, res:Express.Response, next:NextFunction) => {
+       try{
+           await asyncFunction(req,res);
+       }catch(err){
+           next(err)
+       }
+  }
+}
+
+
 // file upload 
 
-// 
 export const s3= new aws.S3({
   credentials:{
     accessKeyId:`${process.env.S3_KEY}`,
@@ -146,7 +161,7 @@ const storage = multer.diskStorage({
       }
       cb(null,req.session.uniqueId+"_"+Date.now()+"."+mimeType)
     },
-  })
+})
 const storage2 = multer.diskStorage({
   destination:(req,file,cb)=>{
     cb(null,"uploads/storage/")
@@ -172,14 +187,14 @@ const storage2 = multer.diskStorage({
       }
       cb(null,Math.random()+"."+mimeType)
     },
-  })
-  export const uploadVideo = multer({
+})
+export const uploadVideo = multer({
     storage:s3VideoUploader,
     limits:{
       fileSize:30000000,
     }
-  })
+})
   
-  export const preVideo = multer({
+export const preVideo = multer({
     storage:storage2
-  })
+})

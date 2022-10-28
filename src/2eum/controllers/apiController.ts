@@ -76,7 +76,7 @@ export const GoogleLogin: RequestHandler = async (req, res) => {
         statusCode: 200,
         msg: "이미 가입된 유저, 로그인 완료",
         data: {
-          access_token:existsUser._id,
+          access_token:uniqueId,
           refresh_token,
           avatarUrl: existsUser.avatarUrl,
           sessionId: req.sessionID,

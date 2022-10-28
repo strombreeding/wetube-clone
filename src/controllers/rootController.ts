@@ -96,7 +96,7 @@ export const serch:RequestHandler = async(req,res) =>  {
             hashtags:{$regex: new RegExp(`${searchWord}` , "i")}
         },]
         }).populate("owner")
-        console.log(users)
+        console.log(videos)
         if(videos){
             console.log("해당비디오 찾음")
             
