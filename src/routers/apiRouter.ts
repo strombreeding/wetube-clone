@@ -27,7 +27,7 @@ const testzz:RequestHandler = async(req,res)=>{
     })
     
 }
-apiRouter.route("/test").post(requestHandler(testzz))
+apiRouter.route("/test").get(requestHandler(testzz))
 
 
 export default apiRouter;
