@@ -18,6 +18,7 @@ apiRouter.route("/preview/save").post(b,preVideo.single("video"),a)
 // side project test api
 const testzz:RequestHandler = async(req,res)=>{
     const {a,b} = req.query
+    console.log(req.query)
     if(!a || !b){
         throw new Error("둘중하나는 입력해야지")
     }
