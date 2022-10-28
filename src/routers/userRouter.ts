@@ -1,5 +1,5 @@
 import express from "express";
-import {finishKakaoLogin,starKakaoLogin,postSubscribe,updatePw,logOut,Delete,startGithubLogin,finishGithubLogin,GETsosialCreatePw,POSTsosialCreatePw,getEdit,postEdit, getIndividualPage,postIndividualPage, finishGoogleLogin} from "../controllers/userController"
+import {finishKakaoLogin,starKakaoLogin,postSubscribe,updatePw,logOut,Delete,startGithubLogin,finishGithubLogin,GETsosialCreatePw,POSTsosialCreatePw,getEdit,postEdit, getIndividualPage, finishGoogleLogin} from "../controllers/userController"
 import { protectOnlyMiddleware, uploadAvatar } from "../middlewares";
 import google from "../passport";
 import passport from "passport"
@@ -23,7 +23,7 @@ userRouter.route("/sosial").all(protectOnlyMiddleware).get(GETsosialCreatePw).po
 
 // params 
 userRouter.post("/:id/delete",Delete)
-userRouter.route("/:id/userPlace").get(getIndividualPage).post(postIndividualPage)
+userRouter.route("/:id/userPlace").get(getIndividualPage)
 userRouter.route("/:id/edit-profile").all(protectOnlyMiddleware).get(getEdit).post(uploadAvatar.single("avatar"),postEdit)
 userRouter.route("/:id/edit-pw").all(protectOnlyMiddleware).post(updatePw)
 
