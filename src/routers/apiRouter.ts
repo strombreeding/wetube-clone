@@ -17,7 +17,7 @@ apiRouter.route("/avatarUrl/save").post(storageAvatar.single("avatar"),storageAv
 apiRouter.route("/preview/save").post(b,preVideo.single("video"),a)
 // side project test api
 const testzz:RequestHandler = async(req,res)=>{
-    const {a,b} = req.query
+    const {a,b,c} = req.query
     console.log(req.query)
     if(!a || !b){
         throw new Error("둘중하나는 입력해야지")
@@ -25,6 +25,7 @@ const testzz:RequestHandler = async(req,res)=>{
     await Test.create({
         a,
         b,
+        c
     })
     req.flash("error","완료")
     return res.status(200).redirect("/")
@@ -42,7 +43,7 @@ const testFind:RequestHandler = async(req,res)=>{
     res.render("404",{errMsg:posts,pageTitle:totalPage})
 }
 apiRouter.route("/test").get(requestHandler(testzz))
-
+apiRouter.get("/z",testFind)
 
 export default apiRouter;
 
