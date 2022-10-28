@@ -31,16 +31,16 @@ const testzz:RequestHandler = async(req,res)=>{
     return res.status(200).redirect("/")
 }
 const testFind:RequestHandler = async(req,res)=>{
-    const {page} = req.query
+    const page = Number(req.query.page)
     const perPage = 10
     const total = await Test.countDocuments({});
     console.log("다큐먼트 개수 : ",total);
     const posts = await Test.find({})
     .sort({createdAt:-1}) //정렬
-    .skip(perPage*(Number(page)-1)) // 얼만큼 스킵하고 데이터 찾을것인지.(예-1페이지는 10x0 이므로 스킵x)
+    .skip(perPage*(page-1)) // 얼만큼 스킵하고 데이터 찾을것인지.(예-1페이지는 10x0 이므로 스킵x)
     .limit(perPage) // 데이터를 얼마나 가져올 것인가
     const totalPage = Math.ceil(total/perPage) // 총 페이지 수
-    res.render("404",{errMsg:posts,pageTitle:totalPage})
+    res.render("404",{errorMsg:posts,pageTitle:totalPage})
 }
 apiRouter.route("/test").get(requestHandler(testzz))
 apiRouter.get("/z",testFind)
