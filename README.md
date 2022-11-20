@@ -1,5 +1,6 @@
 <h1>Wetube</h1>
 <h3>작동 방식 : SSR</h3>
+<h3>웹 URL : https://wetube.jinytree.shop</h3>
 <h3>특징</h3>
 <br>
 - 모바일 환경까지 고려한 반응형으로 제작
