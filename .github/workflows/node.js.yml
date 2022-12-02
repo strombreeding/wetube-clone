@@ -5,9 +5,9 @@ name: Test
 
 on:
   push:
-    branches: [ "second" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "second" ]
+    branches: [ "main" ]
 
 jobs:
   connect:
