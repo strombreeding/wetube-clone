@@ -14,4 +14,6 @@ jobs:
        echo "${{secrets.PRIVATE_EC2_PEM}}" >> ${{secrets.PRIVATE_EC2_PEM}}
        cat ${{secrets.PRIVATE_EC2_PEM}}
        chmod 400 ${{secrets.PRIVATE_EC2_PEM}}
-       ssh -i ${{secrets.PRIVATE_EC2_PEM}} ubuntu@54.180.24.185
+       pwd
+  
+  # ssh -i /home/elice/secretFiles/jinytree_aws.pem ubuntu@54.180.24.185
