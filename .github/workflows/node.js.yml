@@ -2,7 +2,8 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 name: Test
-
+env: 
+  
 on:
   push:
     branches: [ "main" ]
@@ -14,12 +15,9 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - run: nano ${{secrets.PRIVATE_EC2_PEM}}
-    - run: zzzz 
-       | ^x 
-       | y | ^x | cat ${{secrets.PRIVATE_EC2_PEM}}
-    - run: git clone ${{secrets.PRIVATE_REPO_URL}} 
-    - run: cd ${{secrets.PRIVATE_REPO}}
-    - run: ls
-#    - run: chmod 400 "${{secrets.PRIVATE_EC2_PEM}}" 
- #   - run: ssh -i "${{secrets.PRIVATE_EC2_PEM}}" ubuntu@"${{secrets.PRIVATE_EC2_IP}}"
+    - run: |
+       nano "${{secrets.PRIVATE_EC2_PEM}}" >> ${{secrets.PRIVATE_EC2_PEM}}
+       cat ${{secrets.PRIVATE_EC2_PEM}}
+
+    
+
