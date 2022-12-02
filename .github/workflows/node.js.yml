@@ -10,22 +10,22 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Setup node.js@16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm i pm2 -g
+ #   - name: Setup node.js@16.x
+ #     uses: actions/setup-node@v3
+ #     with:
+ #       node-version: 16.x
+ #       cache: 'npm'
+ #   - run: npm ci
+ #   - run: npm i pm2 -g
     
     - name: Run scripts in server
       run: |
         echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-          nvm install 16.15.1
-          npm install pm2 -g
-          pm2 list
+          node -v
+          npm -v
+          pm2 -v
         '
 #          cd /home/ubuntu/wetube-clone && 
 #          git pull origin main && 
