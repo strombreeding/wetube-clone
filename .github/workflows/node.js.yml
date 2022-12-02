@@ -14,3 +14,4 @@ jobs:
        echo "${{secrets.PRIVATE_EC2_PEM}}" >> ${{secrets.PRIVATE_EC2_PEM}}
        cat ${{secrets.PRIVATE_EC2_PEM}}
        chmod 400 ${{secrets.PRIVATE_EC2_PEM}}
+       ssh -i ${{secrets.PRIVATE_EC2_PEM}} ubuntu@${{secrets.PRIVATE_EC2_IP}}
