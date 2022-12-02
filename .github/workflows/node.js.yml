@@ -17,8 +17,13 @@ jobs:
         ls &&
         chmod 400 jinytree_aws.pem &&
         ssh -o StrictHostKeyChecking=no -i jinytree_aws.pem ubuntu@54.180.24.185 '
+          export NVM_DIR=~/.nvm &&
+          source ~/.nvm/nvm.sh &&
           cd wetube-clone &&
-          node -v
+          pm2 stop init &&
+          git pull origin main &&
+          pm2 start init &&
+          pm2 save
         '
 #    - name: Run scripts in server
 #      run: |
