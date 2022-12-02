@@ -24,9 +24,10 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 
         pwd
         ls
-        export NVM_DIR=~/.nvm
-        source ~/.nvm/nvm.sh 
         node -v
+#        export NVM_DIR=~/.nvm
+#        source ~/.nvm/nvm.sh 
+#        node -v
         
       
 #          cd /home/ubuntu/wetube-clone && 
