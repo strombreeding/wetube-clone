@@ -21,5 +21,6 @@ jobs:
         node-version: 16.x
         cache: 'npm'
     - run: npm ci
-    - run: echo ${{secrets.EC2PEM}} >> jinytree_aws.pem
-    - run: cat jinytree_aws.pem
+    - run: |
+        echo ${{secrets.EC2PEM}} >> jinytree_aws.pem
+        cat jinytree_aws.pem
