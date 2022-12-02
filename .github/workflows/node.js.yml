@@ -10,26 +10,16 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
- #   - name: Setup node.js@16.x
- #     uses: actions/setup-node@v3
- #     with:
- #       node-version: 16.x
- #       cache: 'npm'
- #   - run: npm ci
- #   - run: npm i pm2 -g
-    
     - name: Run scripts in server
       run: |
         echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 
-        pwd
-        ls
-        node -v
-        cd wetube-clone
-        git pull origin main
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 &&
+        pwd &&
+        cd wetube-clone &&
+        git pull origin main &&
         pm2 stop init
-        pm2 start init
-        pm2 save
+#        pm2 start init
+#        pm2 save
 #        export NVM_DIR=~/.nvm
 #        source ~/.nvm/nvm.sh 
 #        node -v
