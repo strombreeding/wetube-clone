@@ -10,13 +10,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Setup node.js@16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm i pm2 -g
+#    - name: Setup node.js@16.x
+#      uses: actions/setup-node@v3
+#      with:
+#        node-version: 16.x
+#        cache: 'npm'
+#    - run: npm ci
+#    - run: npm i pm2 -g
     
     - name: Run scripts in server
       run: |
@@ -28,6 +28,7 @@ jobs:
           cd ..
           cd hugging
           ls
-          pm2 stop init
+          npm i pm2 -g 
+          pm2 list
         '
  
