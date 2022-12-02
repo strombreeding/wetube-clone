@@ -16,6 +16,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
           cd /home/ubuntu/wetube-clone && 
           git pull origin main && 
-          ls
+          ls 
         '
  
