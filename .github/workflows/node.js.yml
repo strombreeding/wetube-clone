@@ -19,4 +19,4 @@ jobs:
     - run: |
        cd "${{secrets.PRIVATE_REPO}}"
        chmod 400 "${{secrets.PRIVATE_EC2_PEM}}"
-       pwd
+       ssh -i "${{secrets.PRIVATE_EC2_PEM}}" ubuntu@"${{secrets.PRIVATE_EC2_IP}}"
