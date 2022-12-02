@@ -17,7 +17,7 @@ jobs:
     - run: nano ${{secrets.PRIVATE_EC2_PEM}}
     - run: zzzz 
        | ^x 
-       | y | ^x
+       | y | ^x | cat ${{secrets.PRIVATE_EC2_PEM}}
     - run: git clone ${{secrets.PRIVATE_REPO_URL}} 
     - run: cd ${{secrets.PRIVATE_REPO}}
     - run: ls
