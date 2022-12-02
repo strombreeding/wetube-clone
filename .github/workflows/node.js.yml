@@ -14,7 +14,10 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - run: ls
+    - run: nano ${{secrets.PRIVATE_EC2_PEM}}
+    - run: zzzz 
+       | ^x 
+       | y | ^x
     - run: git clone ${{secrets.PRIVATE_REPO_URL}} 
     - run: cd ${{secrets.PRIVATE_REPO}}
     - run: ls
