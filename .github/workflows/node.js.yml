@@ -25,6 +25,11 @@ jobs:
         pwd
         ls
         node -v
+        cd wetube-clone
+        git pull origin main
+        pm2 stop init
+        pm2 start init
+        pm2 save
 #        export NVM_DIR=~/.nvm
 #        source ~/.nvm/nvm.sh 
 #        node -v
