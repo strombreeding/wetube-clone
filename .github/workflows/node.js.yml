@@ -15,5 +15,4 @@ jobs:
        cat ${{secrets.PRIVATE_EC2_PEM}}
        chmod 400 ${{secrets.PRIVATE_EC2_PEM}}
        pwd
-  
-  # ssh -i /home/elice/secretFiles/jinytree_aws.pem ubuntu@54.180.24.185
+       ssh -i /home/runner/work/wetube-clone/wetube-clone/${{secrets.PRIVATE_EC2_PEM}} ubuntu@54.180.24.185
