@@ -13,15 +13,17 @@ jobs:
     - name: Run scripts in server
       run: |
         echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 &&
-        pwd &&
-        cd wetube-clone &&
-        git pull origin main &&
-        pm2 stop init
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
+          pwd &&
+          cd wetube-clone &&
+          git pull origin main &&
+          export NVM_DIR=~/.nvm &&
+          source ~/.nvm/nvm.sh &&
+          pm2 stop init 
+        '
 #        pm2 start init
 #        pm2 save
-#        export NVM_DIR=~/.nvm
-#        source ~/.nvm/nvm.sh 
+
 #        node -v
         
       
