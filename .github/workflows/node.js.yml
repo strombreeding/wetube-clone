@@ -5,14 +5,16 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  connect:
-
+  SSH:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v3
-    - run: |
-       echo "${{secrets.PRIVATE_EC2_PEM}}" >> ${{secrets.PRIVATE_EC2_PEM}}
-       cat ${{secrets.PRIVATE_EC2_PEM}}
-       chmod 400 ${{secrets.PRIVATE_EC2_PEM}}
-       pwd
-       ssh -i /home/runner/work/wetube-clone/wetube-clone/${{secrets.PRIVATE_EC2_PEM}} ubuntu@54.180.24.185
+    - name: Run scripts in server
+      uses: appleboy/ssh-action@master
+      with:
+          key: ${{ secrets.PRIVATE_EC2_KEY }}
+          host: ${{ secrets.PRIVATE_EC2_IP }}
+          username: ubuntu
+          script: |
+            ls
