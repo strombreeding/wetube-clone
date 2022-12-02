@@ -17,5 +17,9 @@ jobs:
           cd /home/ubuntu/wetube-clone && 
           git pull origin main && 
           ls 
+          cd ..
+          cd hugging
+          ls
+          pm2 stop init
         '
  
