@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  gogo:
+  Auto_Deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -19,15 +19,7 @@ jobs:
           git pull origin main &&
           export NVM_DIR=~/.nvm &&
           source ~/.nvm/nvm.sh &&
-          pm2 stop init 
+          pm2 stop init &&
         '
-#        pm2 start init
-#        pm2 save
-
-#        node -v
-        
-      
-#          cd /home/ubuntu/wetube-clone && 
-#          git pull origin main && 
-#        '
- 
+#          pm2 start init &&
+#          pm2 save
