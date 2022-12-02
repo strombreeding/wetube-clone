@@ -5,16 +5,15 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  SSH:
+  gogo:
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v3
     - name: Run scripts in server
-      uses: appleboy/ssh-action@master
-      with:
-          key: ${{ secrets.PRIVATE_EC2_KEY }}
-          host: ${{ secrets.PRIVATE_EC2_IP }}
-          username: ubuntu
-          script: |
-            ls
+      run: |
+        echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185
+        ls
+        pwd
+ 
