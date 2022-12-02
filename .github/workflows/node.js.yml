@@ -10,10 +10,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Run scripts in server
+    - name: Clone and Connect EC2
       run: |
-        echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
+        git clone ${{secrets.PRIVATE_REPO_URL}} &&
+        cd ${{secrets.PRIVATE_REPO}} &&
+        ls &&
+        chmod 400 ${{secrets.PRIVATE_REPO}} &&
+        ssh -o StrictHostKeyChecking=no -i ${{secrets.PRIVATE_REPO}} ubuntu@54.180.24.185 '
           pwd &&
           cd wetube-clone &&
           git pull origin main &&
@@ -21,5 +24,16 @@ jobs:
           source ~/.nvm/nvm.sh &&
           pm2 stop init 
         '
+#    - name: Run scripts in server
+#      run: |
+#        echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
+#        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
+#          pwd &&
+#          cd wetube-clone &&
+#          git pull origin main &&
+#          export NVM_DIR=~/.nvm &&
+#          source ~/.nvm/nvm.sh &&
+#          pm2 stop init 
+#        '
 #          pm2 start init &&
 #          pm2 save
