@@ -22,10 +22,9 @@ jobs:
       run: |
         echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
         ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.180.24.185 '
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-          node -v
-          npm -v
-          pm2 -v
+          sudo node -v
+          sudo npm -v
+          sudo pm2 -v
         '
 #          cd /home/ubuntu/wetube-clone && 
 #          git pull origin main && 
