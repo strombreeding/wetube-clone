@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: |
-       git clone "${{secrets.PRIVATE_REPO_URL}}"
-       cd "${{secrets.PRIVATE_REPO}}"
-       chmod 400 "${{secrets.PRIVATE_EC2_PEM}}"
-       ssh -i "${{secrets.PRIVATE_EC2_PEM}}" ubuntu@"${{secrets.PRIVATE_EC2_IP}}"
+    - run: git clone "${{secrets.PRIVATE_REPO_URL}}"
+    - run: cd "${{secrets.PRIVATE_REPO}}"
+    - run: chmod 400 "${{secrets.PRIVATE_EC2_PEM}}"
+    - run: ssh -i "${{secrets.PRIVATE_EC2_PEM}}" ubuntu@"${{secrets.PRIVATE_EC2_IP}}"
