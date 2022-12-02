@@ -22,5 +22,5 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: |
-        echo ${{secrets.EC2PEM}} >> jinytree_aws.pem
+        echo "${{secrets.EC2PEM}}" >> jinytree_aws.pem
         cat jinytree_aws.pem
