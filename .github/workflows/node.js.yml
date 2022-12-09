@@ -20,12 +20,11 @@ jobs:
             export NVM_DIR=~/.nvm &&
             source ~/.nvm/nvm.sh &&
             cd wetube-clone &&
+            pm2 stop init &&
             git pull origin main &&
+            pm2 start init &&
+            pm2 save
           '
-
-#            pm2 stop init &&
-#            pm2 start init &&
-#            pm2 save
 
 #    - name: Run scripts in server
 #      run: |
