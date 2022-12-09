@@ -16,7 +16,7 @@ jobs:
           cd ${{secrets.PRIVATE_REPO}} &&
           ls &&
           chmod 400 jinytree_aws.pem &&
-          ssh -o StrictHostKeyChecking=no -i jinytree_aws.pem ubuntu@13.124.107.224 '
+          ssh -i jinytree_aws.pem ubuntu@13.124.107.224 '
             export NVM_DIR=~/.nvm &&
             source ~/.nvm/nvm.sh &&
             cd wetube-clone &&
