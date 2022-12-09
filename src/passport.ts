@@ -12,7 +12,7 @@ passport.use(
     new GoogleStrategy({
         clientID: process.env.GOOGLE_ID,
         clientSecret : process.env.GOOGLE_SECRET,
-        callbackURL : "https://wetube-jinytree.herokuapp.com/user/auth/google/callback",
+        callbackURL : "https://wetube.jinytree.shop/user/auth/google/callback",
         passReqToCallback:true
     },
     async (request:any,accessToken: any , refreshToken: any, profile: any, done:Function) => {

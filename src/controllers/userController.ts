@@ -499,7 +499,7 @@ export const postEdit: RequestHandler = async (req, res) => {
         $currentDate: { lastModified: true },
       }
     );
-    req.session.avatarUrl = `/${req.file?.location}`;
+    req.session.avatarUrl = `${req.file?.location}`;
     return res.redirect(`/user/${nickname}/userPlace`);
   }
 };

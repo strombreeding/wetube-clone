@@ -1,0 +1,37 @@
+서비스 목표 쇼핑몰 
+	자신이 생산한 이미지 따위를 파는 사이트 ex: 동영상을 제작하여 판매
+	당근마켓처럼 유저끼리 사고파는 행위가 일어나는 쇼핑몰?
+		
+
+서비스 대상
+	특정 서비스가 필요한 사람들
+		예시
+			-벚꽃구경 애인대행 서비스
+			-무서운 삼촌이 되어드립니다 서비스
+			-
+상세 기능
+1. 비회원도 동일하게 상품을 볼 수 있다. 하지만 회원만 구매하거나 팔 수 있다.
+2. 회원가입은 소셜로그인으로 대체한다 kakao, google
+3. JWT 토큰을 발급하여 해당 요청자의 권한 부여
+
+
+Models 
+User crud // 회원목록
+	username : {type:String, required:true, minlength=2},
+	email : String,
+	getItems : [{mongoose.Schema.Types.ObjectId, ref="item"}] // 구매목록
+	ownItems : [{mongoose.Schema.Types.ObjectId, ref="Item"}] // 판매중인목록
+	basket : [{mongoose.Schema.Types.ObjectId, ref="Item"}]	// 장바구니에 담겨있는것
+
+Item crud // 판매 상품
+	name : String,
+	price : Number,
+	owner : {mongoose.Schema.Types.ObjectId, ref="User"},
+	category : String,
+	ordering : boolean // 현재 상품이 판매대기중인지 
+	
+Order crud // 주문
+	client : {mongoose.Schema.Types.ObjectId, ref="User"},
+	provider {mongoose.Schema.Types.ObjectId, ref="User"},
+	
+

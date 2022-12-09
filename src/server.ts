@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter"
 import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
-import EeumRouter from "./2eum/routers/apiRouter"
+// import EeumRouter from "./2eum/routers/apiRouter"
 import apiRouter from "./routers/apiRouter";
 import { 
   localMiddleware,
@@ -74,7 +74,7 @@ app.use("/" , rootRouter)
 app.use("/user",userRouter)
 app.use("/videos", videoRouter)
 app.use("/api", apiRouter)
-app.use("/2eum", EeumRouter)
+// app.use("/2eum", EeumRouter)
 app.use(errorHandler)
 
 export default app
