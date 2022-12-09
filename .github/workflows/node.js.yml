@@ -15,6 +15,7 @@ jobs:
           echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && 
           chmod 600 private_key &&
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@13.124.107.224 '
+            export NODE_OPTIONS=--max-old-space-size=4096 &&
             export NVM_DIR=~/.nvm &&
             source ~/.nvm/nvm.sh &&
             cd wetube-clone &&
