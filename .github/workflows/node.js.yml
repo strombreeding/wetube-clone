@@ -1,30 +1,31 @@
 name: Test
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 jobs:
   Auto_Deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Clone and Connect EC2
-      run: |
-        git clone ${{secrets.PRIVATE_REPO_URL}} &&
-        cd ${{secrets.PRIVATE_REPO}} &&
-        ls &&
-        chmod 400 jinytree_aws.pem &&
-        ssh -o StrictHostKeyChecking=no -i jinytree_aws.pem ubuntu@54.180.24.185 '
-          export NVM_DIR=~/.nvm &&
-          source ~/.nvm/nvm.sh &&
-          cd wetube-clone &&
-          pm2 stop init &&
-          git pull origin main &&
-          pm2 start init &&
-          pm2 save
-        '
+      - uses: actions/checkout@v3
+      - name: Clone and Connect EC2
+        run: |
+          git clone ${{secrets.PRIVATE_REPO_URL}} &&
+          cd ${{secrets.PRIVATE_REPO}} &&
+          ls &&
+          chmod 400 jinytree_aws.pem &&
+          ssh -o StrictHostKeyChecking=no -i jinytree_aws.pem ubuntu@13.124.107.224 '
+            export NVM_DIR=~/.nvm &&
+            source ~/.nvm/nvm.sh &&
+            cd wetube-clone &&
+            pm2 stop init &&
+            git pull origin main &&
+            pm2 start init &&
+            pm2 save
+          '
+
 #    - name: Run scripts in server
 #      run: |
 #        echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
@@ -34,7 +35,7 @@ jobs:
 #          git pull origin main &&
 #          export NVM_DIR=~/.nvm &&
 #          source ~/.nvm/nvm.sh &&
-#          pm2 stop init 
+#          pm2 stop init
 #        '
 #          pm2 start init &&
 #          pm2 save
