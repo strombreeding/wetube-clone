@@ -25,7 +25,6 @@ jobs:
             pm2 save
           '
 
-#
 #    - name: Run scripts in server
 #      run: |
 #        echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
