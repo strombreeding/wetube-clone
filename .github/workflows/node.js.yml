@@ -12,7 +12,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Clone and Connect EC2
         run: |
-          echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && chmod 600 private_key
+          echo "${{secrets.PRIVATE_EC2_KEY}}" > private_key && 
+          chmod 600 private_key &&
           ssh -tt -i private_key ubuntu@13.124.107.224
 
 #          '
